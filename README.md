@@ -3,16 +3,16 @@
 A simulated annealing process to determine the optimal weight values of an artificial neuron.
 Python 3.8+ is required.
 
-```
-    # function SIMULATED-ANNEALING(problem, schedule) returns a solution State
-    #   current <- problem.INITIAL
-    #   for t = 1 to inf do
-    #       T <- schedule(t)
-    #       if T = 0 then return current
-    #       next <- a randomly selected successor of current
-    #       delta_E <- VALUE(current) - VALUE(next)
-    #       if delta_E > 0 then current <- next
-    #       else current <- next only with probability e^(-delta_E/T)
+```{r, eval=FALSE}
+function SIMULATED-ANNEALING(problem, schedule) returns a solution State
+  current <- problem.INITIAL
+  for t = 1 to inf do
+      T <- schedule(t)
+      if T = 0 then return current
+      next <- a randomly selected successor of current
+      delta_E <- VALUE(current) - VALUE(next)
+      if delta_E > 0 then current <- next
+      else current <- next only with probability e^(-delta_E/T)
 ```
 
 ## Development
@@ -20,31 +20,33 @@ Python 3.8+ is required.
 Create the development environment:
 
 ```bash
-    $ python -m venv .venv
-    $ .venv/bin/python -m pip install -e ".[dev]"
+$ python -m venv .venv
+$ source .venv/Scripts/activate
+(.venv)
+$ python -m pip install -e ".[dev]"
 ```
 
-Or simply:
 
-```bash
-    $ make dev
-```
-
+### Test Suite
 Run tests:
 
 ```bash
-    $ .venv/bin/python -m pytest -v tests/
+(.venv)
+$ python -m pytest -v tests/
 ```
+
+
+### Documentation
 
 Build documentation:
 
 ```bash
-    $ .venv/bin/python -m sphinx -M html docs docs/_build
+(.venv)
+$ python -m sphinx -M html docs docs/_build
 ```
 
 
-Installation
-============
+## Installation
 
 Packaging and distributing a Python application is dependent on the target
 operating system(s) and execution environment, which could be a Python virtual
@@ -53,10 +55,10 @@ environment, Linux container, or native application.
 Install the application to a self-contained Python virtual environment:
 
 ```bash
-    $ python -m venv .venv
-    $ .venv/bin/python -m pip install <project source>
-    $ cp -r <project source>/etc .venv/
-    $ .venv/bin/simulated_annealing --help
+(.venv)
+$ .venv/bin/python -m pip install <project source>
+$ cp -r <project source>/etc .venv/
+$ .venv/bin/simulated_annealing --help
 ```
 
 
