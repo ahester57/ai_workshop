@@ -7,6 +7,7 @@ https://github.com/mdklatt/cookiecutter-python-app
 """
 from logging import getLogger, getLoggerClass, setLoggerClass
 from logging import Formatter, NullHandler, StreamHandler
+from typing import TextIO
 
 
 __all__ = ["logger"]
@@ -19,7 +20,7 @@ class _Logger(getLoggerClass()):
     LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(message)s"
     DFLTLEVEL = "WARN"
 
-    def __init__(self, name=None):
+    def __init__(self, name:str|None=None) -> None:
         """ Initialize this logger.
 
         Loggers with the same name refer to the same underlying object. 
@@ -27,6 +28,7 @@ class _Logger(getLoggerClass()):
         descendant of 'parent'.
 
         :param name: logger name (application name by default)
+        :type name: str|None
         """
         # With a NullHandler, client code may make logging calls without regard
         # to whether the logger has been started yet. The standard Logger API
@@ -35,7 +37,7 @@ class _Logger(getLoggerClass()):
         super().__init__(name or __name__.split('.', maxsplit=1)[0])
         self.addHandler(NullHandler())  # default to no output
 
-    def start(self, level=DFLTLEVEL, stream=None):
+    def start(self, level:str|None=DFLTLEVEL, stream:TextIO|None=None) -> None:
         """ Start logging to a stream.
 
         Until the logger is started, no messages will be emitted. This applies
@@ -58,7 +60,9 @@ class _Logger(getLoggerClass()):
             CRITICAL - an error was detected and execution was halted
 
         :param level: logger priority level
+        :type level: str
         :param stream: output stream (stderr by default)
+        :type stream: TextIO|None
         """
         self.setLevel(level.upper() if level is not None else self.DFLTLEVEL)
         handler = StreamHandler(stream)
@@ -66,7 +70,7 @@ class _Logger(getLoggerClass()):
         handler.setLevel(self.level)
         self.addHandler(handler)
 
-    def stop(self):
+    def stop(self) -> None:
         """ Stop logging with this logger.
 
         """
@@ -77,4 +81,4 @@ class _Logger(getLoggerClass()):
 
 # Never instantiate a Logger object directly, always use getLogger().
 setLoggerClass(_Logger)  # applies to all subsequent getLogger() calls
-logger = getLogger(__name__.split(".", maxsplit=1)[0])  # use application name
+logger : _Logger = getLogger(__name__.split(".", maxsplit=1)[0])  # use application name

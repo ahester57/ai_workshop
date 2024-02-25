@@ -7,7 +7,7 @@ def main():
     """ Execute the application.
 
     """
-    print('hi')
+    print("Run as `simulated_annealing` from within .venv (exclude python -m)")
     raise NotImplementedError
 
 

@@ -2,9 +2,10 @@
 
 https://github.com/mdklatt/cookiecutter-python-app
 """
-from argparse import ArgumentParser
+from argparse import _SubParsersAction, ArgumentParser, Namespace
 from inspect import getfullargspec
 from os import environ
+from typing import Any, Sequence
 
 from . import __version__
 from .api import hello
@@ -15,13 +16,15 @@ from .core.logger import logger
 __all__ = ["main"]
 
 
-def main(argv=None) -> int:
+def main(argv:Sequence[str]|None=None) -> int:
     """ Execute the application CLI.
 
     :param argv: argument list to parse (sys.argv by default)
+    :type argv: Sequence[str]|None
     :return: exit status
+    :rtype: int
     """
-    args = _args(argv)
+    args : Namespace = _args(argv)
     logger.start(args.warn)
     logger.debug("starting execution")
     config.load(args.config, params=environ)
@@ -31,13 +34,13 @@ def main(argv=None) -> int:
     logger.stop()  # clear handlers to prevent duplicate records
     logger.start(config.core.get("logging"))
     command = args.command
-    args = vars(args)
+    args_dict : dict[str, Any] = vars(args)
     spec = getfullargspec(command)
     if not spec.varkw:
         # No kwargs, remove unexpected arguments.
-        args = {key: args[key] for key in args if key in spec.args}
+        args_dict = {key: args_dict[key] for key in args_dict if key in spec.args}
     try:
-        result = command(**args)
+        result = command(**args_dict)
         logger.info(result)
     except RuntimeError as err:
         logger.critical(err)
@@ -46,10 +49,13 @@ def main(argv=None) -> int:
     return 0
 
 
-def _args(argv):
+def _args(argv:Sequence[str]|None) -> Namespace:
     """ Parse command line arguments.
 
     :param argv: argument list to parse
+    :type argv: Sequence[str]|None
+    :return: The parsed arguments
+    :rtype: Namespace
     """
     parser = ArgumentParser()
     parser.add_argument("-c", "--config", action="append",
@@ -76,11 +82,13 @@ def _args(argv):
     return args
 
 
-def _hello(subparsers, common):
+def _hello(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     """ CLI adaptor for the api.hello command.
 
     :param subparsers: subcommand parsers
+    :type subparsers: _SubParsersAction
     :param common: parser for common subcommand arguments
+    :type common: ArgumentParser
     """
     parser = subparsers.add_parser("hello", parents=[common])
     parser.set_defaults(command=hello)
