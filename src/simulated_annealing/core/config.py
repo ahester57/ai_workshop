@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 from .logger import logger
 
 
-__all__ = "config", "TomlConfig"
+__all__ = ["config", "TomlConfig"]
 
 
 class _AttrDict(dict):
@@ -31,7 +31,7 @@ class _AttrDict(dict):
 
         :param key: key to retrieve
         """
-        value = super(_AttrDict, self).__getitem__(key)
+        value = super().__getitem__(key)
         if isinstance(value, dict):
             # For mixed recursive assignment (e.g. `a["b"].c = value` to work
             # as expected, all dict-like values must themselves be _AttrDicts.
@@ -57,7 +57,6 @@ class _AttrDict(dict):
         :param value: new value for key
         """
         self[key] = value
-        return
 
 
 class TomlConfig(_AttrDict):
@@ -74,7 +73,6 @@ class TomlConfig(_AttrDict):
         super().__init__()
         if paths:
             self.load(paths, root, params)
-        return
 
     def load(self, paths, root=None, params=None):
         """ Load data from configuration files.
@@ -99,8 +97,8 @@ class TomlConfig(_AttrDict):
             # Comments must be stripped prior to template substitution to avoid
             # any unintended semantics such as stray `$` symbols.
             comment = re.compile(r"\s*#.*$", re.MULTILINE)
-            with open(path, "rt") as stream:
-                logger.info(f"Reading config data from '{path}'")
+            with open(path, "rt", encoding="UTF-8") as stream:
+                logger.info("Reading config data from '%s'", path)
                 conf = comment.sub("", stream.read())
                 toml = Template(conf).substitute(params)
                 data = tomllib.loads(toml)
@@ -108,7 +106,6 @@ class TomlConfig(_AttrDict):
                 self.setdefault(root, {}).update(data)
             else:
                 self.update(data)
-        return
 
 
 config = TomlConfig()

@@ -23,12 +23,15 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Natural Language :: English",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Education :: Testing"
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "tomli==2.0.1; python_version<'3.11'",
-    "numpy>=1.26.4,<2",
     "keras>=3.0.5,<4",
+    "numpy>=1.26.4,<2",
+    "tomli==2.0.1; python_version<'3.11'",
+    "torch>=2.1.2,<3",
+    "torchvision>=0.16.2,<1",
 ]
 dynamic = ["version", "readme"]
 
@@ -40,6 +43,7 @@ simulated_annealing = "simulated_annealing.cli:main"
 
 [project.optional-dependencies]
 dev = [
+    "jax[cpu]>=0.4.23,<1",
     "pytest>=7.3.1,<8",
     "sphinx>=6.2.1,<7",
     "sphinx_rtd_theme>=1.2.1,<2",

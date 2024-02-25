@@ -2,6 +2,6 @@
 
 """
 from .hello import main as hello
+from .anneal import main as anneal
 
-
-__all__ = "hello",
+__all__ = ["hello", "anneal"]

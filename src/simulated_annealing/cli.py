@@ -12,7 +12,7 @@ from .core.config import config
 from .core.logger import logger
 
 
-__all__ = "main",
+__all__ = ["main"]
 
 
 def main(argv=None) -> int:
@@ -84,18 +84,16 @@ def _hello(subparsers, common):
     """
     parser = subparsers.add_parser("hello", parents=[common])
     parser.set_defaults(command=hello)
-    return
 
 
 # Make the module executable.
 
 if __name__ == "__main__":
     try:
-        status = main()
-    except Exception as err:
+        STATUS = main()
+    except Exception as _err:
         # Error handler of last resort.
-        logger.error(repr(err))
+        logger.error(repr(_err))
         logger.critical("shutting down due to fatal error")
         raise  # print stack trace
-    else:
-        raise SystemExit(status)
+    raise SystemExit(STATUS)
