@@ -29,7 +29,7 @@ def main(argv=None) -> int:
     if args.warn:
         config.core.logging = args.warn
     logger.stop()  # clear handlers to prevent duplicate records
-    logger.start(config.core.logging)
+    logger.start(config.core.get("logging"))
     command = args.command
     args = vars(args)
     spec = getfullargspec(command)
@@ -37,7 +37,8 @@ def main(argv=None) -> int:
         # No kwargs, remove unexpected arguments.
         args = {key: args[key] for key in args if key in spec.args}
     try:
-        command(**args)
+        result = command(**args)
+        logger.info(result)
     except RuntimeError as err:
         logger.critical(err)
         return 1
@@ -56,8 +57,8 @@ def _args(argv):
     parser.add_argument("-v", "--version", action="version",
             version=f"simulated-annealing {__version__}",
             help="print version and exit")
-    parser.add_argument("-w", "--warn", default="WARNING",
-            help="logger warning level [WARNING]")
+    parser.add_argument("-w", "--warn", # default not needed due to logger.start having default
+            help="logger warning level [WARN]")
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments

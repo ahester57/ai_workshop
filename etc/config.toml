@@ -1,2 +1,2 @@
 [core]
-logging = "WARNING"
+logging = "INFO"
