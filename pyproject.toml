@@ -32,7 +32,7 @@ dependencies = [
 dynamic = ["version", "readme"]
 
 [project.urls]
-"Homepage" = "https://github.com/ahester57/simulated-annealing"
+"Homepage" = "https://github.com/ahester57/simulated_annealing"
 
 [project.scripts]
 simulated_annealing = "simulated_annealing.cli:main"
