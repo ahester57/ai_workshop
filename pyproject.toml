@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simulated_annealing"
+description = "A simulated annealing process to determine the optimal weight values of an artificial neuron."
+authors = [
+    { name = "Austin Hester", email = "ahester57@gmail.com" },
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pytest",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "tomli==2.0.1; python_version<'3.11'",
+    "numpy>=1.26.4,<2",
+]
+dynamic = ["version", "readme"]
+
+[project.urls]
+"Homepage" = "https://github.com/ahester57/simulated-annealing"
+
+[project.scripts]
+simulated_annealing = "simulated_annealing.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3.1,<8",
+    "sphinx>=6.2.1,<7",
+    "sphinx_rtd_theme>=1.2.1,<2",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "simulated_annealing.__version__"}
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
