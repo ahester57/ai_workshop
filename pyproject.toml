@@ -35,7 +35,7 @@ dynamic = ["version", "readme"]
 "Homepage" = "https://github.com/ahester57/simulated_annealing"
 
 [project.scripts]
-simulated_annealing = "simulated_annealing.go:main"
+simulated_annealing = "simulated_annealing.cli:main"
 
 [project.optional-dependencies]
 dev = [
