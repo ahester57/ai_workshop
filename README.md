@@ -15,9 +15,10 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
       else current <- next only with probability e^(-delta_E/T)
 ```
 
+
 ## Development
 
-Create the development environment:
+Create the virtual environment, enter into it with `source`, and install the package locally:
 
 ```bash
 $ python -m venv .venv
@@ -26,6 +27,13 @@ $ source .venv/Scripts/activate
 $ python -m pip install -e ".[dev]"
 ```
 
+See this reference for [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).
+
+Now you can run the application from within the virtual environment:
+
+```bash
+python -m simulated_annealing
+```
 
 ### Test Suite
 Run tests:
@@ -56,9 +64,9 @@ Install the application to a self-contained Python virtual environment:
 
 ```bash
 (.venv)
-$ .venv/bin/python -m pip install <project source>
+$ python -m pip install <project source>
 $ cp -r <project source>/etc .venv/
-$ .venv/bin/simulated_annealing --help
+$ .venv/Scripts/simulated_annealing --help
 ```
 
 
@@ -67,12 +75,13 @@ $ .venv/bin/simulated_annealing --help
 The installed application includes a wrapper script for command line execution.
 The location of this scripts depends on how the application was installed.
 
+---
 
 ### Configuration
 
-The application uses `TOML`_ files for configuration. Configuration supports
+The application uses `TOML` files for configuration. Configuration supports
 runtime parameter substitution via a shell-like variable syntax, *i.e.*
-``var = ${VALUE}``. CLI invocation will use the current environment for
+`var = ${VALUE}`. CLI invocation will use the current environment for
 parameter substitution, which makes it simple to pass host-specific values
 to the application without needing to change the config file for every
 installation.
@@ -89,3 +98,5 @@ nd the logging level can be set via the config file or on the command line.
 
 * [TOML](https://toml.io)
 * [Python logging](https://docs.python.org/3/library/logging.html)
+
+---
