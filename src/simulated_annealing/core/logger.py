@@ -3,6 +3,7 @@
 All modules use the same global logging object. No messages will be emitted
 until the logger is started.
 
+https://github.com/mdklatt/cookiecutter-python-app
 """
 from logging import getLogger, getLoggerClass, setLoggerClass
 from logging import Formatter, NullHandler, StreamHandler

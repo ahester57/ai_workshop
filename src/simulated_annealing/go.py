@@ -1,5 +1,6 @@
 """ Implementation of the command line interface.
 
+https://github.com/mdklatt/cookiecutter-python-app
 """
 from argparse import ArgumentParser
 from inspect import getfullargspec

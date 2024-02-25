@@ -3,6 +3,7 @@
 This module defines a global configuration object. Other modules should use
 this object to store application-wide configuration values.
 
+https://github.com/mdklatt/cookiecutter-python-app
 """
 from pathlib import Path
 from string import Template
