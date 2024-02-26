@@ -68,7 +68,7 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
-    common.add_argument("--name", "-n", default="World", help="greeting name")
+    # common.add_argument("-d", "--draw-graph", default=True, help="visualize graph")
     _anneal(subparsers, common)
     args = parser.parse_args(argv)
     if not args.command:

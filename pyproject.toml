@@ -48,6 +48,10 @@ dev = [
     "sphinx>=6.2.1,<7",
     "sphinx_rtd_theme>=1.2.1,<2",
 ]
+visual = [
+    "networkx>=3.2.0,<4",
+    "matplotlib>=3.8.3,<4"
+]
 
 [tool.setuptools.dynamic]
 version = {attr = "simulated_annealing.__version__"}

@@ -14,36 +14,43 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
 
 Stuart Russel, Peter Norvig. "Artificial Intelligence: A Modern Approach, 4th Edition" (2021)
 """
-from typing import Callable
 import numpy as np
+
+from typing import Callable
+try:
+    import matplotlib.pyplot as plt
+    import networkx as nx
+except ModuleNotFoundError:
+    plt = None
+    nx = None
 
 from ..core.logger import logger
 from ..model.problem import ProblemGraph
 from ..model.node import Neuron
 
 
-def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> tuple[int]:
+def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
     """ Execute the simulated annealing function.
     
     :param problem: The problem definition.
     :type problem: ProblemGraph
     :param schedule: Temperature function
     :type schedule: Callable
-    :return: Greeting for the user.
-    :rtype: str
+    :return: The problem with solution search graph.
+    :rtype: ProblemGraph
     """
     logger.debug("executing anneal command")
     assert problem is None or type(problem) == ProblemGraph
     if problem is None:
         problem = ProblemGraph(Neuron(0, 0, 0))
     if schedule is None:
-        schedule = lambda x : x / 1.2
+        schedule = lambda x : x / 1.002
     current = problem.initial
     logger.debug("Initial: %s", current)
     T = 1
-    for t in range(100000):
+    for t in range(10000000):
         T = schedule(T)
-        if T < 0.0001: break
+        if T < 0.00000001: break
         successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2., high=2., size=Neuron.DIM_W))
         problem.add(successor, current)
         delta_E = problem.evaluate_node(current) - problem.evaluate_node(successor)
@@ -57,6 +64,9 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -
                 logger.info("Taking successor with probability %d%s (exploration)", probability*100, '%')
                 current = successor
     logger.info("Winner: %s", current)
-    return f"Anneal, {tuple(problem.static_order())}!"
-
-
+    logger.debug("graph: %s", problem.graph)
+    if plt is not None and nx is not None:
+        G = nx.DiGraph()
+        for v, e, in problem.graph.items():
+            logger.error("%s: %s", v,e)
+    return problem

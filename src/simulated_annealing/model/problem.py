@@ -28,9 +28,9 @@ class ProblemGraph(TopologicalSorter):
         logger.debug("initializing %s", self.__class__.__name__)
         if initial is None:
             raise TypeError("initial : Neuron - Cannot be None")
-        super().__init__({initial: []})
+        super().__init__({initial: {}})
         self.initial : Neuron = self._node2info[initial].node
-        logger.debug("graph %s", self)
+        self.finished_graph = None
 
     def evaluate_node(self, node:Neuron) -> float:
         """Initialize a Neuron as a potential NAND gate.
@@ -48,5 +48,11 @@ class ProblemGraph(TopologicalSorter):
         ])
         return node.error
 
+    @property
+    def graph(self) -> dict[Neuron, list[Neuron]]:
+        if self.finished_graph is None:
+            self.finished_graph = dict([(self._node2info[n].node, self._node2info[n].successors) for n in self._node2info])
+        return self.finished_graph
+
     def __repr__(self) -> str:
-        return f'ProblemGraph: {[{n: self._node2info[n].successors} for n in self._node2info]}'
+        return f'ProblemGraph: {self.graph}'
