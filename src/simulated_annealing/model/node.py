@@ -2,34 +2,17 @@
 
 For use with Graph- and Tree-like problem state spaces searches.
 """
-from graphlib import _NodeInfo
-from typing import Any, override
+import numpy as np
+
+from typing import override
 
 from ..core.logger import logger
 
 
-__all__ = ["GraphNode", "Neuron"]
+__all__ = ["Neuron"]
 
 
-class GraphNode(_NodeInfo):
-    
-    def __init__(self, node:Any) -> None:
-        """Initialize an instance of ProblemGraph.
-        
-        :param node: The node to represent.
-        :type node: Any
-        """
-        logger.debug("initializing %s", self.__class__.__name__)
-        super().__init__(node)
-
-    def __repr__(self) -> str:
-        return f'\nGraphNode: {self.node} => [{[s for s in self.successors]}]'
-
-    def __hash__(self) -> int:
-        return hash(self.node)
-
-
-class Neuron(GraphNode):
+class Neuron(object):
     DIM_W = 3
 
     def __init__(self, *weights:tuple[float]) -> None:
@@ -42,16 +25,15 @@ class Neuron(GraphNode):
         logger.debug("initializing %s", self.__class__.__name__)
         if weights is None or len(weights) != self.DIM_W:
             raise TypeError(f'weights : tuple[float] : Must be of length {self.DIM_W}.')
-        super().__init__(weights)
-        self.output : float = None
+        self.weights = weights
+        self.error = 2.
 
-    @property
-    def weights(self) -> tuple[float]:
-        return self.node
+    def score(self, x, y) -> float:
+        return 1 / (1 + np.exp(self.weights[0] * x + self.weights[1] * y + self.weights[2]))
 
     @override
     def __repr__(self) -> str:
-        return f'{super().__repr__()}\n\tNeuron:{self.weights} = {self.output}'
+        return f'Neuron#{hash(self)}:{self.weights}. err={self.error}'
  
     @override
     def __hash__(self) -> int:

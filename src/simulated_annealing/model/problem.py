@@ -2,11 +2,13 @@
 
 For use with Graph- and Tree-like problem state spaces searches.
 """
+import numpy as np
+
 from graphlib import TopologicalSorter
-from typing import Set
+from typing import Callable
 
 from ..core.logger import logger
-from .node import GraphNode
+from .node import Neuron
 
 
 __all__ = ["ProblemGraph"]
@@ -14,18 +16,37 @@ __all__ = ["ProblemGraph"]
 
 class ProblemGraph(TopologicalSorter):
 
-    def __init__(self, graph:dict[GraphNode, Set[GraphNode]]) -> None:
+    def __init__(self, initial:Neuron) -> None:
         """Initialize an instance of ProblemGraph.
 
-        :param graph: dict of Node -> set of Successors
-        :type graph: dict[GraphNode, Set[GraphNode]]
-        :raises TypeError: If graph is None
+        :param initial: Neuron
+        :type initial: Neuron
+        :param evaluate: The evaluation function
+        :type evaluate: Callable
+        :raises TypeError: If initial is None
         """
         logger.debug("initializing %s", self.__class__.__name__)
-        if graph is None:
-            raise TypeError("graph : dict[GraphNode, Set[GraphNode]] : Cannot be None")
-        super().__init__(graph)
+        if initial is None:
+            raise TypeError("initial : Neuron - Cannot be None")
+        super().__init__({initial: []})
+        self.initial : Neuron = self._node2info[initial].node
         logger.debug("graph %s", self)
 
+    def evaluate_node(self, node:Neuron) -> float:
+        """Initialize a Neuron as a potential NAND gate.
+
+        :param initial: Neuron
+        :type initial: Neuron
+        :return: Sum of errors for each combination
+        :rtype: float
+        """
+        node.error = np.sum([
+            np.abs(1 - node.score(0, 0)),
+            np.abs(1 - node.score(0, 1)),
+            np.abs(1 - node.score(1, 0)),
+            np.abs(0 - node.score(1, 1))
+        ])
+        return node.error
+
     def __repr__(self) -> str:
-        return f'ProblemGraph: {[n for n in self._node2info]}'
+        return f'ProblemGraph: {[{n: self._node2info[n].successors} for n in self._node2info]}'
