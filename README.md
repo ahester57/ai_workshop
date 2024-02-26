@@ -3,7 +3,7 @@
 A simulated annealing process to determine the optimal weight values of an artificial neuron.
 Python 3.8+ is required.
 
-```{r, eval=FALSE}
+```
 function SIMULATED-ANNEALING(problem, schedule) returns a solution State
   current <- problem.INITIAL
   for t = 1 to inf do

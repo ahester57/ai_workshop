@@ -8,7 +8,7 @@ from os import environ
 from typing import Any, Sequence
 
 from . import __version__
-from .api import hello
+from .api import anneal
 from .core.config import config
 from .core.logger import logger
 
@@ -69,7 +69,7 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     subparsers = parser.add_subparsers(title="subcommands")
     common = ArgumentParser(add_help=False)  # common subcommand arguments
     common.add_argument("--name", "-n", default="World", help="greeting name")
-    _hello(subparsers, common)
+    _anneal(subparsers, common)
     args = parser.parse_args(argv)
     if not args.command:
         # No subcommand was specified.
@@ -82,16 +82,16 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     return args
 
 
-def _hello(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
-    """ CLI adaptor for the api.hello command.
+def _anneal(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
+    """ CLI adaptor for the api.anneal command.
 
     :param subparsers: subcommand parsers
     :type subparsers: _SubParsersAction
     :param common: parser for common subcommand arguments
     :type common: ArgumentParser
     """
-    parser = subparsers.add_parser("hello", parents=[common])
-    parser.set_defaults(command=hello)
+    parser = subparsers.add_parser("anneal", parents=[common])
+    parser.set_defaults(command=anneal)
 
 
 # Make the module executable.
