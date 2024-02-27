@@ -40,21 +40,23 @@ def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron
     :type current: Neuron
     :param successor: One of the neighboring nodes, enticing.
     :type successor: Neuron
-    :return: Either the current or successor node and 'changed' flag.
-    :rtype: Neuron, bool
+    :return: Either the current or successor node
+    :rtype: Neuron
     """
     delta_E = problem.evaluate_node(current) - problem.evaluate_node(successor)
     logger.debug(delta_E)
     if delta_E > 0:
         logger.debug("Taking successor as better option (exploitation)")
-        return successor, True
+        problem.add(successor, current) # Trace the path
+        return successor
     else:
         logger.debug(T)
         probability = np.exp(delta_E / T)
         if np.random.default_rng().uniform() < probability:
             logger.debug("Taking successor with probability %d%s (exploration)", probability*100, '%')
-            return successor, True
-    return current, False
+            problem.add(successor, current) # Trace the path
+            return successor
+    return current
 
 
 def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
@@ -79,12 +81,8 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -
     for t in range(10000000):
         T = schedule(T)
         if T < 0.00000001: break
-        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2, high=2, size=Neuron.DIM_W))
-        should_step = _anneal_step(problem, T, current, successor)
-        if should_step:
-            # Trace the path
-            problem.add(successor, current)
-            current = successor
+        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2., high=2., size=Neuron.DIM_W))
+        current = _anneal_step(problem, T, current, successor)
     static_order = problem.static_order()
     logger.debug(f"Static Order: {tuple(static_order)}")
     logger.info("Winner: %s", current)
