@@ -1,2 +1,2 @@
 [core]
-logging = "DEBUG"
+logging = "INFO"
