@@ -41,7 +41,7 @@ def main(argv:Sequence[str]|None=None) -> int:
         args_dict = {key: args_dict[key] for key in args_dict if key in spec.args}
     try:
         result = command(**args_dict)
-        logger.info(result)
+        #logger.debug(result)
     except RuntimeError as err:
         logger.critical(err)
         return 1

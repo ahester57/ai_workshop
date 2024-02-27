@@ -29,8 +29,36 @@ from ..model.problem import ProblemGraph
 from ..model.node import Neuron
 
 
+def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron) -> Neuron:
+    """ Execute one step of the simulated annealing function.
+    
+    :param problem: The problem definition.
+    :type problem: ProblemGraph
+    :param T: Current temperature.
+    :type T: float
+    :param current: The current node, searching for a greener pasture.
+    :type current: Neuron
+    :param successor: One of the neighboring nodes, enticing.
+    :type successor: Neuron
+    :return: Either the current or successor node and 'changed' flag.
+    :rtype: Neuron, bool
+    """
+    delta_E = problem.evaluate_node(current) - problem.evaluate_node(successor)
+    logger.debug(delta_E)
+    if delta_E > 0:
+        logger.debug("Taking successor as better option (exploitation)")
+        return successor, True
+    else:
+        logger.debug(T)
+        probability = np.exp(delta_E / T)
+        if np.random.default_rng().uniform() < probability:
+            logger.debug("Taking successor with probability %d%s (exploration)", probability*100, '%')
+            return successor, True
+    return current, False
+
+
 def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
-    """ Execute the simulated annealing function.
+    """ Execute the simulated annealing algorithm.
     
     :param problem: The problem definition.
     :type problem: ProblemGraph
@@ -44,29 +72,30 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -
     if problem is None:
         problem = ProblemGraph(Neuron(0, 0, 0))
     if schedule is None:
-        schedule = lambda x : x / 1.002
+        schedule = lambda x : x / 1.2
     current = problem.initial
     logger.debug("Initial: %s", current)
     T = 1
     for t in range(10000000):
         T = schedule(T)
         if T < 0.00000001: break
-        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2., high=2., size=Neuron.DIM_W))
-        problem.add(successor, current)
-        delta_E = problem.evaluate_node(current) - problem.evaluate_node(successor)
-        logger.debug(delta_E)
-        if delta_E > 0:
-            logger.info("Taking successor as better option (exploitation)")
+        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2, high=2, size=Neuron.DIM_W))
+        should_step = _anneal_step(problem, T, current, successor)
+        if should_step:
+            # Trace the path
+            problem.add(successor, current)
             current = successor
-        else:
-            probability = np.exp(delta_E / T)
-            if np.random.default_rng().uniform() < probability:
-                logger.info("Taking successor with probability %d%s (exploration)", probability*100, '%')
-                current = successor
+    static_order = problem.static_order()
+    logger.debug(f"Static Order: {tuple(static_order)}")
     logger.info("Winner: %s", current)
-    logger.debug("graph: %s", problem.graph)
+    logger.info("Path Length: %s", len(problem.graph.keys()))
+    #logger.debug("graph: %s", problem.graph)
     if plt is not None and nx is not None:
         G = nx.DiGraph()
         for v, e, in problem.graph.items():
             logger.error("%s: %s", v,e)
     return problem
+
+
+if __name__ == "__main__":
+    main()
