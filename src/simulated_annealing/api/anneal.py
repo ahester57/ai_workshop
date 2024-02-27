@@ -59,7 +59,7 @@ def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron
     return current
 
 
-def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
+def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.002) -> ProblemGraph:
     """ Execute the simulated annealing algorithm.
     
     :param problem: The problem definition.
@@ -81,10 +81,10 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -
     for t in range(10000000):
         T = schedule(T)
         if T < 0.00000001: break
-        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2., high=2., size=Neuron.DIM_W))
+        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2.-current.error, high=2.+current.error, size=Neuron.DIM_W))
         current = _anneal_step(problem, T, current, successor)
     static_order = problem.static_order()
-    logger.debug(f"Static Order: {tuple(static_order)}")
+    #logger.debug(f"Static Order: {tuple(static_order)}")
     logger.info("Winner: %s", current)
     logger.info("Path Length: %s", len(problem.graph.keys()))
     #logger.debug("graph: %s", problem.graph)
