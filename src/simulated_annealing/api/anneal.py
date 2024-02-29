@@ -157,7 +157,7 @@ def _anneal_loop(
     return current
 
 
-def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.02) -> ProblemGraph:
+def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.22) -> ProblemGraph:
     """ Entrypoint to the simulated annealing algorithm.
     
     :param problem: The problem definition.
