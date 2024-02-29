@@ -34,6 +34,12 @@ from ..model.problem import ProblemGraph
 from ..model.node import Neuron
 
 
+# Graphing Flags
+GRAPH_TEMP = True
+GRAPH_OBJECTIVE = True
+GRAPH_DELTA_E = True
+
+
 def _anneal_step(
         problem:ProblemGraph,
         T:float,
@@ -53,17 +59,19 @@ def _anneal_step(
     :type successor: Neuron
     :param G: The network graph, if visual mode enabled.
     :type G: networkx.DiGraph|None
-    :return: Either the current or successor node
-    :rtype: Neuron
+    :return: Next node, evaluation of next, delta_E
+    :rtype: Neuron, float, float
     """
-    delta_E = problem.evaluate_node(current) - problem.evaluate_node(successor)
-    logger.debug(delta_E)
+    e_value = problem.evaluate_node(successor)
+    delta_E = problem.evaluate_node(current) - e_value
+    logger.debug(f"delta_E: {delta_E}")
+    logger.debug(f"e_value: {e_value}")
     if delta_E > 0:
         logger.debug("Taking successor as better option (exploitation)")
         problem.add(successor, current) # Trace the path
         if G is not None:
             G.add_edge(current, successor)
-        return successor
+        return successor, e_value, delta_E
     else:
         logger.debug(T)
         probability = np.exp(delta_E / T)
@@ -72,8 +80,8 @@ def _anneal_step(
             problem.add(successor, current) # Trace the path
             if G is not None:
                 G.add_edge(current, successor)
-            return successor
-    return current
+            return successor, e_value, delta_E
+    return current, e_value, delta_E
 
 
 def _anneal_loop(
@@ -97,10 +105,16 @@ def _anneal_loop(
     assert isinstance(schedule, Callable)
     current = problem.initial
     logger.debug("Initial: %s", current)
-    T_history = []
+    if GRAPH_TEMP:
+        T_history = []
+    if GRAPH_OBJECTIVE:
+        eval_history = []
+    if GRAPH_DELTA_E:
+        delta_history = []
     T = 1
     for t in range(10000000):
-        T_history.append(T)
+        if GRAPH_TEMP:
+            T_history.append(T)
         T = schedule(T)
         if T < 0.000000001: break
         successor = Neuron(
@@ -112,13 +126,33 @@ def _anneal_loop(
                     high=2.+current.error,
                     size=Neuron.DIM_W)
         )
-        current = _anneal_step(problem, T, current, successor, G)
-    if G is not None:
+        current, e_value, delta_E = _anneal_step(problem, T, current, successor, G)
+        if GRAPH_OBJECTIVE:
+            eval_history.append(e_value)
+        if GRAPH_OBJECTIVE:
+            delta_history.append(delta_E)
+    if current.error > 0.5:
+        return current
+    if G is not None and GRAPH_TEMP:
         steps = np.arange(1, len(T_history)+1)
-        plt.plot(T_history, steps, marker='o')
-        plt.title("Temperative over Time")
+        plt.plot(steps, T_history, marker='o')
+        plt.title("Temperature over Time")
         plt.xlabel("Step")
-        plt.ylabel("Temperature")
+        plt.ylabel("Temperature Value")
+        plt.show()
+    if G is not None and GRAPH_OBJECTIVE:
+        steps = np.arange(1, len(eval_history)+1)
+        plt.plot(steps, eval_history, marker='o')
+        plt.title("Objective Fn. Value over Time")
+        plt.xlabel("Step")
+        plt.ylabel("Objection Fn. Value")
+        plt.show()
+    if G is not None and GRAPH_DELTA_E:
+        steps = np.arange(1, len(delta_history)+1)
+        plt.plot(steps, delta_history, marker='o')
+        plt.title("Delta E Value over Time")
+        plt.xlabel("Step")
+        plt.ylabel("Delta E Value")
         plt.show()
     return current
 
@@ -140,8 +174,8 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.02) 
         problem = ProblemGraph(Neuron(0, 0, 0))
     if schedule is None:
         schedule = lambda x : x / 1.2
-    for attempt in range(1, 10):
-        # Random Restarts 10x or until err < 0.5
+    for attempt in range(1, 100):
+        # Random Restarts 100x or until err < 0.5
         G = None
         if plt is not None and nx is not None:
             G = nx.DiGraph()
