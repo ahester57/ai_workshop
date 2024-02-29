@@ -49,6 +49,7 @@ $ pip install -e ".[dev,visual]"
 
 See this reference for more info about [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 
+### Running 
 Now you can run the application from within the virtual environment:
 
 ```bash
@@ -73,27 +74,28 @@ Build documentation:
 $ python -m sphinx -M html docs docs/_build
 ```
 
-
-## Installation
-
-Packaging and distributing a Python application is dependent on the target
-operating system(s) and execution environment, which could be a Python virtual
-environment, Linux container, or native application.
-
-Install the application to a self-contained Python virtual environment:
-
-```bash
-(.venv)
-$ python -m pip install <project source>
-$ cp -r <project source>/etc .venv/
-$ .venv/Scripts/simulated_annealing --help
-```
-
+---
 
 ## Execution
 
-The installed application includes a wrapper script for command line execution.
-The location of this scripts depends on how the application was installed.
+Once installed, the application can be via the command line. Inside your virtual environment:
+
+```bash
+(.venv)
+$ simulated_annealing --help
+usage: simulated_annealing [-h] [-c CONFIG] [-v] [-w WARN] {anneal} ...
+
+options:
+  -h, --help            show this help message and exit
+  -c CONFIG, --config CONFIG
+                        config file [etc/config.toml]
+  -v, --version         print version and exit
+  -w WARN, --warn WARN  logger warning level [WARN]
+
+subcommands:
+  {anneal}
+(.venv-ai)
+```
 
 ---
 
@@ -107,7 +109,7 @@ to the application without needing to change the config file for every
 installation.
 
 ```toml
-    mailhost = $SENDMAIL_HOST
+    logging = "INFO"
 ```
 
 ### Logging
