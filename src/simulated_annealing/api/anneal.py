@@ -131,20 +131,26 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -
         problem = ProblemGraph(Neuron(0, 0, 0))
     if schedule is None:
         schedule = lambda x : x / 1.2
-    G = None
-    if plt is not None and nx is not None:
-        G = nx.DiGraph()
-    # Run simulated annealing
-    winner = _anneal_loop(problem, schedule, G)
-    try:
-        # Topological sort
-        static_order = tuple(problem.static_order())
-    except CycleError as cycerr:
-        logger.warn(cycerr)
-        static_order = 'cycle'
-    logger.debug(f"Static Order: {static_order}")
-    logger.info("Winner: %s", winner)
-    logger.info("Path Length: %s", len(problem.graph.keys()))
+    for attempt in range(1, 10):
+        # Random Restarts 10x or until err < 0.5
+        G = None
+        if plt is not None and nx is not None:
+            G = nx.DiGraph()
+        # Run simulated annealing
+        winner = _anneal_loop(problem, schedule, G)
+        try:
+            # Topological sort
+            static_order = tuple(problem.static_order())
+        except CycleError as cycerr:
+            logger.warn(cycerr)
+            static_order = 'cycle'
+        logger.debug(f"Static Order: {static_order}")
+        logger.info("Winner: %s", winner)
+        logger.info("Path Length: %s", len(problem.graph.keys()))
+        if winner.error < 0.5:
+            break
+        logger.warn("Winner not good enough, restarting with attempt #%d.", attempt)
+        problem = ProblemGraph(Neuron(0, 0, 0))
     if G is not None:
         logger.info("Graph Length: %s", len(G))
         pos = nx.kamada_kawai_layout(G, weight=None)
