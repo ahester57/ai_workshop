@@ -67,12 +67,7 @@ $ python -m pytest -v tests/
 
 ### Documentation
 
-Build documentation:
-
-```bash
-(.venv)
-$ python -m sphinx -M html docs docs/_build
-```
+See the [docs](docs/README.md) directory.
 
 ---
 
@@ -106,7 +101,7 @@ runtime parameter substitution via a shell-like variable syntax, *i.e.*
 `var = ${VALUE}`. CLI invocation will use the current environment for
 parameter substitution, which makes it simple to pass host-specific values
 to the application without needing to change the config file for every
-installation.
+installation. Config file is located in [/etc](etc/).
 
 ```toml
     logging = "INFO"
