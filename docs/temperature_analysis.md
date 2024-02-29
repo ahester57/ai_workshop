@@ -46,6 +46,10 @@ See the $x : x / 5$ ![output graph](_static/Figure_4_Temp=5_Path=5.png)
 
 ![Temp over time](_static/Figure_7_Temp=5_Temp-over-Time.png)
 
+![Delta_E over time](_static/Figure_12_Temp=5_Delta-E-over-Time.png)
+
+![Obj Fn over time](_static/Figure_11_Temp=5_Obj-Fn-over-Time.png)
+
 ---
 
 ### Simmering Schedule
