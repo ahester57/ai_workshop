@@ -8,7 +8,7 @@ PYTEST = $(PYTHON) -m pytest
 $(VENV)/.make-update: pyproject.toml
 	python -m venv $(VENV)
 	$(PYTHON) -m pip install -U pip  # needs to be updated first
-	$(PYTHON) -m pip install -e ".[dev]"
+	$(PYTHON) -m pip install -e ".[dev,visual]"
 	touch $@
 
 

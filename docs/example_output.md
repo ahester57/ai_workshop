@@ -1,6 +1,7 @@
 ## Example Debug Console Output
 
-For [this graph](_static/Figure_3_Temp=1.2_Path=23.png).
+For ![this graph](_static/Figure_3_Temp=1.2_Path=23.png).
+
 ```
 $ simulated_annealing -w DEBUG anneal
 2024-02-28 21:07:45,470;WARNING;simulated_annealing;('nodes are in a cycle', [(-23, -30, -67), err=1.000, (-21, -32, -65), err=1.000, (-23, -30, -67), err=1.000])

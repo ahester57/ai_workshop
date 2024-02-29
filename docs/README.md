@@ -2,6 +2,7 @@
 
 ### Contents
 
+* [Detailed Temperature Analysis](temperature_analysis.md)
 * [Example Debug Console Output](example_output.md).
 
 

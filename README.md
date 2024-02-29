@@ -87,7 +87,7 @@ See the [docs](docs/) directory.
 
 ## Execution
 
-Once installed, the application can be via the command line. Inside your virtual environment:
+Once installed, the application can be run via the command line. Inside your virtual environment:
 
 ```bash
 (.venv)
