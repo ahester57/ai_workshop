@@ -3,7 +3,9 @@
 ### Contents
 
 * [Detailed Temperature Analysis](temperature_analysis.md)
-* [Example Debug Console Output](example_output.md).
+* [Example Debug Console Output](example_output.md)
+* [JupyterLab-Compatible Code](cs5300-hester-simulated-annealing.ipynb-ext)
+* [Overleaf Report](main.tex) - Also online on [Overleaf](https://www.overleaf.com/read/ktmcvpxmhwmz#2819a6).
 
 
 #### Build documentation

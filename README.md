@@ -31,7 +31,7 @@ can have a large impact on the output of this algorithm.
 
 $$\lambda x : x / 1.2$$
 
-See the [detailed temperature analysis](docs/temperature_analysis.md) in the `docs/` directory.
+Check out the [detailed temperature analysis](docs/temperature_analysis.md) in the `docs/` directory.
 
 ---
 

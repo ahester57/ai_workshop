@@ -19,7 +19,13 @@ The average traced search path length:
 * for subpar results $= 99$.
 * for good results $= 25$.
 
-See the $x : x / 1.2$ ![output graph](_static/Figure_3_Temp=1.2_Path=23.png).
+See the $x : x / 1.2$ ![output graph](_static/Figure_3_Temp=1.2_Path=23.png)
+
+![Temp over time](_static/Figure_6_Temp=1.2_Temp-over-Time.png)
+
+![Delta_E over time](_static/Figure_9_Temp=1.22_Delta-E-over-Time.png)
+
+![Obj Fn over time](_static/Figure_10_Temp=1.22_Obj-Fn-over-Time.png)
 
 ---
 
@@ -36,7 +42,9 @@ However, the average traced search path length was significantly reduced:
 
 Cooling off more quickly can speed up the search, but at the cost of accuracy.
 
-See the $x : x / 5$ ![output graph](_static/Figure_4_Temp=5_Path=5.png).
+See the $x : x / 5$ ![output graph](_static/Figure_4_Temp=5_Path=5.png)
+
+![Temp over time](_static/Figure_7_Temp=5_Temp-over-Time.png)
 
 ---
 
@@ -55,6 +63,8 @@ Additionally, the average traced search path length
 Cooling off too quickly can slow down the search significantly 
 and lead to unpredictable behavior.
 
-See the $x : x / 1.02$ ![output graph](_static/Figure_5_Temp=1.02_Path=1031.png).
+See the $x : x / 1.02$ ![output graph](_static/Figure_5_Temp=1.02_Path=1031.png)
+
+![Temp over time](_static/Figure_8_Temp=1.02_Temp-over-Time.png)
 
 ---
