@@ -16,20 +16,31 @@ Stuart Russel, Peter Norvig. "Artificial Intelligence: A Modern Approach, 4th Ed
 """
 import numpy as np
 
+from graphlib import CycleError
 from typing import Callable
+
 try:
+    # for visual mode. `pip install -e .[visual]
     import matplotlib.pyplot as plt
     import networkx as nx
+    DiGraph = nx.DiGraph
 except ModuleNotFoundError:
     plt = None
     nx = None
+    class DiGraph: pass
 
 from ..core.logger import logger
 from ..model.problem import ProblemGraph
 from ..model.node import Neuron
 
 
-def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron) -> Neuron:
+def _anneal_step(
+        problem:ProblemGraph,
+        T:float,
+        current:Neuron,
+        successor:Neuron,
+        G:DiGraph|None=None
+    ) -> Neuron:
     """ Execute one step of the simulated annealing function.
     
     :param problem: The problem definition.
@@ -40,6 +51,8 @@ def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron
     :type current: Neuron
     :param successor: One of the neighboring nodes, enticing.
     :type successor: Neuron
+    :param G: The network graph, if visual mode enabled.
+    :type G: networkx.DiGraph|None
     :return: Either the current or successor node
     :rtype: Neuron
     """
@@ -48,6 +61,8 @@ def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron
     if delta_E > 0:
         logger.debug("Taking successor as better option (exploitation)")
         problem.add(successor, current) # Trace the path
+        if G is not None:
+            G.add_edge(current, successor)
         return successor
     else:
         logger.debug(T)
@@ -55,12 +70,52 @@ def _anneal_step(problem:ProblemGraph, T:float, current:Neuron, successor:Neuron
         if np.random.default_rng().uniform() < probability:
             logger.debug("Taking successor with probability %d%s (exploration)", probability*100, '%')
             problem.add(successor, current) # Trace the path
+            if G is not None:
+                G.add_edge(current, successor)
             return successor
     return current
 
 
-def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.002) -> ProblemGraph:
+def _anneal_loop(
+        problem:ProblemGraph|None=None,
+        schedule:Callable=lambda x : x / 1.2,
+        G:DiGraph|None=None
+    ) -> Neuron:
     """ Execute the simulated annealing algorithm.
+    
+    :param problem: The problem definition.
+    :type problem: ProblemGraph
+    :param schedule: Temperature function
+    :type schedule: Callable
+    :param G: The network graph, if visual mode enabled.
+    :type G: networkx.DiGraph|None
+    :return: The winner
+    :rtype: Neuron
+    """
+    logger.debug("executing anneal command")
+    assert isinstance(problem, ProblemGraph)
+    assert isinstance(schedule, Callable)
+    current = problem.initial
+    logger.debug("Initial: %s", current)
+    T = 1
+    for t in range(10000000):
+        T = schedule(T)
+        if T < 0.000000001: break
+        successor = Neuron(
+            *current.weights
+           + np.random.default_rng()
+                .integers(
+                    low=-2.-current.error,
+                   # widen step size as error increases
+                    high=2.+current.error,
+                    size=Neuron.DIM_W)
+        )
+        current = _anneal_step(problem, T, current, successor, G)
+    return current
+
+
+def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
+    """ Entrypoint to the simulated annealing algorithm.
     
     :param problem: The problem definition.
     :type problem: ProblemGraph
@@ -70,28 +125,31 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.002)
     :rtype: ProblemGraph
     """
     logger.debug("executing anneal command")
-    assert problem is None or type(problem) == ProblemGraph
+    assert problem is None or isinstance(problem, ProblemGraph)
+    assert schedule is None or isinstance(schedule, Callable)
     if problem is None:
         problem = ProblemGraph(Neuron(0, 0, 0))
     if schedule is None:
         schedule = lambda x : x / 1.2
-    current = problem.initial
-    logger.debug("Initial: %s", current)
-    T = 1
-    for t in range(10000000):
-        T = schedule(T)
-        if T < 0.00000001: break
-        successor = Neuron(*current.weights + np.random.default_rng().uniform(low=-2.-current.error, high=2.+current.error, size=Neuron.DIM_W))
-        current = _anneal_step(problem, T, current, successor)
-    static_order = problem.static_order()
-    #logger.debug(f"Static Order: {tuple(static_order)}")
-    logger.info("Winner: %s", current)
-    logger.info("Path Length: %s", len(problem.graph.keys()))
-    #logger.debug("graph: %s", problem.graph)
+    G = None
     if plt is not None and nx is not None:
         G = nx.DiGraph()
-        for v, e, in problem.graph.items():
-            logger.error("%s: %s", v,e)
+    # Run simulated annealing
+    winner = _anneal_loop(problem, schedule, G)
+    try:
+        # Topological sort
+        static_order = tuple(problem.static_order())
+    except CycleError as cycerr:
+        logger.warn(cycerr)
+        static_order = 'cycle'
+    logger.debug(f"Static Order: {static_order}")
+    logger.info("Winner: %s", winner)
+    logger.info("Path Length: %s", len(problem.graph.keys()))
+    if G is not None:
+        logger.info("Graph Length: %s", len(G))
+        pos = nx.kamada_kawai_layout(G, weight=None)
+        nx.draw(G, pos, with_labels=True, node_color='blue', edge_color='grey', node_size=20)
+        plt.show()
     return problem
 
 
