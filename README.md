@@ -18,16 +18,36 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
 
 ## Development
 
-Create the virtual environment, enter into it with `source`, and install the package locally:
+### Create a Virtual Environment
+
+Create the virtual environment, enter into it with `source`-ry.
 
 ```bash
 $ python -m venv .venv
 $ source .venv/Scripts/activate
-(.venv)
-$ python -m pip install -e ".[dev]"
+$ echo "Confirm you're using the correct python with: "
+$ which python
+=> Should show path to your .venv
 ```
 
-See this reference for [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).
+And install the package locally:
+
+```bash
+(.venv)
+$ pip install -e ".[dev]"
+```
+
+#### Install with Optional Dependencies
+
+In the above, `".[dev]"` means you want to install the optional packages under 'dev' in [the project pyproject.toml](pyproject.toml).  
+There is also a visual mode driven by networkx and matplotlib. To install dev tools plus visual mode, use this pip install command instead:
+
+```bash
+(.venv)
+$ pip install -e ".[dev,visual]"
+```
+
+See this reference for more info about [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 
 Now you can run the application from within the virtual environment:
 
