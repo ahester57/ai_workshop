@@ -55,6 +55,6 @@ Additionally, the average traced search path length
 Cooling off too quickly can slow down the search significantly 
 and lead to unpredictable behavior.
 
-See the $x : x / 1.02$ ![output graph](_static/Figure_5_Temp=1.02_Path=1031.png).
+See the $x : x / 1.02$ [output graph](_static/Figure_5_Temp=1.02_Path=1031.png).
 
 ---
