@@ -97,8 +97,10 @@ def _anneal_loop(
     assert isinstance(schedule, Callable)
     current = problem.initial
     logger.debug("Initial: %s", current)
+    T_history = []
     T = 1
     for t in range(10000000):
+        T_history.append(T)
         T = schedule(T)
         if T < 0.000000001: break
         successor = Neuron(
@@ -111,10 +113,17 @@ def _anneal_loop(
                     size=Neuron.DIM_W)
         )
         current = _anneal_step(problem, T, current, successor, G)
+    if G is not None:
+        steps = np.arange(1, len(T_history)+1)
+        plt.plot(T_history, steps, marker='o')
+        plt.title("Temperative over Time")
+        plt.xlabel("Step")
+        plt.ylabel("Temperature")
+        plt.show()
     return current
 
 
-def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
+def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.02) -> ProblemGraph:
     """ Entrypoint to the simulated annealing algorithm.
     
     :param problem: The problem definition.
