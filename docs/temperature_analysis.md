@@ -10,7 +10,7 @@ can have a large impact on the output of this algorithm.
 
 ### Recommended Schedule
 
-$$lambda x : x / 1.2$$
+$$\lambda x : x / 1.2$$
 
 This was the temperature schedule given as a starting point.
 It performed well enough, producing incorrect weights about half of the time.
@@ -25,7 +25,7 @@ See the $x : x / 1.2$ ![output graph](_static/Figure_3_Temp=1.2_Path=23.png).
 
 ### Rapidly Cooling Schedule
 
-$$lambda x : x / 5$$
+$$\lambda x : x / 5$$
 
 This was a temperature schedule to see what an extreme change would do to the algorithm.
 It performed very poorly, failing to produce correct results in most runs.
@@ -42,7 +42,7 @@ See the $x : x / 5$ ![output graph](_static/Figure_4_Temp=5_Path=5.png).
 
 ### Simmering Schedule
 
-$$lambda x : x / 1.02$$
+$$\lambda x : x / 1.02$$
 
 Now shifting to the opposite end of the spectrum by slowing down the rate of cooling.
 It performed the worse, failing to ever produce correct results 
