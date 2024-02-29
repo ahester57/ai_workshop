@@ -67,7 +67,7 @@ $ python -m pytest -v tests/
 
 ### Documentation
 
-See the [docs](docs/README.md) directory.
+See the [docs](docs/) directory.
 
 ---
 
@@ -109,8 +109,9 @@ installation. Config file is located in [/etc](etc/).
 
 ### Logging
 
-The application uses standard `Python logging`. All loggins is to `STDERR`,
-nd the logging level can be set via the config file or on the command line.
+The application uses standard `Python logging`. All logging is to `STDERR`,
+and the logging level can be set via the config file or on the command line.
+Find the code in the [core module](src/simulated_annealing/core/).
 
 
 * [TOML](https://toml.io)
