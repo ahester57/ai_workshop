@@ -368,3 +368,5 @@ $ simulated_annealing -w DEBUG anneal
 2024-02-28 21:07:45,517;INFO;simulated_annealing;Path Length: 23
 2024-02-28 21:07:45,517;INFO;simulated_annealing;Graph Length: 23
 ```
+
+---

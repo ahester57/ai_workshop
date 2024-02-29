@@ -2,7 +2,7 @@
 
 ### Contents
 
-* [Example Debug Console Output](_static/Figure_3_Temp=1.2_Path=23.png).
+* [Example Debug Console Output](example_output.md).
 
 
 #### Build documentation
@@ -13,3 +13,5 @@
 (.venv)
 $ python -m sphinx -M html docs docs/_build
 ```
+
+---

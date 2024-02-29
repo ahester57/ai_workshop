@@ -15,6 +15,17 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
       else current <- next only with probability e^(-delta_E/T)
 ```
 
+## Temperature Analysis
+
+Simulated annealing simulates the process of annealing glass or metal.
+It involves heating it up until malleable, then shaping it until it cools and hardens.
+
+The temperature parameter, as defined bythe `schedule` lambda function in this implementation, 
+can have a large impact on the output of this algorithm.
+
+See the [detailed temperature analysis](docs/temperature_analysis.md) in the `docs/` directory.
+
+---
 
 ## Development
 
@@ -49,14 +60,17 @@ $ pip install -e ".[dev,visual]"
 
 See this reference for more info about [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).
 
-### Running 
+### Running
+
 Now you can run the application from within the virtual environment:
 
 ```bash
-python -m simulated_annealing
+(.venv)
+$ simulated_annealing
 ```
 
-### Test Suite
+#### Test Suite
+
 Run tests:
 
 ```bash
