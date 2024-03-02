@@ -7,6 +7,8 @@ That is, the weights of the linear equation $(W_x, W_y, W_b)$ for the
 function $f(n) = W_x*x + W_y*y + W_b$ should give results the same as a 
 NAND-gate for the input domains $X : \{0, 1\}$ and $ Y : \{0, 1\}$.
 
+See the algorithm in [src/simulated_annealing/api/anneal.py](src/simulated_annealing/api/anneal.py).
+
 Python 3.8+ is required.
 
 ```
@@ -30,14 +32,6 @@ The temperature parameter, as defined by the `schedule` lambda function in this 
 can have a large impact on the output of this algorithm.
 
 $$\lambda x : x / 1.2$$
-
-## Temperature Analysis
-
-Simulated annealing simulates the process of annealing glass or metal.
-It involves heating it up until malleable, then shaping it until it cools and hardens.
-
-The temperature parameter, as defined bythe `schedule` lambda function in this implementation, 
-can have a large impact on the output of this algorithm.
 
 ---
 
