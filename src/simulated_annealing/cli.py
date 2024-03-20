@@ -91,6 +91,7 @@ def _anneal(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     :type common: ArgumentParser
     """
     parser = subparsers.add_parser('anneal', parents=[common])
+    parser.add_argument('--draw', dest='draw', action='store_true', help='visualize graph')
     parser.set_defaults(command=anneal)
 
 

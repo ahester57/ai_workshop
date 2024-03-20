@@ -2,10 +2,11 @@
 
 For use with Graph- and Tree-like problem state spaces searches.
 """
+import networkx as nx
 import numpy as np
 
 from graphlib import TopologicalSorter
-from typing import Callable
+from typing import Callable, override
 
 from ..core.logger import logger
 from .node import Neuron
@@ -31,6 +32,12 @@ class ProblemGraph(TopologicalSorter):
         super().__init__({initial: {}})
         self.initial : Neuron = self._node2info[initial].node
         self.finished_graph = None
+        self.diGraph = nx.DiGraph()
+
+    @override
+    def add(self, node, *predecessors) -> None:
+        super().add(node, predecessors)
+        [self.diGraph.add_edge(pred, node) for pred in predecessors]
 
     def evaluate_node(self, node:Neuron) -> float:
         """Initialize a Neuron as a potential NAND gate.
