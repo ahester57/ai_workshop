@@ -167,7 +167,7 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.22) 
     :return: The problem with solution search graph.
     :rtype: ProblemGraph
     """
-    logger.debug("executing anneal command")
+    logger.debug('executing anneal command')
     assert problem is None or isinstance(problem, ProblemGraph)
     assert schedule is None or isinstance(schedule, Callable)
     if problem is None:

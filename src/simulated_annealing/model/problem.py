@@ -11,7 +11,7 @@ from ..core.logger import logger
 from .node import Neuron
 
 
-__all__ = ["ProblemGraph"]
+__all__ = ['ProblemGraph']
 
 
 class ProblemGraph(TopologicalSorter):
@@ -25,9 +25,9 @@ class ProblemGraph(TopologicalSorter):
         :type evaluate: Callable
         :raises TypeError: If initial is None
         """
-        logger.debug("initializing %s", self.__class__.__name__)
+        logger.debug('initializing %s', self.__class__.__name__)
         if initial is None:
-            raise TypeError("initial : Neuron - Cannot be None")
+            raise TypeError('initial : Neuron - Cannot be None')
         super().__init__({initial: {}})
         self.initial : Neuron = self._node2info[initial].node
         self.finished_graph = None

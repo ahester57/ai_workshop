@@ -1,11 +1,11 @@
 # Simulated Annealing
 
 A simulated annealing process to determine the optimal weight values of an artificial neuron.
-The neuron serves as a boolean function for a logic gate. In this example a NAND gate is replicated.
+The neuron serves as a boolean function for a logic gate. In this example, a NAND-gate is replicated.
 
 That is, the weights of the linear equation $(W_x, W_y, W_b)$ for the 
 function $f(n) = W_x*x + W_y*y + W_b$ should give results the same as a 
-NAND-gate for the input domains $X : \{0, 1\}$ and $ Y : \{0, 1\}$.
+NAND-gate for the input domains $X : \{0, 1\}$ and $Y : \{0, 1\}$.
 
 See the algorithm in [src/simulated_annealing/api/anneal.py](src/simulated_annealing/api/anneal.py).
 

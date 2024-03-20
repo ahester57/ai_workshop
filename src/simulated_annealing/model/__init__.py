@@ -4,4 +4,4 @@
 from .node import *
 from .problem import *
 
-__all__ = ["node", "problem"]
+__all__ = ['node', 'problem']

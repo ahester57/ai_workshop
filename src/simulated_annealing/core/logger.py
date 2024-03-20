@@ -10,15 +10,15 @@ from logging import Formatter, NullHandler, StreamHandler
 from typing import TextIO
 
 
-__all__ = ["logger"]
+__all__ = ['logger']
 
 
 class _Logger(getLoggerClass()):
     """ Message logger.
 
     """
-    LOGFMT = "%(asctime)s;%(levelname)s;%(name)s;%(message)s"
-    DFLTLEVEL = "WARN"
+    LOGFMT = '%(asctime)s;%(levelname)s;%(name)s;%(message)s'
+    DFLTLEVEL = 'WARN'
 
     def __init__(self, name:str|None=None) -> None:
         """ Initialize this logger.
@@ -81,4 +81,4 @@ class _Logger(getLoggerClass()):
 
 # Never instantiate a Logger object directly, always use getLogger().
 setLoggerClass(_Logger)  # applies to all subsequent getLogger() calls
-logger : _Logger = getLogger(__name__.split(".", maxsplit=1)[0])  # use application name
+logger : _Logger = getLogger(__name__.split('.', maxsplit=1)[0])  # use application name

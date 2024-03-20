@@ -16,7 +16,7 @@ from sys import executable
 from simulated_annealing.cli import *  # test __all__
 
 
-@pytest.fixture(params=("--help", "hello"))
+@pytest.fixture(params=('--help', 'hello'))
 def command(request):
     """ Return the command to run.
 
@@ -49,12 +49,12 @@ def test_script(command):
 
     """
     # Call with the --help option as a basic sanity check.
-    cmdl = f"{executable} -m simulated_annealing.cli {command} --help"
+    cmdl = f'{executable} -m simulated_annealing.cli {command} --help'
     assert 0 == call(cmdl.split())
     return
 
 
 # Make the script executable.
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(pytest.main([__file__]))

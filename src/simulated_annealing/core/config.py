@@ -21,7 +21,7 @@ except ModuleNotFoundError:
 from .logger import logger
 
 
-__all__ = ["config", "TomlConfig"]
+__all__ = ['config', 'TomlConfig']
 
 
 class _AttrDict(dict):
@@ -38,9 +38,9 @@ class _AttrDict(dict):
         """
         value = super().__getitem__(key)
         if isinstance(value, dict):
-            # For mixed recursive assignment (e.g. `a["b"].c = value` to work
+            # For mixed recursive assignment (e.g. `a['b'].c = value` to work
             # as expected, all dict-like values must themselves be _AttrDicts.
-            # The "right way" to do this would be to convert to an _AttrDict on
+            # The 'right way' to do this would be to convert to an _AttrDict on
             # assignment, but that requires overriding both __setitem__
             # (straightforward) and __init__ (good luck). An explicit type
             # check is used here instead of EAFP because exceptions would be
@@ -122,10 +122,10 @@ class TomlConfig(_AttrDict):
         for path in sys_paths:
             # Comments must be stripped prior to template substitution to avoid
             # any unintended semantics such as stray `$` symbols.
-            comment = re.compile(r"\s*#.*$", re.MULTILINE)
-            with open(path, "rt", encoding="UTF-8") as stream:
-                logger.info("Reading config data from '%s'", path)
-                conf = comment.sub("", stream.read())
+            comment = re.compile(r'\s*#.*$', re.MULTILINE)
+            with open(path, 'rt', encoding='UTF-8') as stream:
+                logger.info('Reading config data from "%s"', path)
+                conf = comment.sub('', stream.read())
                 toml = Template(conf).substitute(params)
                 data = tomllib.loads(toml)
             if root:

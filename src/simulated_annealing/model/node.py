@@ -10,7 +10,7 @@ from typing import override
 from ..core.logger import logger
 
 
-__all__ = ["Neuron"]
+__all__ = ['Neuron']
 
 
 class Neuron(object):
@@ -23,7 +23,7 @@ class Neuron(object):
         :type weights: tuple[int]
         :raises TypeError: If weights is not of length .node.Neuron.DIM_W.
         """
-        logger.debug("initializing %s", self.__class__.__name__)
+        logger.debug('initializing %s', self.__class__.__name__)
         if weights is None:
             raise TypeError(f'weights : tuple[int] : Must exist.')
         if not isinstance(weights, Iterable) and len(weights) != self.DIM_W:

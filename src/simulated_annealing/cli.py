@@ -13,7 +13,7 @@ from .core.config import config
 from .core.logger import logger
 
 
-__all__ = ["main"]
+__all__ = ['main']
 
 
 def main(argv:Sequence[str]|None=None) -> int:
@@ -26,13 +26,13 @@ def main(argv:Sequence[str]|None=None) -> int:
     """
     args : Namespace = _args(argv)
     logger.start(args.warn)
-    logger.debug("starting execution")
+    logger.debug('starting execution')
     config.load(args.config, params=environ)
     config.core.config = args.config
     if args.warn:
         config.core.logging = args.warn
     logger.stop()  # clear handlers to prevent duplicate records
-    logger.start(config.core.get("logging"))
+    logger.start(config.core.get('logging'))
     command = args.command
     args_dict : dict[str, Any] = vars(args)
     spec = getfullargspec(command)
@@ -45,7 +45,7 @@ def main(argv:Sequence[str]|None=None) -> int:
     except RuntimeError as err:
         logger.critical(err)
         return 1
-    logger.debug("successful completion")
+    logger.debug('successful completion')
     return 0
 
 
@@ -58,17 +58,17 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     :rtype: Namespace
     """
     parser = ArgumentParser()
-    parser.add_argument("-c", "--config", action="append",
-            help="config file [etc/config.toml]")
-    parser.add_argument("-v", "--version", action="version",
-            version=f"simulated-annealing {__version__}",
-            help="print version and exit")
-    parser.add_argument("-w", "--warn", # default not needed due to logger.start having default
-            help="logger warning level [WARN]")
+    parser.add_argument('-c', '--config', action='append',
+            help='config file [etc/config.toml]')
+    parser.add_argument('-v', '--version', action='version',
+            version=f'simulated-annealing {__version__}',
+            help='print version and exit')
+    parser.add_argument('-w', '--warn', # default not needed due to logger.start having default
+            help='logger warning level [WARN]')
     parser.set_defaults(command=None)
-    subparsers = parser.add_subparsers(title="subcommands")
+    subparsers = parser.add_subparsers(title='subcommands')
     common = ArgumentParser(add_help=False)  # common subcommand arguments
-    # common.add_argument("-d", "--draw-graph", default=True, help="visualize graph")
+    # common.add_argument('-d', '--draw-graph', default=True, help='visualize graph')
     _anneal(subparsers, common)
     args = parser.parse_args(argv)
     if not args.command:
@@ -78,7 +78,7 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     if not args.config:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = "etc/config.toml"
+        args.config = 'etc/config.toml'
     return args
 
 
@@ -90,18 +90,18 @@ def _anneal(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     :param common: parser for common subcommand arguments
     :type common: ArgumentParser
     """
-    parser = subparsers.add_parser("anneal", parents=[common])
+    parser = subparsers.add_parser('anneal', parents=[common])
     parser.set_defaults(command=anneal)
 
 
 # Make the module executable.
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         STATUS = main()
     except Exception as _err:
         # Error handler of last resort.
         logger.error(repr(_err))
-        logger.critical("shutting down due to fatal error")
+        logger.critical('shutting down due to fatal error')
         raise  # print stack trace
     raise SystemExit(STATUS)

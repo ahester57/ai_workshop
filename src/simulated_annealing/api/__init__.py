@@ -4,4 +4,4 @@
 from .hello import main as hello
 from .anneal import main as anneal
 
-__all__ = ["hello", "anneal"]
+__all__ = ['hello', 'anneal']

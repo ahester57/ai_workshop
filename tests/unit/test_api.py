@@ -16,7 +16,7 @@ def test_hello():
     """ Test the hello() function.
 
     """
-    assert hello() == "Hello, World!"
+    assert hello() == 'Hello, World!'
     return
 
 
@@ -24,11 +24,11 @@ def test_hello_name():
     """ Test the hello() function with a name.
 
     """
-    assert hello("foo") == "Hello, foo!"
+    assert hello('foo') == 'Hello, foo!'
     return
 
 
 # Make the script executable.
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(pytest.main([__file__]))
