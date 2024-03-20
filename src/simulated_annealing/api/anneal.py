@@ -12,22 +12,19 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
       else current <- next only with probability e^(-delta_E/T)
 ```
 
-Stuart Russel, Peter Norvig. "Artificial Intelligence: A Modern Approach, 4th Edition" (2021)
+Stuart Russel, Peter Norvig. 'Artificial Intelligence: A Modern Approach, 4th Edition' (2021)
 """
+import networkx as nx
 import numpy as np
 
 from graphlib import CycleError
 from typing import Callable
 
 try:
-    # for visual mode. `pip install -e .[visual]
+    # for visual mode. `pip install -e .[visual]`
     import matplotlib.pyplot as plt
-    import networkx as nx
-    DiGraph = nx.DiGraph
 except ModuleNotFoundError:
     plt = None
-    nx = None
-    class DiGraph: pass
 
 from ..core.logger import logger
 from ..model.problem import ProblemGraph
@@ -45,7 +42,7 @@ def _anneal_step(
         T:float,
         current:Neuron,
         successor:Neuron,
-        G:DiGraph|None=None
+        G:nx.DiGraph
     ) -> Neuron:
     """ Execute one step of the simulated annealing function.
     
@@ -57,29 +54,27 @@ def _anneal_step(
     :type current: Neuron
     :param successor: One of the neighboring nodes, enticing.
     :type successor: Neuron
-    :param G: The network graph, if visual mode enabled.
-    :type G: networkx.DiGraph|None
+    :param G: The network graph.
+    :type G: networkx.DiGraph
     :return: Next node, evaluation of next, delta_E
     :rtype: Neuron, float, float
     """
     e_value = problem.evaluate_node(successor)
     delta_E = problem.evaluate_node(current) - e_value
-    logger.debug(f"delta_E: {delta_E}")
-    logger.debug(f"e_value: {e_value}")
+    logger.debug(f'delta_E: {delta_E}')
+    logger.debug(f'e_value: {e_value}')
     if delta_E > 0:
-        logger.debug("Taking successor as better option (exploitation)")
+        logger.debug('Taking successor as better option (exploitation)')
         problem.add(successor, current) # Trace the path
-        if G is not None:
-            G.add_edge(current, successor)
+        G.add_edge(current, successor)
         return successor, e_value, delta_E
     else:
         logger.debug(T)
         probability = np.exp(delta_E / T)
         if np.random.default_rng().uniform() < probability:
-            logger.debug("Taking successor with probability %d%s (exploration)", probability*100, '%')
+            logger.debug('Taking successor with probability %d%s (exploration)', probability*100, '%')
             problem.add(successor, current) # Trace the path
-            if G is not None:
-                G.add_edge(current, successor)
+            G.add_edge(current, successor) # confusing, ik
             return successor, e_value, delta_E
     return current, e_value, delta_E
 
@@ -87,7 +82,7 @@ def _anneal_step(
 def _anneal_loop(
         problem:ProblemGraph|None=None,
         schedule:Callable=lambda x : x / 1.2,
-        G:DiGraph|None=None
+        G:nx.DiGraph=None
     ) -> Neuron:
     """ Execute the simulated annealing algorithm.
     
@@ -95,16 +90,16 @@ def _anneal_loop(
     :type problem: ProblemGraph
     :param schedule: Temperature function
     :type schedule: Callable
-    :param G: The network graph, if visual mode enabled.
-    :type G: networkx.DiGraph|None
+    :param G: The network graph.
+    :type G: networkx.DiGraph
     :return: The winner
     :rtype: Neuron
     """
-    logger.debug("executing anneal command")
+    logger.debug('executing anneal command')
     assert isinstance(problem, ProblemGraph)
     assert isinstance(schedule, Callable)
     current = problem.initial
-    logger.debug("Initial: %s", current)
+    logger.debug('Initial: %s', current)
     if GRAPH_TEMP:
         T_history = []
     if GRAPH_OBJECTIVE:
@@ -133,26 +128,26 @@ def _anneal_loop(
             delta_history.append(delta_E)
     if current.error > 0.5:
         return current
-    if G is not None and GRAPH_TEMP:
+    if plt is not None and GRAPH_TEMP:
         steps = np.arange(1, len(T_history)+1)
         plt.plot(steps, T_history, marker='o')
-        plt.title("Temperature over Time")
-        plt.xlabel("Step")
-        plt.ylabel("Temperature Value")
+        plt.title('Temperature over Time')
+        plt.xlabel('Step')
+        plt.ylabel('Temperature Value')
         plt.show()
-    if G is not None and GRAPH_OBJECTIVE:
+    if plt is not None and GRAPH_OBJECTIVE:
         steps = np.arange(1, len(eval_history)+1)
         plt.plot(steps, eval_history, marker='o')
-        plt.title("Objective Fn. Value over Time")
-        plt.xlabel("Step")
-        plt.ylabel("Objection Fn. Value")
+        plt.title('Objective Fn. Value over Time')
+        plt.xlabel('Step')
+        plt.ylabel('Objection Fn. Value')
         plt.show()
-    if G is not None and GRAPH_DELTA_E:
+    if plt is not None and GRAPH_DELTA_E:
         steps = np.arange(1, len(delta_history)+1)
         plt.plot(steps, delta_history, marker='o')
-        plt.title("Delta E Value over Time")
-        plt.xlabel("Step")
-        plt.ylabel("Delta E Value")
+        plt.title('Delta E Value over Time')
+        plt.xlabel('Step')
+        plt.ylabel('Delta E Value')
         plt.show()
     return current
 
@@ -176,9 +171,7 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.22) 
         schedule = lambda x : x / 1.2
     for attempt in range(1, 100):
         # Random Restarts 100x or until err < 0.5
-        G = None
-        if plt is not None and nx is not None:
-            G = nx.DiGraph()
+        G = nx.DiGraph()
         # Run simulated annealing
         winner = _anneal_loop(problem, schedule, G)
         try:
@@ -186,21 +179,23 @@ def main(problem:ProblemGraph|None=None, schedule:Callable=lambda x : x / 1.22) 
             static_order = tuple(problem.static_order())
         except CycleError as cycerr:
             logger.warn(cycerr)
-            static_order = 'cycle'
-        logger.debug(f"Static Order: {static_order}")
-        logger.info("Winner: %s", winner)
-        logger.info("Path Length: %s", len(problem.graph.keys()))
+            static_order = 'cycle detected'
+        logger.debug(f'Static Order: {static_order}')
+        logger.info('Winner: %s', winner)
+        logger.info('Path Length: %s', len(problem.graph.keys()))
         if winner.error < 0.5:
             break
-        logger.warn("Winner not good enough, restarting with attempt #%d.", attempt)
+        logger.warn('Winner not good enough, restarting with attempt #%d.', attempt)
         problem = ProblemGraph(Neuron(0, 0, 0))
-    if G is not None:
-        logger.info("Graph Length: %s", len(G))
+    logger.info('Graph Length: %s', len(G))
+    if plt is not None:
         pos = nx.kamada_kawai_layout(G, weight=None)
         nx.draw(G, pos, with_labels=True, node_color='blue', edge_color='grey', node_size=20)
         plt.show()
+    else:
+        logger.info(f'Adjacency data: {nx.adjacency_data(G)}')
     return problem
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
