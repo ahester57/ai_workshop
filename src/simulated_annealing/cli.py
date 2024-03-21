@@ -8,7 +8,7 @@ from os import environ
 from typing import Any, Sequence
 
 from . import __version__
-from .api import anneal
+from .api import anneal, svm
 from .core.config import config
 from .core.logger import logger
 
@@ -68,8 +68,8 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     parser.set_defaults(command=None)
     subparsers = parser.add_subparsers(title='subcommands')
     common = ArgumentParser(add_help=False)  # common subcommand arguments
-    # common.add_argument('-d', '--draw-graph', default=True, help='visualize graph')
     _anneal(subparsers, common)
+    _svm(subparsers, common)
     args = parser.parse_args(argv)
     if not args.command:
         # No subcommand was specified.
@@ -91,9 +91,22 @@ def _anneal(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     :type common: ArgumentParser
     """
     parser = subparsers.add_parser('anneal', parents=[common])
-    parser.add_argument('--draw', dest='draw', action='store_true', help='visualize graph')
+    parser.add_argument('-d', '--draw', dest='draw_graph', action='store_true', help='visualize graph')
     parser.set_defaults(command=anneal)
 
+
+def _svm(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
+    """ CLI adaptor for the api.svm command.
+
+    :param subparsers: subcommand parsers
+    :type subparsers: _SubParsersAction
+    :param common: parser for common subcommand arguments
+    :type common: ArgumentParser
+    """
+    parser = subparsers.add_parser('svm', parents=[common])
+    parser.add_argument('-f', '--file', dest='dataset_filename', required=True,
+                        type=str, help='.csv file containing your dataset')
+    parser.set_defaults(command=svm)
 
 # Make the module executable.
 

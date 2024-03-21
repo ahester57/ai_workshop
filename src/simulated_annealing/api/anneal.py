@@ -153,11 +153,11 @@ def _anneal_loop(
     return current
 
 
-def main(draw:bool=False, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
+def main(draw_graph:bool=False, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
     """ Entrypoint to the simulated annealing algorithm.
     
-    :param draw: Whether or not to draw the graphs. Disabled is visual not installed.
-    :type draw: bool
+    :param draw_graph: Whether or not to draw the graphs. Disabled is visual not installed.
+    :type draw_graph: bool
     :param schedule: Temperature function
     :type schedule: Callable
     :return: The problem with solution search graph.
@@ -166,7 +166,7 @@ def main(draw:bool=False, schedule:Callable=lambda x : x / 1.2) -> ProblemGraph:
     logger.debug('executing anneal command')
     assert schedule is None or isinstance(schedule, Callable)
     global plt
-    if not draw:
+    if not draw_graph:
         plt = None
         logger.warning('not drawing graphs')
     elif plt is None:
