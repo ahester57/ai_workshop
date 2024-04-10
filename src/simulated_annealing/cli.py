@@ -8,7 +8,7 @@ from os import environ
 from typing import Any, Sequence
 
 from . import __version__
-from .api import anneal, svm
+from .api import anneal, svm, convolve
 from .core.config import config
 from .core.logger import logger
 
@@ -70,6 +70,7 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     common = ArgumentParser(add_help=False)  # common subcommand arguments
     _anneal(subparsers, common)
     _svm(subparsers, common)
+    _convolve(subparsers, common)
     args = parser.parse_args(argv)
     if not args.command:
         # No subcommand was specified.
@@ -107,6 +108,21 @@ def _svm(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     parser.add_argument('-f', '--file', dest='dataset_filename', required=True,
                         type=str, help='.csv file containing your dataset')
     parser.set_defaults(command=svm)
+
+
+def _convolve(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
+    """ CLI adaptor for the api.convolve command.
+
+    :param subparsers: subcommand parsers
+    :type subparsers: _SubParsersAction
+    :param common: parser for common subcommand arguments
+    :type common: ArgumentParser
+    """
+    parser = subparsers.add_parser('convolve', parents=[common])
+    parser.add_argument('-f', '--file', dest='image_filename', required=True,
+                        type=str, help='.csv file containing your image as text')
+    parser.set_defaults(command=convolve)
+
 
 # Make the module executable.
 

@@ -88,6 +88,9 @@ def data_conversions(df:pd.DataFrame) -> pd.DataFrame:
     # check for "weird" data
     weird_check_cols = ['Test_date', TARGET_LABEL, 'Age_60_above', 'Sex', 'Known_contact']
     for col in weird_check_cols:
+        logger.debug(f'Column "{col}" distinct values:\t{df[col].unique()}')# check for "weird" data
+    weird_check_cols = ['Test_date', TARGET_LABEL, 'Age_60_above', 'Sex', 'Known_contact']
+    for col in weird_check_cols:
         logger.debug(f'Column "{col}" distinct values:\t{df[col].unique()}')
     # filter bools
     df = df.replace(to_replace={
@@ -144,7 +147,6 @@ def main(dataset_filename:str) -> str:
     # after some thought, I will remove the 'Test_date' from training set.
     X = X.drop(['Test_date'], axis=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
-    logger.info(f'Test set:\n{X_train.head()}')
     # ndf = X_train.apply(lambda x: (x - x.mean()) / x.std(), axis=0)
     # for predictor in ndf.columns[0:]:
     #     plt.hist(ndf[predictor])
