@@ -20,14 +20,8 @@ except ModuleNotFoundError:
 from ..core.logger import logger
 
 
-            # plt.plot(steps, delta_history, marker='o')
-            # plt.title('Delta E over Time')
-            # plt.xlabel('Step')
-            # plt.ylabel('Delta E Value')
-            # plt.show()
-
-def convolution2D(image2d, kernel3x3) -> np.ndarray:
-    """ Execute the command.
+def convolution2D(image2d:np.ndarray, kernel3x3:np.ndarray) -> np.ndarray:
+    """ Execute the convolve command.
     
     :param image2d: Image read into np.ndarray of 2 dimensions.
     :type image2d: np.ndarray
@@ -36,16 +30,28 @@ def convolution2D(image2d, kernel3x3) -> np.ndarray:
     :return: The convolved image.
     :rtype: np.ndarray
     """
-    convolved2d = np.zeros((len(image2d)-2, len(image2d)-2))
-    # TODO: Code here
-    return convolved2d
+    # Pad the array so we retain image size.
+    # Please note that this fixes the issue of shrinking image
+    image_padded = np.pad(image2d, pad_width=1)
+    # Initialize output
+    image_convolved = np.zeros(image2d.shape)
+    logger.debug(f'Kernel - Size = {kernel3x3.shape}')
+    for r in range(image2d.shape[0]): # loop over rows
+        for c in range(image2d.shape[1]): # loop over cols
+            # First step of loop is to extract the 'neighborhood'.
+            the_hood = image_padded[r:r+3, c:c+3]
+            # Sum the results of the Hadamard product
+            image_convolved[r][c] = np.sum(the_hood * kernel3x3)
+    return image_convolved
 
 
-def main(image_filename:str) -> np.ndarray:
+def main(image_filename:str, iterations:int=2) -> np.ndarray:
     """ Execute the command.
     
     :param image_filename: Name of a file. Use .csv for now.
     :type image_filename: str
+    :param iterations: How many convolutions to process.
+    :type iterations: int
     :return: The convolved image.
     :rtype: np.ndarray
     """
@@ -65,7 +71,7 @@ def main(image_filename:str) -> np.ndarray:
     edge_detect_filter_3x3 = np.array([[-1, -1, -1],[-1, 8, -1],[-1, -1, -1]])
 
     # Convolution
-    for i in range(2):
+    for i in range(iterations):
         convolved_image = convolution2D(image2d, edge_detect_filter_3x3)
         if plt is not None:
             sns.heatmap(convolved_image, cmap='gray')

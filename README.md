@@ -164,7 +164,7 @@ Once installed, the application can be run via the command line. Inside your vir
 ```bash
 (.venv)
 $ simulated_annealing --help
-usage: simulated_annealing [-h] [-c CONFIG] [-v] [-w WARN] {anneal} ...
+usage: simulated_annealing [-h] [-c CONFIG] [-v] [-w WARN] {anneal,svm,convolve} ...
 
 options:
   -h, --help            show this help message and exit
@@ -174,7 +174,7 @@ options:
   -w WARN, --warn WARN  logger warning level [WARN]
 
 subcommands:
-  {anneal}
+  {anneal,svm,convolve}
 (.venv-ai)
 ```
 

@@ -121,6 +121,8 @@ def _convolve(subparsers:_SubParsersAction, common:ArgumentParser) -> None:
     parser = subparsers.add_parser('convolve', parents=[common])
     parser.add_argument('-f', '--file', dest='image_filename', required=True,
                         type=str, help='.csv file containing your image as text')
+    parser.add_argument('-i', '--iterations', dest='iterations', type=int, default=2,
+                        help='Number of iterations to process. Default 2.')
     parser.set_defaults(command=convolve)
 
 
