@@ -45,7 +45,7 @@ def convolution2D(image2d:np.ndarray, kernel3x3:np.ndarray) -> np.ndarray:
     return image_convolved
 
 
-def main(image_filename:str, iterations:int=2) -> np.ndarray:
+def main(image_filename:str='my-cat.csv', iterations:int=2) -> np.ndarray:
     """ Execute the command.
     
     :param image_filename: Name of a file. Use .csv for now.
