@@ -18,5 +18,5 @@ We will be studying tabular, non-time-series data.
 
 ## Data Sources
 
-- [Crab Age Prediction](https://www.kaggle.com/datasets/sidhus/crab-age-prediction) on Kaggle
+- [Crab Age Prediction](https://www.kaggle.com/datasets/sidhus/crab-age-prediction) on Kaggle (10.34740/kaggle/dsv/2834512).
 - Tabular [archive.ics.uci.edu search query](https://archive.ics.uci.edu/datasets?skip=0&take=10&sort=desc&orderBy=NumHits&search=&Types=Tabular).
