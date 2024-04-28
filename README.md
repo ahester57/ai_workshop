@@ -63,7 +63,13 @@ $ python -m pytest -v tests/
 
 ### Documentation
 
-See the [docs](docs/) directory and see some [example output](docs/example_output.md).
+### Contents
+
+* [Simulated Annealing Temperature Analysis](ANNEAL.md)
+* [Support Vector Machines](SVM.md)
+* [Image Convolution](CONVOLVE.md)
+
+See the [docs](docs/) directory for more.
 
 ---
 

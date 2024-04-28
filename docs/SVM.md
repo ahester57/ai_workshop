@@ -32,7 +32,7 @@ options:
 
 ## Dataset
 
-Dataset used was breast cancer prediction dataset from kaggle.com.
+Dataset used was coronavirus prediction dataset [here](/docs/notebooks/data/corona-1.csv).
 
 Upon first loading the dataset, this warning is output:
 
