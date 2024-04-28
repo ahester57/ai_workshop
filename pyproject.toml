@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "simulated_annealing"
+name = "ai_workshop"
 description = "A simulated annealing process to determine the optimal weight values of an artificial neuron."
 authors = [
     { name = "Austin Hester", email = "ahester57@gmail.com" },
@@ -39,10 +39,10 @@ dependencies = [
 dynamic = ["version", "readme"]
 
 [project.urls]
-"Homepage" = "https://github.com/ahester57/simulated_annealing"
+"Homepage" = "https://github.com/ahester57/ai_workshop"
 
 [project.scripts]
-simulated_annealing = "simulated_annealing.cli:main"
+aiw = "ai_workshop.cli:main"
 
 [project.optional-dependencies]
 dev = [
@@ -60,7 +60,7 @@ visual = [
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "simulated_annealing.__version__"}
+version = {attr = "ai_workshop.__version__"}
 readme = {file = ["README.md"], content-type = "text/markdown"}
 
 [tool.setuptools.packages.find]

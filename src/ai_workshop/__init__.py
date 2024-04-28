@@ -1,4 +1,4 @@
-""" Package for the simulated_annealing application.
+""" Package for the ai_workshop application.
 
 """
 from .__version__ import __version__

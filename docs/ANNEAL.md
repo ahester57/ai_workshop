@@ -7,7 +7,7 @@ That is, the weights of the linear equation $(W_x, W_y, W_b)$ for the
 function $f(n) = W_x*x + W_y*y + W_b$ should give results the same as a 
 NAND-gate for the input domains $X : \{0, 1\}$ and $Y : \{0, 1\}$.
 
-See the algorithm in [src/simulated_annealing/api/anneal.py](src/simulated_annealing/api/anneal.py).
+See the algorithm in [src/ai_workshop/api/anneal.py](src/ai_workshop/api/anneal.py).
 
 Python 3.8+ is required.
 
@@ -25,9 +25,9 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
 
 ## Usage
 
-```bash
-$ simulated_annealing anneal -h
-usage: simulated_annealing anneal [-h] [-d]
+```shell
+$ aiw anneal -h
+usage: aiw anneal [-h] [-d]
 
 options:
   -h, --help  show this help message and exit

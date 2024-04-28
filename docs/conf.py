@@ -5,14 +5,14 @@
 """
 
 from datetime import datetime
-from simulated_annealing import __version__
+from ai_workshop import __version__
 
 
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'simulated_annealing'
+project = 'ai_workshop'
 author = '
 copyright = f'{datetime.now().year}, {author}'
 release = __version__

@@ -2,9 +2,9 @@
 
 ## Usage
 
-```bash
-$ simulated_annealing convolve -h
-usage: simulated_annealing convolve [-h] -f IMAGE_FILENAME [-i ITERATIONS]
+```shell
+$ aiw convolve -h
+usage: aiw convolve [-h] -f IMAGE_FILENAME [-i ITERATIONS]
 
 options:
   -h, --help            show this help message and exit

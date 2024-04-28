@@ -1,4 +1,4 @@
-""" Current version of the simulated_annealing application.
+""" Current version of the ai_workshop application.
 
 This project uses the Semantic Versioning scheme in conjunction with PEP 0440:
 
@@ -15,4 +15,4 @@ Version 0.x should be considered a development version with an unstable API,
 and backwards compatibility is not guaranteed for minor versions.
 
 """
-__version__ = '0.3a'
+__version__ = '0.4a'

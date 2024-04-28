@@ -61,7 +61,7 @@ def _args(argv:Sequence[str]|None) -> Namespace:
     parser.add_argument('-c', '--config', action='append',
             help='config file [etc/config.toml]')
     parser.add_argument('-v', '--version', action='version',
-            version=f'simulated-annealing {__version__}',
+            version=f'ai_workshop {__version__}',
             help='print version and exit')
     parser.add_argument('-w', '--warn', # default not needed due to logger.start having default
             help='logger warning level [WARN]')

@@ -1,13 +1,13 @@
 """ Main application entry point.
 
-    python -m simulated_annealing  ...
+    python -m aiw  ...
 
 """
 def main():
     """ Execute the application.
 
     """
-    print('Run as `simulated_annealing` from within .venv (exclude python -m)')
+    print('Run as `aiw` from within .venv (exclude python -m)')
     raise NotImplementedError
 
 

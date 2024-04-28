@@ -4,19 +4,28 @@
 
 ### Create a Virtual Environment
 
-Create the virtual environment, enter into it with `source`-ry.
+Create the virtual environment with the following commands:
 
-```bash
-$ python -m venv .venv
-$ source .venv/Scripts/activate
+```shell
+$ mkdir -p ~/dev
+$ python -m venv ~/dev/.venv
+$ source ~/dev/.venv/Scripts/activate
 $ echo "Confirm you're using the correct python with: "
 $ which python
 => Should show path to your .venv
 ```
 
-And install the package locally:
+Alternatively, you can use the provided bash scripts to enter into it with `source`-ry.
 
-```bash
+```shell
+$ ./create-venv.sh
+$ source source-me-to-activate-venv.sh
+```
+
+
+#### Install Development Dependencies
+
+```shell
 (.venv)
 $ pip install -e ".[dev]"
 ```
@@ -26,7 +35,7 @@ $ pip install -e ".[dev]"
 In the above, `".[dev]"` means you want to install the optional packages under 'dev' in [the project pyproject.toml](pyproject.toml).  
 There is also a visual mode driven by networkx and matplotlib. To install dev tools plus visual mode, use this pip install command instead:
 
-```bash
+```shell
 (.venv)
 $ pip install -e ".[dev,visual]"
 ```
@@ -37,16 +46,16 @@ See this reference for more info about [installing Python packages](https://pack
 
 Now you can run the application from within the virtual environment:
 
-```bash
+```shell
 (.venv)
-$ simulated_annealing
+$ aiw
 ```
 
 #### Test Suite
 
 Run tests:
 
-```bash
+```shell
 (.venv)
 $ python -m pytest -v tests/
 ```
@@ -62,10 +71,10 @@ See the [docs](docs/) directory and see some [example output](docs/example_outpu
 
 Once installed, the application can be run via the command line. Inside your virtual environment:
 
-```bash
+```shell
 (.venv)
-$ simulated_annealing --help
-usage: simulated_annealing [-h] [-c CONFIG] [-v] [-w WARN] {anneal,svm,convolve} ...
+$ aiw --help
+usage: aiw [-h] [-c CONFIG] [-v] [-w WARN] {anneal,svm,convolve} ...
 
 options:
   -h, --help            show this help message and exit
@@ -98,7 +107,7 @@ installation. Config file is located in [/etc](etc/).
 
 The application uses standard `Python logging`. All logging is to `STDERR`,
 and the logging level can be set via the config file or on the command line.
-Find the code in the [core module](src/simulated_annealing/core/).
+Find the code in the [core module](src/ai_workshop/core/).
 
 
 * [TOML](https://toml.io)
