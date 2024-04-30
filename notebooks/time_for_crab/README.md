@@ -12,12 +12,10 @@ Prediction (regression) of mud crab age based on physical features.
 
 
 - [Datasets](datasets/README.md)
-- [Exploratory Data Analysis](eda/README.md)
-- [Model Selection](models/README.md)
-- [Feature Engineering](features/README.md)
-- [Training](training/README.md)
-- [Evaluation](evaluation/README.md)
-- [References](references/README.md)
+- [Exploratory Data Analysis](0-eda/README.md)
+- [Model Selection](1-models/README.md)
+- [Feature Engineering](2-features/README.md)
+- [Evaluation](3-evaluation/README.md)
 
 See the [notebooks](Hester-CS5300-Time-for-Crab.ipynb) for more.
 

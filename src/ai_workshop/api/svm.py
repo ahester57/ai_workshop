@@ -154,7 +154,7 @@ def main(dataset_filename:str) -> str:
     #     plt.ylabel(predictor)
     #     plt.show()
     # logger.info(f'Normalized:\n{ndf.head()}')
-    # Input features
+    # Input 2-features
     logger.info(f'X_train: {X_train.shape}')
     logger.info(f'X_test: {X_test.shape}')
     if plt is not None:
@@ -162,7 +162,7 @@ def main(dataset_filename:str) -> str:
         plt.figure(figsize = (14,9))
         #sns.heatmap(X_train.corr(), cmap='GnBu', annot=True)
         plt.title('Correlation Graph')
-        # Plotting the heatmap to check the correlation between the Target Label and other features
+        # Plotting the heatmap to check the correlation between the Target Label and other 2-features
         sns.heatmap(df.corr()[[TARGET_LABEL]].sort_values(by=TARGET_LABEL, ascending=False), vmin=-1, vmax=1, annot=True, cmap='GnBu')
         plt.show()
     # create and train the model
