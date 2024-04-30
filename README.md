@@ -76,9 +76,9 @@ $ python -m pytest -v tests/
 
 ### Contents
 
-* [Simulated Annealing Temperature Analysis](ANNEAL.md)
-* [Support Vector Machines](SVM.md)
-* [Image Convolution](CONVOLVE.md)
+* [Simulated Annealing Temperature Analysis](docs/ANNEAL.md)
+* [Support Vector Machines](docs/SVM.md)
+* [Image Convolution](docs/CONVOLVE.md)
 
 See the [docs](docs/) directory for more.
 

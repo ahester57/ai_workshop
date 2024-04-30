@@ -5,3 +5,5 @@
 ### Feature Significance
 
 Remove features with low variance. These features are likely to be less important for the model.
+
+See the [notebook](features.ipynb) for more.
