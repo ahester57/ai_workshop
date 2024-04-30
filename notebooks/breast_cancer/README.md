@@ -14,3 +14,5 @@
 - What kind of evaluation metric is suitable for this task?
 - What kind of preprocessing is required for this task?
 - What kind of feature engineering is required for this task?
+
+See the [notebooks](Hester-CS5300-breast-cancer.ipynb) for more.

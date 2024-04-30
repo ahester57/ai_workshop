@@ -1,5 +1,16 @@
 # AI Workshop
 
+## Notebooks
+
+A [collection](notebooks) of Jupyter notebooks for various ML tasks.
+
+### Notebooks ToC
+
+- [Breast Cancer Classification](notebooks/breast_cancer/README.md)
+- [Simulated Annealing](notebooks/simulated_annealing/README.md)
+- [Support Vector Machines](notebooks/svm/README.md)
+- [Time for Crab](notebooks/time_for_crab/README.md)
+
 ## Development
 
 ### Create a Virtual Environment

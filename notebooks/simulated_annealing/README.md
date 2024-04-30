@@ -23,17 +23,8 @@ function SIMULATED-ANNEALING(problem, schedule) returns a solution State
       else current <- next only with probability e^(-delta_E/T)
 ```
 
-## Usage
+See the [Simulated Annealing](Hester-CS5300-simulated-annealing.ipynb-ext) notebook for more.
 
-```shell
-$ aiw anneal -h
-usage: aiw anneal [-h] [-d]
-
-options:
-  -h, --help  show this help message and exit
-  -d, --draw  visualize graph
-(.venv-ai)
-```
 ---
 
 ## Temperature Analysis

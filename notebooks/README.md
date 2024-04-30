@@ -8,3 +8,7 @@ A collection of Jupyter notebooks for various ML tasks.
 - [Simulated Annealing](simulated_annealing/README.md)
 - [Support Vector Machines](svm/README.md)
 - [Time for Crab](time_for_crab/README.md)
+
+## Datasets
+
+Local copies of the following datasets have been saved in */datasets directories for reproducibility.

@@ -19,6 +19,8 @@ Prediction (regression) of mud crab age based on physical features.
 - [Evaluation](evaluation/README.md)
 - [References](references/README.md)
 
+See the [notebooks](Hester-CS5300-Time-for-Crab.ipynb) for more.
+
 ## Reasons for Choosing This Dataset
 
 A good dataset is the foundation of a good model.
