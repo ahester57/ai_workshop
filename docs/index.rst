@@ -1,5 +1,5 @@
 ###################
-simulated_annealing
+AI Workshop
 ###################
 
 Contents:
@@ -16,4 +16,4 @@ Indices and tables
 - :ref:`modindex`
 - :ref:`search`
 
-.. ahester57/simulated-annealing: https://github.com/ahester57/simulated_annealing
+.. ahester57/ai_workshop: https://github.com/ahester57/ai_workshop

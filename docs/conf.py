@@ -13,7 +13,7 @@ from ai_workshop import __version__
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ai_workshop'
-author = '
+author = 'Austin Hester'
 copyright = f'{datetime.now().year}, {author}'
 release = __version__
 
