@@ -4,7 +4,7 @@ Crabs are here, and they're mighty tasty.
 
 Knowing how old they are helps identify full-sized crabs that are ready for the pot.
  
-![Crab](https://storage.googleapis.com/kaggle-datasets-images/1734027/2834512/a0e345e63b3e426ddb489d07cc0090cd/dataset-cover.jpg?t=2021-11-21-06-55-37)
+![Crab](https://upload.wikimedia.org/wikipedia/commons/b/b1/Mud_crab%2C_Scylla_serrate.jpg?20220920192756)
 
 Prediction (regression) of mud crab age based on physical features.
 
