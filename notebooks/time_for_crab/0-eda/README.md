@@ -5,6 +5,6 @@
 ## Table of Contents
 
 - [Exploratory Data Analysis](eda.ipynb)
-    - [Overfitting](verfit.ipynb)
+    - [Overfitting](overfit.ipynb)
 
 See the [notebooks](eda.ipynb) for more.

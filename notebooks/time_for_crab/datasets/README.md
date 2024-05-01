@@ -43,4 +43,8 @@ The crab dataset contains the following columns:
 
 ---
 
-Check out the [Exploratory Data Analysis](0-eda/README.md) notebook for more.
+### Notebook
+
+Check out the [Exploratory Data Analysis](../0-eda/README.md) notebook for more.
+
+---
