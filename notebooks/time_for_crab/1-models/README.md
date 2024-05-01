@@ -7,3 +7,7 @@
 - [Model Selection](models.ipynb) :joystick: :ballot_box:
 
 See the [notebook](models.ipynb) for more.
+
+---
+
+Return to [Time for Crab](../README.md).

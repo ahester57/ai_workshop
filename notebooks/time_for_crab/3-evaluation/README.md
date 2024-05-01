@@ -38,3 +38,7 @@ We'll use some of the following metrics to evaluate our model:
 - **Brier Score**: The mean squared difference between predicted probabilities and the true labels.
 - **Explained Variance Score**: The proportion of the variance in the dependent variable that is predictable from the independent variables.
 - **Max Error**: The maximum residual error.
+
+---
+
+Return to [Time for Crab](../README.md).

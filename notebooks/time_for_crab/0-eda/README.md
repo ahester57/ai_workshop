@@ -8,3 +8,13 @@
     - [Overfitting](overfit.ipynb) :pen: :dna:
 
 See the [notebooks](eda.ipynb) for more.
+
+### Linear Regression Resource :straight_ruler:
+
+Linear regression is used to overfit our crab data.
+
+> https://www.tensorflow.org/tutorials/keras/regression#linear_regression
+
+---
+
+Return to [Time for Crab](../README.md).
