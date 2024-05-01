@@ -2,6 +2,12 @@
 
 *In which we hope all the work we put into our model pays off.*
 
+## Table of Contents
+
+- [Evaluation](evaluation.ipynb)
+
+See the [notebook](evaluation.ipynb) for more.
+
 ## Evaluation Metrics
 
 We'll use some of the following metrics to evaluate our model:
@@ -32,5 +38,3 @@ We'll use some of the following metrics to evaluate our model:
 - **Brier Score**: The mean squared difference between predicted probabilities and the true labels.
 - **Explained Variance Score**: The proportion of the variance in the dependent variable that is predictable from the independent variables.
 - **Max Error**: The maximum residual error.
-
-See the [notebook](evaluation.ipynb) for more.

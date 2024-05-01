@@ -42,3 +42,5 @@ The crab dataset contains the following columns:
 | Age            | Age of the Crab (in months)                                                                         |
 
 ---
+
+Check out the [Exploratory Data Analysis](0-eda/README.md) notebook for more.
