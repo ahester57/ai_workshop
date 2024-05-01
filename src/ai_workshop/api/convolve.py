@@ -20,7 +20,7 @@ except ModuleNotFoundError:
 from ..core.logger import logger
 
 
-def convolution2D(image2d:np.ndarray, kernel3x3:np.ndarray) -> np.ndarray:
+def convolution2D(image2d: np.ndarray, kernel3x3: np.ndarray) -> np.ndarray:
     """ Execute the convolve command.
     
     :param image2d: Image read into np.ndarray of 2 dimensions.
@@ -36,16 +36,16 @@ def convolution2D(image2d:np.ndarray, kernel3x3:np.ndarray) -> np.ndarray:
     # Initialize output
     image_convolved = np.zeros(image2d.shape)
     logger.debug(f'Kernel - Size = {kernel3x3.shape}')
-    for r in range(image2d.shape[0]): # loop over rows
-        for c in range(image2d.shape[1]): # loop over cols
+    for r in range(image2d.shape[0]):  # loop over rows
+        for c in range(image2d.shape[1]):  # loop over cols
             # First step of loop is to extract the 'neighborhood'.
-            the_hood = image_padded[r:r+3, c:c+3]
+            the_hood = image_padded[r:r + 3, c:c + 3]
             # Sum the results of the Hadamard product
             image_convolved[r][c] = np.sum(the_hood * kernel3x3)
     return image_convolved
 
 
-def main(image_filename:str='my-cat.csv', iterations:int=2) -> np.ndarray:
+def main(image_filename: str = 'my-cat.csv', iterations: int = 2) -> np.ndarray:
     """ Execute the command.
     
     :param image_filename: Name of a file. Use .csv for now.
@@ -68,7 +68,9 @@ def main(image_filename:str='my-cat.csv', iterations:int=2) -> np.ndarray:
         plt.show()
 
     # Kernel
-    edge_detect_filter_3x3 = np.array([[-1, -1, -1],[-1, 8, -1],[-1, -1, -1]])
+    edge_detect_filter_3x3 = np.array([[-1, -1, -1],
+                                       [-1, 8, -1],
+                                       [-1, -1, -1]])
 
     # Convolution
     for i in range(iterations):

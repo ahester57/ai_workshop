@@ -10,12 +10,12 @@ Prediction (regression) of mud crab age based on physical features.
 
 ## Table of Contents
 
-- [Datasets](datasets/README.md)
-- [Exploratory Data Analysis](0-eda/README.md)
-    - [Overfitting](0-eda/overfit.ipynb)
-- [Model Selection](1-models/README.md)
-- [Feature Engineering](2-features/README.md)
-- [Evaluation](3-evaluation/README.md)
+- [Datasets](datasets/README.md) :fax: :open_file_folder:
+- [Exploratory Data Analysis](0-eda/README.md) :telescope: :mag_right:
+    - [Overfitting](0-eda/overfit.ipynb) :pen: :dna:
+- [Model Selection](1-models/README.md) :robot: :bar_chart:
+- [Feature Engineering](2-features/README.md) :paintbrush: :toolbox:
+- [Evaluation](3-evaluation/README.md) :microscope: :chart_with_upwards_trend:
 
 ## Reasons for Choosing This Dataset
 

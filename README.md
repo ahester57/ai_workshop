@@ -48,7 +48,7 @@ There is also a visual mode driven by networkx and matplotlib. To install dev to
 
 ```shell
 (.venv)
-$ pip install -e ".[dev,visual]"
+$ pip install -e ".[dev,jupyter]"
 ```
 
 See this reference for more info about [installing Python packages](https://packaging.python.org/en/latest/tutorials/installing-packages/).

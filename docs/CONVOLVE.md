@@ -1,5 +1,9 @@
 # Convolve
 
+Blur, sharpen, or otherwise manipulate an image using a convolution matrix.
+
+See the algorithm in [src/ai_workshop/api/convolve.py](/src/ai_workshop/api/convolve.py).
+
 ## Usage
 
 ```shell

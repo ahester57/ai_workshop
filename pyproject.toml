@@ -50,8 +50,7 @@ aiw = "ai_workshop.cli:main"
 [project.optional-dependencies]
 dev = [
     "pytest>=7.3.1,<8",
-    #"sphinx>=6.2.1,<7",
-    #"sphinx_rtd_theme>=1.2.1,<2"
+    "pytest-cov>=3.1.0,<4"
 ]
 jupyter = [
     "notebook>=7.1.1,<8"
