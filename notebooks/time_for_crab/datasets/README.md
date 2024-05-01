@@ -1,4 +1,4 @@
-# Datasets
+# Datasets :fax: :open_file_folder:
 
 We will be studying tabular, non-time-series data.
 
@@ -16,12 +16,9 @@ We will be studying tabular, non-time-series data.
 > 
 > https://mlcontests.com/tabular-data/
 
-## Data Sources
+### Notebook
 
-- [Crab Age Prediction](https://www.kaggle.com/datasets/sidhus/crab-age-prediction) on Kaggle (10.34740/kaggle/dsv/2834512).
-- Tabular [archive.ics.uci.edu search query](https://archive.ics.uci.edu/datasets?skip=0&take=10&sort=desc&orderBy=NumHits&search=&Types=Tabular).
-
-Accessed 2024-04-27.
+Check out the [Exploratory Data Analysis](../0-eda/README.md) notebook for more.
 
 ### Crab Age Prediction Dataset Columns
 
@@ -43,8 +40,11 @@ The crab dataset contains the following columns:
 
 ---
 
-### Notebook
+## Data Sources
 
-Check out the [Exploratory Data Analysis](../0-eda/README.md) notebook for more.
+- [Crab Age Prediction](https://www.kaggle.com/datasets/sidhus/crab-age-prediction) on Kaggle (10.34740/kaggle/dsv/2834512).
+- Tabular [archive.ics.uci.edu search query](https://archive.ics.uci.edu/datasets?skip=0&take=10&sort=desc&orderBy=NumHits&search=&Types=Tabular).
+
+Accessed 2024-04-27.
 
 ---

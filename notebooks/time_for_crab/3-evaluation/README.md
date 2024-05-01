@@ -1,10 +1,10 @@
-# Model Evaluation
+# Model Evaluation :microscope: :chart_with_upwards_trend:
 
 *In which we hope all the work we put into our model pays off.*
 
 ## Table of Contents
 
-- [Evaluation](evaluation.ipynb)
+- [Evaluation](evaluation.ipynb) :microscope: :chart_with_upwards_trend:
 
 See the [notebook](evaluation.ipynb) for more.
 

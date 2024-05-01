@@ -1,6 +1,6 @@
 # AI Workshop
 
-## Notebooks
+## Notebooks :ringed_planet: :notebook_with_decorative_cover:
 
 A [collection](notebooks) of Jupyter notebooks for various ML tasks.
 
@@ -9,7 +9,7 @@ A [collection](notebooks) of Jupyter notebooks for various ML tasks.
 - [Breast Cancer Classification](notebooks/breast_cancer/README.md)
 - [Simulated Annealing](notebooks/simulated_annealing/README.md)
 - [Support Vector Machines](notebooks/svm/README.md)
-- [Time for Crab](notebooks/time_for_crab/README.md) :crab:
+- [Time for Crab](notebooks/time_for_crab/README.md) :clock430: :crab:
 
 ## Development
 
@@ -70,7 +70,6 @@ Run tests:
 (.venv)
 $ python -m pytest -v tests/
 ```
-
 
 ### Documentation
 

@@ -1,4 +1,4 @@
-# Jupyter Notebooks
+# Jupyter Notebooks :ringed_planet: :notebook_with_decorative_cover:
 
 A collection of Jupyter notebooks for various ML tasks.
 
@@ -7,7 +7,7 @@ A collection of Jupyter notebooks for various ML tasks.
 - [Breast Cancer Classification](breast_cancer/README.md)
 - [Simulated Annealing](simulated_annealing/README.md)
 - [Support Vector Machines](svm/README.md)
-- [Time for Crab](time_for_crab/README.md) :crab:
+- [Time for Crab](time_for_crab/README.md) :clock430: :crab:
 
 ## Datasets
 
