@@ -4,10 +4,10 @@ import pandas as pd
 
 from sklearn.metrics import explained_variance_score, max_error, mean_squared_error, r2_score, mean_absolute_error
 
-__all__ = ['data_downcasting', 'display_df', 'score_comparator', 'score_model']
+__all__ = ['data_downcasting', 'display_df', 'plot_training_loss', 'score_comparator', 'score_model']
 
 
-def data_downcasting(df: pd.DataFrame) -> pd.DataFrame:
+def data_downcasting(df:pd.DataFrame) -> pd.DataFrame:
     """Reduce the memory usage of the DataFrame by downcasting numeric types.
 
     :param df: DataFrame to be reduced.
@@ -46,16 +46,15 @@ def data_downcasting(df: pd.DataFrame) -> pd.DataFrame:
     end_mem = df.memory_usage().sum() / 1024 ** 2
     print(f'Memory usage of dataframe is {end_mem:.4f} MB (after)')
     print(f'Reduced {100 * (start_mem - end_mem) / start_mem:.1f}%')
-
     return df
 
 
 def display_df(
-        df: pd.DataFrame,
-        show_info: bool = True,
-        show_missing: bool = False,
-        show_distinct: bool = False,
-        show_describe: bool = False
+        df:pd.DataFrame,
+        show_info:bool=True,
+        show_missing:bool=False,
+        show_distinct:bool=False,
+        show_describe:bool=False
 ):
     """Display the DataFrame.
 
@@ -78,11 +77,44 @@ def display_df(
         df.describe()
 
 
+def plot_training_loss(history:pd.DataFrame):
+    """Plot the training loss over time.
+
+    :param history: The history object from the model training.
+    """
+    plt.figure(figsize=(20, 10))
+    plt.title('Training Loss over Time')
+    plt.plot(history.history['loss'], label='loss')
+    plt.plot(history.history['val_loss'], label='val_loss')
+    plt.ylim([0, 10])
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+def score_combine(leaderboard:pd.DataFrame, qualifier:pd.DataFrame) -> pd.DataFrame:
+    """Combine two score DataFrames.
+
+    :param leaderboard: The scores accumulated so far.
+    :param qualifier: The scores to add to the leaderboard.
+    """
+    leaderboard = pd.concat(
+        [
+            leaderboard,  # only add to combination if it's not already there
+            qualifier[~qualifier.index.isin(leaderboard.index)]
+        ]
+        , axis=0
+    )
+    return leaderboard
+
+
 def score_comparator(
-        train_scores: pd.DataFrame,
-        test_scores: pd.DataFrame,
-        train_label: str = 'Train',
-        test_label: str = 'Test'
+        train_scores:pd.DataFrame,
+        test_scores:pd.DataFrame,
+        train_label:str='train',
+        test_label:str='test'
 ):
     """Plot the scores of two models to compare them.
 
@@ -90,8 +122,8 @@ def score_comparator(
 
     :param train_scores: The scores of the training model.
     :param test_scores: The scores of the testing model.
-    :param train_label: The label for the training model. Default is 'Train'.
-    :param test_label: The label for the testing model. Default is 'Test'.
+    :param train_label: The label for the training model. Default is 'train'.
+    :param test_label: The label for the testing model. Default is 'test'.
     """
     fig, axs = plt.subplots(len(train_scores.columns), sharex=True, figsize=(10, 10))
     for i, col in enumerate(train_scores.columns):
@@ -101,17 +133,19 @@ def score_comparator(
         axs[i].set_xticks(ticks=[0, 1], labels=[train_label, test_label])
 
 
-def score_model(preds, target):
+def score_model(preds, target, index:str='index') -> pd.DataFrame:
     """Score the model using some common regression metrics.
 
     :param preds: Predictions by the model.
     :param target: Target values.
-    :return: Dictionary of scores.
+    :param index: Index for the DataFrame. Default is 'index'.
+    :return: DataFrame of scores.
     """
-    return {
+    scores = {
         'mean_squared_error': mean_squared_error(preds, target),
         'mean_absolute_error': mean_absolute_error(preds, target),
         'explained_variance_score': explained_variance_score(preds, target),
         'r2_score': r2_score(preds, target),
         'max_error': max_error(preds, target),
     }
+    return pd.DataFrame(scores, index=[index])
