@@ -52,6 +52,11 @@ aiw = "ai_workshop.cli:main"
 dev = [
     "pytest>=7.4.4,<8"
 ]
+gpu = [
+    "torch>=2.3.0,<3", # +cu121
+    "torchvision>=0.18.0,<1" # +cu121
+    # may need to use `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121`
+]
 jupyter = [
     "notebook>=7.1.3,<8"
 ]
