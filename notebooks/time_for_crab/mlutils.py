@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from sklearn.metrics import explained_variance_score, max_error, mean_squared_error, r2_score
+from sklearn.metrics import explained_variance_score, max_error, mean_squared_error, r2_score, mean_absolute_error
 
 __all__ = ['data_downcasting', 'display_df', 'score_comparator', 'score_model']
 
@@ -93,14 +93,12 @@ def score_comparator(
     :param train_label: The label for the training model. Default is 'Train'.
     :param test_label: The label for the testing model. Default is 'Test'.
     """
-
+    fig, axs = plt.subplots(len(train_scores.columns), sharex=True, figsize=(10, 10))
     for i, col in enumerate(train_scores.columns):
-        plt.figure()
-        plt.title(f'{train_label} vs {test_label}\n{col}')
-        plt.bar(i * 2, train_scores[col])
-        plt.bar(i * 2 + 1, test_scores[col])
-        plt.xticks(ticks=[i * 2, i * 2 + 1], labels=[train_label, test_label])
-    plt.show()
+        axs[i].set_title(f'{col}')
+        axs[i].bar(0, train_scores[col])
+        axs[i].bar(1, test_scores[col])
+        axs[i].set_xticks(ticks=[0, 1], labels=[train_label, test_label])
 
 
 def score_model(preds, target):
@@ -111,8 +109,9 @@ def score_model(preds, target):
     :return: Dictionary of scores.
     """
     return {
-        'explained_variance_score': explained_variance_score(preds, target),
-        'max_error': max_error(preds, target),
         'mean_squared_error': mean_squared_error(preds, target),
-        'r2_score': r2_score(preds, target)
+        'mean_absolute_error': mean_absolute_error(preds, target),
+        'explained_variance_score': explained_variance_score(preds, target),
+        'r2_score': r2_score(preds, target),
+        'max_error': max_error(preds, target),
     }
