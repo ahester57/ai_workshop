@@ -1,7 +1,10 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-__all__ = ['data_downcasting', 'display_df']
+from sklearn.metrics import explained_variance_score, max_error, mean_squared_error, r2_score
+
+__all__ = ['data_downcasting', 'display_df', 'score_comparator', 'score_model']
 
 
 def data_downcasting(df: pd.DataFrame) -> pd.DataFrame:
@@ -47,16 +50,23 @@ def data_downcasting(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def display_df(df: pd.DataFrame, show_info: bool = True, show_missing: bool = False, show_distinct: bool = False):
+def display_df(
+        df: pd.DataFrame,
+        show_info: bool = True,
+        show_missing: bool = False,
+        show_distinct: bool = False,
+        show_describe: bool = False
+):
     """Display the DataFrame.
 
     :param df: The data.
     :param show_info: Whether to show info on the data.
     :param show_missing: Whether to show missing data counts.
     :param show_distinct: Whether to show distinct values.
+    :param show_describe: Whether to show the describe method.
     """
     print(f'DataFrame shape: {df.shape}')
-    print(f'First 5 rows:\n{df.head()}') # preview the first 5 rows
+    print(f'First 5 rows:\n{df.head()}')  # preview the first 5 rows
     if show_info:
         print(f'Info:\n{df.info()}')
     if show_missing:
@@ -64,3 +74,45 @@ def display_df(df: pd.DataFrame, show_info: bool = True, show_missing: bool = Fa
     if show_distinct:
         for col in df:
             print(f'{col} distinct values:\n{df[col].unique()[0:10]}')
+    if show_describe:
+        df.describe()
+
+
+def score_comparator(
+        train_scores: pd.DataFrame,
+        test_scores: pd.DataFrame,
+        train_label: str = 'Train',
+        test_label: str = 'Test'
+):
+    """Plot the scores of two models to compare them.
+
+    Disclaimer: Columns may or may not need to match.
+
+    :param train_scores: The scores of the training model.
+    :param test_scores: The scores of the testing model.
+    :param train_label: The label for the training model. Default is 'Train'.
+    :param test_label: The label for the testing model. Default is 'Test'.
+    """
+
+    for i, col in enumerate(train_scores.columns):
+        plt.figure()
+        plt.title(f'{train_label} vs {test_label}\n{col}')
+        plt.bar(i * 2, train_scores[col])
+        plt.bar(i * 2 + 1, test_scores[col])
+        plt.xticks(ticks=[i * 2, i * 2 + 1], labels=[train_label, test_label])
+    plt.show()
+
+
+def score_model(preds, target):
+    """Score the model using some common regression metrics.
+
+    :param preds: Predictions by the model.
+    :param target: Target values.
+    :return: Dictionary of scores.
+    """
+    return {
+        'explained_variance_score': explained_variance_score(preds, target),
+        'max_error': max_error(preds, target),
+        'mean_squared_error': mean_squared_error(preds, target),
+        'r2_score': r2_score(preds, target)
+    }
