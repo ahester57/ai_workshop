@@ -23,6 +23,7 @@ We'll use some of the following metrics to evaluate our model:
 - **Mean Squared Logarithmic Error (MSLE)**: The average of the squared logarithmic differences between predictions and actual values.
 - **Root Mean Squared Logarithmic Error (RMSLE)**: The square root of the average of the squared logarithmic differences between predictions and actual values.
 - **Receiver Operating Characteristic (ROC) Curve**: A graphical representation of the true positive rate against the false positive rate.
+- **Regression Receiver Operating Characteristic (RROC) Curve**: A graphical representation of the true positive rate against the false positive rate for regression problems.
 - **Precision-Recall Curve**: A graphical representation of the precision against the recall.
 - **F1 Score**: The harmonic mean of precision and recall.
 - **Confusion Matrix**: A table that shows the number of true positives, false positives, true negatives, and false negatives.
