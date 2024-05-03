@@ -7,7 +7,7 @@
 - [Exploratory Data Analysis](eda.ipynb) :telescope: :mag_right:
     - [Overfitting](overfit.ipynb) :pen: :dna:
 
-See the [notebooks](eda.ipynb) for more.
+See the [notebooks](https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb) for more.
 
 ### Linear Regression Resource :straight_ruler:
 

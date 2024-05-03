@@ -6,7 +6,7 @@
 
 - [Evaluation](evaluation.ipynb) :microscope: :chart_with_upwards_trend:
 
-See the [notebook](evaluation.ipynb) for more.
+See the [notebook](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/3-evaluation/evaluation.ipynb) for more.
 
 ## Evaluation Metrics
 

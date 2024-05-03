@@ -6,7 +6,7 @@
 
 - [Model Selection](models.ipynb) :joystick: :ballot_box:
 
-See the [notebook](models.ipynb) for more.
+See the [notebook](https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/1-models/models.ipynb) for more.
 
 ---
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ai_workshop"
-description = "A simulated annealing process to determine the optimal weight values of an artificial neuron."
+description = "A collection of AI tools, tips, and training. This package is intended for educational purposes."
 authors = [
     { name = "Austin Hester", email = "ahester57@gmail.com" },
 ]

@@ -6,7 +6,7 @@
 
 - [Feature Engineering](features.ipynb) :paintbrush: :toolbox:
 
-See the [notebook](features.ipynb) for more.
+See the [notebook](https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/2-features/features.ipynb) for more.
 
 ---
 

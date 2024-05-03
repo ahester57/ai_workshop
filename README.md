@@ -11,6 +11,15 @@ A [collection](notebooks) of Jupyter notebooks for various ML tasks.
 - [Support Vector Machines](notebooks/svm/README.md)
 - [Time for Crab](notebooks/time_for_crab/README.md) :clock430: :crab:
 
+
+### Notebooks Viewer
+
+If you're having trouble viewing the notebooks in GitHub, try using [nbviewer](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb).
+
+https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb
+
+---
+
 ## Development
 
 ### Create a Virtual Environment

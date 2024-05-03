@@ -17,19 +17,8 @@ Knowing how old they are helps identify full-sized crabs that are ready for the 
 
 Prediction (regression) of mud crab age based on physical features.
 
-## Reasons for Choosing This Dataset
+## Notebook Viewer
 
-A good dataset is the foundation of a good model.
+If you're having trouble viewing the notebooks in GitHub, try using [nbviewer](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb).
 
-#### My reasons:
-
-- Highly-rated tabular data with a natural prediction target (Age).
-- Regression task since I like a challenge.
-- Features easy to conceptualize for feature engineering.
-- On the smaller side to quickly iterate on.
-- Crabs are cool.
-
-##### Reasons given by the [dataset on Kaggle](https://www.kaggle.com/datasets/sidhus/crab-age-prediction):
-
-> Its a great starting point for classical regression analysis and feature engineering and understand the impact of feature engineering in Data Science domain.
-> For a commercial crab farmer knowing the right age of the crab helps them decide if and when to harvest the crabs. Beyond a certain age, there is negligible growth in crab's physical characteristics and hence, it is important to time the harvesting to reduce cost and increase profit.
+https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb
