@@ -100,6 +100,7 @@ def score_combine(leaderboard:pd.DataFrame, qualifier:pd.DataFrame) -> pd.DataFr
     :param leaderboard: The scores accumulated so far.
     :param qualifier: The scores to add to the leaderboard.
     """
+    leaderboard = leaderboard.drop(qualifier.index, errors='ignore')
     leaderboard = pd.concat(
         [
             leaderboard,  # only add to combination if it's not already there
