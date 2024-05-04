@@ -77,13 +77,15 @@ def display_df(
         df.describe()
 
 
-def plot_training_loss(history:pd.DataFrame):
+def plot_training_loss(history:pd.DataFrame, model_name:str='', figsize:tuple=(20, 10)):
     """Plot the training loss over time.
 
     :param history: The history object from the model training.
+    :param model_name: The name of the model. Default is ''.
+    :param figsize: The size of the figure. Default is (20, 10).
     """
     plt.figure(figsize=(20, 10))
-    plt.title('Training Loss over Time')
+    plt.title(f'{model_name} Training Loss over Time')
     plt.plot(history.history['loss'], label='loss')
     plt.plot(history.history['val_loss'], label='val_loss')
     plt.ylim([0, 10])
