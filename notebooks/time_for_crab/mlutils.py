@@ -91,7 +91,6 @@ def plot_training_loss(history:pd.DataFrame):
     plt.ylabel('Loss')
     plt.legend()
     plt.grid(True)
-    plt.show()
 
 
 def score_combine(leaderboard:pd.DataFrame, qualifier:pd.DataFrame) -> pd.DataFrame:
