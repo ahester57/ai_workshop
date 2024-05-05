@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -77,22 +79,108 @@ def display_df(
         df.describe()
 
 
-def plot_training_loss(history:pd.DataFrame, model_name:str='', figsize:tuple=(20, 10)):
+def plot_training_loss(history:pd.DataFrame, model_name:str='', figsize:tuple[int]=(20, 10)):
     """Plot the training loss over time.
 
-    :param history: The history object from the model training.
+    Plot loss on the training set and loss on the validation set given a regression model's history dataframe.
+
+    :param history: The history dataframe from the model training.
     :param model_name: The name of the model. Default is ''.
     :param figsize: The size of the figure. Default is (20, 10).
     """
-    plt.figure(figsize=(20, 10))
+    plt.figure(figsize=figsize)
     plt.title(f'{model_name} Training Loss over Time')
     plt.plot(history.history['loss'], label='loss')
     plt.plot(history.history['val_loss'], label='val_loss')
     plt.ylim([0, 10])
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
-    plt.legend()
-    plt.grid(True)
+    plt.legend(loc='lower right')
+
+
+def plot_training_loss_from_dict(history_map:dict[str, pd.DataFrame], n_cols:int=2):
+    """Plot the training loss over time from a dictionary.
+
+    Input shape: {'model_name': history_dataframe}
+    """
+    if len(history_map) == 1:
+        n_cols = 1
+        n_rows = 1
+    else:
+        n_rows = len(history_map) // n_cols
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=(10 if n_rows == n_cols == 1 else 20, 10 * n_rows))
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=(20, 10*n_rows))
+    for i, items in enumerate(history_map.items()):
+        model_name, history = items
+        axs[i//n_cols][i%n_cols].plot(history['loss'], label='loss')
+        axs[i//n_cols][i%n_cols].plot(history['val_loss'], label='val_loss')
+        axs[i//n_cols][i%n_cols].set_title(f'{model_name} Training Loss over Time')
+        axs[i//n_cols][i%n_cols].set_ylim([0, 10])
+        axs[i//n_cols][i%n_cols].set_xlabel('Epoch')
+        axs[i//n_cols][i%n_cols].set_ylabel('Loss')
+        axs[i//n_cols][i%n_cols].legend(loc='lower right')
+
+
+def _decide_subplot_shape(n:int, n_cols:int=2) -> tuple[int, int]:
+    """Decide the shape of the subplots from the number of plots and columns.
+
+    :param n: The number of subplots.
+    :param n_cols: The number of columns. Default is 2.
+    :return: The shape of the subplots.
+    """
+    if n == 1:
+        return 1, 1
+    n_rows = n // n_cols
+    if n % n_cols > 0:
+        n_rows += 1
+    return n_rows, n_cols
+
+
+def _decide_subplot_size(shape=tuple[int]) -> tuple[int, int]:
+    """Decide the display size of the figure from a shape of subplots.
+
+    :param shape: The shape of the subplots.
+    :return: The size of the subplots.
+    """
+    return 10 if 1 == shape[0] == shape[1] else 20, 10*shape[0]
+
+
+def plot_true_vs_pred_from_dict(
+        pred_map:dict[str, dict[str, np.array]],
+        n_cols:int=2,
+        show_target_line:bool=False,
+        show_best_fit_line:bool=False):
+    """Plot the true vs predicted values from a dictionary.
+
+    Input shape: {'model_name': {'true': true_values, 'pred': predicted_values}}
+
+    :param pred_map: {'model_name': {'true': true_values, 'pred': predicted_values}}
+    :param n_cols: The number of columns to display. Default is 2.
+    :param show_target_line: Show the target line. This is a perfect guess. Default is False.
+    :param show_best_fit_line: Show the line of best fit. Default is False. WARNING!!! This can be slow.
+    """
+    n_rows, n_cols = _decide_subplot_shape(len(pred_map), n_cols)
+    # some framework
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size)
+    for i, items in enumerate(pred_map.items()):
+        model_name, preds = items
+        # if feature 'Show target line' is enabled
+        if show_target_line:
+            # draw a line with a slope of 1
+            upper_bound = max(preds['true'].max(), preds['pred'].max())
+            lower_bound = min(preds['true'].min(), preds['pred'].min())
+            axs[i//n_cols][i%n_cols].plot([lower_bound, upper_bound], [lower_bound, upper_bound], color='green')
+        # if feature 'Show line of best fit' is enabled
+        if show_best_fit_line:
+            # find the slope and intercept of the line of best fit
+            m, b = np.polyfit(preds['true'], preds['pred'], 1)
+            # add the line to the plot
+            axs[i//n_cols][i%n_cols].plot(preds['true'], m*preds['true'] + b, color='red')
+        # plot the true vs pred on a scatter plot
+        axs[i//n_cols][i%n_cols].scatter(preds['true'], preds['pred'], alpha=0.5)
+        axs[i//n_cols][i%n_cols].set_title(f'{model_name} True vs Predicted Age')
+        axs[i//n_cols][i%n_cols].set_xlabel('True Age')
+        axs[i//n_cols][i%n_cols].set_ylabel('Predicted Age')
 
 
 def score_combine(leaderboard:pd.DataFrame, qualifier:pd.DataFrame) -> pd.DataFrame:
@@ -127,7 +215,7 @@ def score_comparator(
     :param train_label: The label for the training model. Default is 'train'.
     :param test_label: The label for the testing model. Default is 'test'.
     """
-    fig, axs = plt.subplots(len(train_scores.columns), sharex=True, figsize=(10, 10))
+    fig, axs = plt.subplots(len(train_scores.columns), sharex=True, figsize=(10, 12))
     for i, col in enumerate(train_scores.columns):
         axs[i].set_title(f'{col}')
         axs[i].bar(0, train_scores[col])
@@ -135,6 +223,7 @@ def score_comparator(
         axs[i].set_xticks(ticks=[0, 1], labels=[train_label, test_label])
 
 
+# Add more scores here if needed, they'll automatically show up in the Notebook upon next run.
 def score_model(preds, target, index:str='index') -> pd.DataFrame:
     """Score the model using some common regression metrics.
 
@@ -148,6 +237,5 @@ def score_model(preds, target, index:str='index') -> pd.DataFrame:
         'mean_absolute_error': mean_absolute_error(preds, target),
         'explained_variance_score': explained_variance_score(preds, target),
         'r2_score': r2_score(preds, target),
-        'max_error': max_error(preds, target),
     }
     return pd.DataFrame(scores, index=[index])
