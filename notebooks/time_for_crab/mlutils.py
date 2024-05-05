@@ -22,13 +22,13 @@ def _decide_subplot_shape(n:int, n_cols:int=2) -> tuple[int, int]:
     """
     if n == 1:
         return 1, 1
-    n_rows = n // n_cols
+    n_rows = int(np.ceil(n // n_cols))
     if n % n_cols > 0:
         n_rows += 1
     return n_rows, n_cols
 
 
-def _decide_subplot_size(shape:tuple[int]) -> tuple[int, int]:
+def _decide_subplot_size(shape:tuple[int, int]) -> tuple[int, int]:
     """Decide the display size of the figure from a shape of subplots.
 
     :param shape: The shape of the subplots.
@@ -140,7 +140,7 @@ def plot_training_loss_from_dict(history_map:dict[str, pd.DataFrame], n_cols:int
 
     Input shape: {'model_name': history_dataframe}
     """
-    n_rows, n_cols = _decide_subplot_shape(len(history_map) + 1, n_cols)
+    n_rows, n_cols = _decide_subplot_shape(len(history_map), n_cols)
     fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size((n_rows, n_cols)))
     for i, items in enumerate(history_map.items()):
         model_name, history = items
@@ -167,7 +167,7 @@ def plot_true_vs_pred_from_dict(
     :param show_target_line: Show the target line. This is a perfect guess. Default is False.
     :param show_best_fit_line: Show the line of best fit. Default is False. WARNING!!! This can be slow.
     """
-    n_rows, n_cols = _decide_subplot_shape(len(pred_map)+1, n_cols)
+    n_rows, n_cols = _decide_subplot_shape(len(pred_map), n_cols)
     fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size((n_rows, n_cols)))
     for i, items in enumerate(pred_map.items()):
         model_name, preds = items
