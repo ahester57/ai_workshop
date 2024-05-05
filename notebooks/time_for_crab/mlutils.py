@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from keras.src.layers import Dense
 
+from keras.src.layers import Dense, Input, Normalization
+from keras.src.models import Sequential
 from sklearn.metrics import explained_variance_score, mean_squared_error, r2_score, mean_absolute_error
+
 
 __all__ = [
     'data_downcasting', 'display_df',
-    'generate_neural_pyramid',
+    'generate_neural_network', 'generate_neural_pyramid',
     'plot_training_loss', 'plot_training_loss_from_dict', 'plot_true_vs_pred_from_dict',
     'score_comparator', 'score_model'
 ]
@@ -36,15 +38,6 @@ def _decide_subplot_size(shape:tuple[int, int]) -> tuple[int, int]:
     """
     return 10 if 1 == shape[0] == shape[1] else 20, 10*shape[0]
 
-
-def generate_neural_pyramid(n_layers:int, n_max_neurons:int) -> list[Dense]:
-    """Generate a pyramid of neural layers.
-
-    :param n_layers: The number of layers.
-    :param n_max_neurons: The maximum number of neurons.
-    :return: The pyramid of neural layers.
-    """
-    return [Dense(units=n_max_neurons >> _, activation='relu') for _ in range(n_layers)]
 
 
 def data_downcasting(df:pd.DataFrame) -> pd.DataFrame:
@@ -114,6 +107,44 @@ def display_df(
             print(f'{col} distinct values:\n{df[col].unique()[0:10]}')
     if show_describe:
         df.describe()
+
+
+def generate_neural_pyramid(n_layers:int, n_max_neurons:int) -> list[Dense]:
+    """Generate a pyramid of neural layers.
+
+    :param n_layers: The number of layers.
+    :param n_max_neurons: The maximum number of neurons.
+    :return: The pyramid of neural layers.
+    """
+    return [Dense(units=n_max_neurons >> _, activation='relu') for _ in range(n_layers)]
+
+
+def generate_neural_network(
+        x_train:pd.DataFrame,
+        num_hidden_layers:int=1,
+        num_units:int=8) -> Sequential:
+    """Generate a simple feedforward neural network model.
+
+    :param x_train: The training data.
+    :param num_hidden_layers: The number of hidden layers to generate.
+    :param num_units: The number of units in each hidden layer.
+    """
+    # layer: input - all features (for now)
+    layer_feature_input = Input(shape=(len(x_train.columns),))
+    # layer: normalizer
+    layer_feature_normalizer = Normalization(axis=-1)
+    layer_feature_normalizer.adapt(np.array(x_train))
+    # layer(s): hidden (relu)
+    layer_hidden_relu_list = generate_neural_pyramid(num_hidden_layers, num_units)
+    # layer: output (linear regression)
+    layer_output = Dense(units=1)
+    # architecture:
+    #   input -> normalizer -> hidden(s) -> dense
+    return Sequential([
+        layer_feature_input,
+        layer_feature_normalizer,
+        *layer_hidden_relu_list,
+        layer_output])
 
 
 def plot_training_loss(
