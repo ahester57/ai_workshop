@@ -1,12 +1,50 @@
-from typing import Tuple
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from keras.src.layers import Dense
 
-from sklearn.metrics import explained_variance_score, max_error, mean_squared_error, r2_score, mean_absolute_error
+from sklearn.metrics import explained_variance_score, mean_squared_error, r2_score, mean_absolute_error
 
-__all__ = ['data_downcasting', 'display_df', 'plot_training_loss', 'score_comparator', 'score_model']
+__all__ = [
+    'data_downcasting', 'display_df',
+    'generate_neural_pyramid',
+    'plot_training_loss', 'plot_training_loss_from_dict', 'plot_true_vs_pred_from_dict',
+    'score_comparator', 'score_model'
+]
+
+
+def _decide_subplot_shape(n:int, n_cols:int=2) -> tuple[int, int]:
+    """Decide the shape of the subplots from the number of plots and columns.
+
+    :param n: The number of subplots.
+    :param n_cols: The number of columns. Default is 2.
+    :return: The shape of the subplots.
+    """
+    if n == 1:
+        return 1, 1
+    n_rows = n // n_cols
+    if n % n_cols > 0:
+        n_rows += 1
+    return n_rows, n_cols
+
+
+def _decide_subplot_size(shape:tuple[int]) -> tuple[int, int]:
+    """Decide the display size of the figure from a shape of subplots.
+
+    :param shape: The shape of the subplots.
+    :return: The size of the subplots.
+    """
+    return 10 if 1 == shape[0] == shape[1] else 20, 10*shape[0]
+
+
+def generate_neural_pyramid(n_layers:int, n_max_neurons:int) -> list[Dense]:
+    """Generate a pyramid of neural layers.
+
+    :param n_layers: The number of layers.
+    :param n_max_neurons: The maximum number of neurons.
+    :return: The pyramid of neural layers.
+    """
+    return [Dense(units=n_max_neurons >> _, activation='relu') for _ in range(n_layers)]
 
 
 def data_downcasting(df:pd.DataFrame) -> pd.DataFrame:
@@ -56,8 +94,7 @@ def display_df(
         show_info:bool=True,
         show_missing:bool=False,
         show_distinct:bool=False,
-        show_describe:bool=False
-):
+        show_describe:bool=False):
     """Display the DataFrame.
 
     :param df: The data.
@@ -103,46 +140,17 @@ def plot_training_loss_from_dict(history_map:dict[str, pd.DataFrame], n_cols:int
 
     Input shape: {'model_name': history_dataframe}
     """
-    if len(history_map) == 1:
-        n_cols = 1
-        n_rows = 1
-    else:
-        n_rows = len(history_map) // n_cols
-    fig, axs = plt.subplots(n_rows, n_cols, figsize=(10 if n_rows == n_cols == 1 else 20, 10 * n_rows))
-    fig, axs = plt.subplots(n_rows, n_cols, figsize=(20, 10*n_rows))
+    n_rows, n_cols = _decide_subplot_shape(len(history_map) + 1, n_cols)
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size((n_rows, n_cols)))
     for i, items in enumerate(history_map.items()):
         model_name, history = items
-        axs[i//n_cols][i%n_cols].plot(history['loss'], label='loss')
-        axs[i//n_cols][i%n_cols].plot(history['val_loss'], label='val_loss')
+        axs[i//n_cols][i%n_cols].plot(history.history['loss'], label='loss')
+        axs[i//n_cols][i%n_cols].plot(history.history['val_loss'], label='val_loss')
         axs[i//n_cols][i%n_cols].set_title(f'{model_name} Training Loss over Time')
         axs[i//n_cols][i%n_cols].set_ylim([0, 10])
         axs[i//n_cols][i%n_cols].set_xlabel('Epoch')
         axs[i//n_cols][i%n_cols].set_ylabel('Loss')
         axs[i//n_cols][i%n_cols].legend(loc='lower right')
-
-
-def _decide_subplot_shape(n:int, n_cols:int=2) -> tuple[int, int]:
-    """Decide the shape of the subplots from the number of plots and columns.
-
-    :param n: The number of subplots.
-    :param n_cols: The number of columns. Default is 2.
-    :return: The shape of the subplots.
-    """
-    if n == 1:
-        return 1, 1
-    n_rows = n // n_cols
-    if n % n_cols > 0:
-        n_rows += 1
-    return n_rows, n_cols
-
-
-def _decide_subplot_size(shape=tuple[int]) -> tuple[int, int]:
-    """Decide the display size of the figure from a shape of subplots.
-
-    :param shape: The shape of the subplots.
-    :return: The size of the subplots.
-    """
-    return 10 if 1 == shape[0] == shape[1] else 20, 10*shape[0]
 
 
 def plot_true_vs_pred_from_dict(
@@ -159,9 +167,8 @@ def plot_true_vs_pred_from_dict(
     :param show_target_line: Show the target line. This is a perfect guess. Default is False.
     :param show_best_fit_line: Show the line of best fit. Default is False. WARNING!!! This can be slow.
     """
-    n_rows, n_cols = _decide_subplot_shape(len(pred_map), n_cols)
-    # some framework
-    fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size)
+    n_rows, n_cols = _decide_subplot_shape(len(pred_map)+1, n_cols)
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size((n_rows, n_cols)))
     for i, items in enumerate(pred_map.items()):
         model_name, preds = items
         # if feature 'Show target line' is enabled
@@ -172,6 +179,7 @@ def plot_true_vs_pred_from_dict(
             axs[i//n_cols][i%n_cols].plot([lower_bound, upper_bound], [lower_bound, upper_bound], color='green')
         # if feature 'Show line of best fit' is enabled
         if show_best_fit_line:
+            # WARNING!!! This is unnecessarily slow.
             # find the slope and intercept of the line of best fit
             m, b = np.polyfit(preds['true'], preds['pred'], 1)
             # add the line to the plot
@@ -204,8 +212,7 @@ def score_comparator(
         train_scores:pd.DataFrame,
         test_scores:pd.DataFrame,
         train_label:str='train',
-        test_label:str='test'
-):
+        test_label:str='test'):
     """Plot the scores of two models to compare them.
 
     Disclaimer: Columns may or may not need to match.
