@@ -192,7 +192,7 @@ def plot_true_vs_pred_from_dict(
 
 
 def score_combine(leaderboard:pd.DataFrame, qualifier:pd.DataFrame) -> pd.DataFrame:
-    """Combine two score DataFrames.
+    """Combine two score DataFrames using upsert (update if exists, insert if not).
 
     :param leaderboard: The scores accumulated so far.
     :param qualifier: The scores to add to the leaderboard.
