@@ -116,7 +116,11 @@ def display_df(
         df.describe()
 
 
-def plot_training_loss(history:pd.DataFrame, model_name:str='', figsize:tuple[int]=(20, 10)):
+def plot_training_loss(
+        history:pd.DataFrame,
+        model_name:str='',
+        figsize:tuple[int, int]=(20, 10),
+        y_lim:tuple[int, int]=(0, 10)):
     """Plot the training loss over time.
 
     Plot loss on the training set and loss on the validation set given a regression model's history dataframe.
@@ -124,12 +128,13 @@ def plot_training_loss(history:pd.DataFrame, model_name:str='', figsize:tuple[in
     :param history: The history dataframe from the model training.
     :param model_name: The name of the model. Default is ''.
     :param figsize: The size of the figure. Default is (20, 10).
+    :param y_lim: The y-axis limits. Default is (0, 10).
     """
     plt.figure(figsize=figsize)
     plt.title(f'{model_name} Training Loss over Time')
     plt.plot(history.history['loss'], label='loss')
     plt.plot(history.history['val_loss'], label='val_loss')
-    plt.ylim([0, 10])
+    plt.ylim(y_lim)
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend(loc='lower right')
