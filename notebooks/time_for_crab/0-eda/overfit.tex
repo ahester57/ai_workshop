@@ -1,0 +1,2828 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{overfit}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Overfitting Crab Age}\label{overfitting-crab-age}
+
+\emph{In which we practice one thing so much that we get worse at
+everything else.}
+
+\href{https://github.com/ahester57/ai_workshop/tree/master/notebooks/time_for_crab/0-eda}{GitHub
+Repository}
+
+\href{https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/overfit.ipynb}{Notebook
+Viewer}
+
+\href{https://www.kaggle.com/sidhus/crab-age-prediction}{Kaggle Dataset}
+
+    \subsection{Table of Contents}\label{table-of-contents}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \hyperref[introduction]{Introduction}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[define-constants]{Define Constants}
+  \item
+    \hyperref[import-libraries]{Import Libraries}
+  \item
+    \hyperref[load-data-from-cache]{Load Data from Cache}
+  \end{enumerate}
+\item
+  \hyperref[overfitting-crab-age]{Overfitting Crab Age}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[overfitting-goals-and-methods]{Overfitting Goals and Methods}
+  \end{enumerate}
+\item
+  \hyperref[metrics-used]{Metrics Used}
+\item
+  \hyperref[build-the-shell-weight-model]{Build the Shell Weight Model}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[architecture-shell-weight-model]{Architecture: Shell Weight Model}
+  \item
+    \hyperref[predictions-pre-training-for-science]{Predictions: Pre-Training (For Science)}
+  \item
+    \hyperref[train-the-shell-weight-model]{Train the Shell Weight Model}
+  \item
+    \hyperref[predictions-shell-weight-model]{Predictions: Shell Weight Model}
+  \item
+    \hyperref[comparison-naive-vs-shell-weight]{Comparison: Naive vs Shell Weight}
+  \item
+    \hyperref[observations-shell-weight-model]{Observations: Shell Weight Model}
+  \end{enumerate}
+\item
+  \hyperref[build-the-feature-rich-model]{Build the Feature-Rich Model}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[architecture-feature-rich-model]{Architecture: Feature-Rich Model}
+  \item
+    \hyperref[train-the-feature-rich-model]{Train the Feature-Rich Model}
+  \item
+    \hyperref[predictions-feature-rich-model]{Predictions: Feature-Rich Model}
+  \item
+    \hyperref[comparison-shell-weight-vs-feature-rich]{Comparison: Shell Weight vs Feature-Rich}
+  \item
+    \hyperref[observations-feature-rich-model]{Observations: Feature-Rich Model}
+  \end{enumerate}
+\item
+  \hyperref[build-the-deep-learning-model]{Build the Deep Learning Model}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[architecture-deep-learning-model]{Architecture: Deep Learning Model}
+  \item
+    \hyperref[train-the-deep-learning-model]{Train the Deep Learning Model}
+  \item
+    \hyperref[predictions-deep-learning-model]{Predictions: Deep Learning Model}
+  \item
+    \hyperref[comparison-feature-rich-vs-deep-learning]{Comparison: Feature-Rich vs Deep Learning}
+  \item
+    \hyperref[observations-deep-learning-model]{Observations: Deep Learning Model}
+  \end{enumerate}
+\item
+  \hyperref[build-the-deep-learning-model-with-mae-loss]{Build the Deep Learning Model with MAE Loss}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[architecture-deep-learning-model-with-mae-loss]{Architecture: Deep Learning Model with MAE Loss}
+  \item
+    \hyperref[train-the-deep-learning-model-with-mae-loss]{Train the Deep Learning Model with MAE Loss}
+  \item
+    \hyperref[predictions-deep-learning-model-with-mae-loss]{Predictions: Deep Learning Model with MAE Loss}
+  \item
+    \hyperref[comparison-deep-learning-vs-deep-learning-with-mae-loss]{Comparison: Deep Learning vs Deep Learning with MAE Loss}
+  \item
+    \hyperref[observations-deep-learning-model-with-mae-loss]{Observations: Deep Learning Model with MAE Loss}
+  \end{enumerate}
+\item
+  \hyperref[build-the-deep-learning-model-with-many-layers]{Build the Deep Learning Model with Many Layers}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[architecture-deep-learning-model-with-many-layers]{Architecture: Deep Learning Model with Many Layers}
+  \item
+    \hyperref[train-the-deep-learning-model-with-many-layers]{Train the Deep Learning Model with Many Layers}
+  \item
+    \hyperref[predictions-deep-learning-model-with-many-layers]{Predictions: Deep Learning Model with Many Layers}
+  \item
+    \hyperref[comparison-deep-learning-vs-deep-learning-with-many-layers]{Comparison: Deep Learning vs Deep Learning with Many Layers}
+  \item
+    \hyperref[observations-deep-learning-model-with-many-layers]{Observations: Deep Learning Model with Many Layers}
+  \end{enumerate}
+\item
+  \hyperref[overfitting-qa]{Overfitting Q&A}
+\item
+  \hyperref[dont-save-this-data]{Don’t Save this Data}
+\item
+  \hyperref[onwards-to-model-selection]{Onwards to Model Selection}
+\end{enumerate}
+
+    \subsection{Introduction}\label{introduction}
+
+In this notebook, we will overfit the crab age prediction model. We will
+start with a simple linear regression model and gradually increase the
+complexity of the model until it overfits the data.
+
+The goal here is to get an idea on the upper bound of the complexity of
+the model that can be used to predict the age of a crab based on its
+features.
+
+We want to avoid an unnecessarily complex model that will not generalize
+well to new data.
+
+\subsubsection{Define Constants}\label{define-constants}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{CACHE\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache/splitcrabs.feather}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{NEXT\PYZus{}NOTEBOOK} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../1\PYZhy{}models/models.ipynb}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache/overfit\PYZus{}model.weights.h5}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{PREDICTION\PYZus{}TARGET} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}    \PY{c+c1}{\PYZsh{} \PYZsq{}Age\PYZsq{} is predicted}
+\PY{n}{DATASET\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}I}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Length}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Diameter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Height}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shucked Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Viscera Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+\PY{n}{REQUIRED\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{n}{NUM\PYZus{}EPOCHS} \PY{o}{=} \PY{l+m+mi}{100}
+\PY{n}{VALIDATION\PYZus{}SPLIT} \PY{o}{=} \PY{l+m+mf}{0.2}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Import Libraries}\label{import-libraries}
+
+PyTorch supports windows-native CUDA, but TensorFlow on CPU was faster
+for this task.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{notebooks}\PY{n+nn}{.}\PY{n+nn}{time\PYZus{}for\PYZus{}crab}\PY{n+nn}{.}\PY{n+nn}{mlutils} \PY{k+kn}{import} \PY{n}{display\PYZus{}df}\PY{p}{,} \PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{,} \PY{n}{score\PYZus{}combine}\PY{p}{,} \PY{n}{score\PYZus{}comparator}\PY{p}{,} \PY{n}{score\PYZus{}model}
+
+\PY{k+kn}{import} \PY{n+nn}{keras}
+
+\PY{n}{keras\PYZus{}backend} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{backend}\PY{o}{.}\PY{n}{backend}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Keras version: }\PY{l+s+si}{\PYZob{}}\PY{n}{keras}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Keras backend: }\PY{l+s+si}{\PYZob{}}\PY{n}{keras\PYZus{}backend}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tensorflow}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{tensorflow} \PY{k}{as} \PY{n+nn}{tf}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TensorFlow version: }\PY{l+s+si}{\PYZob{}}\PY{n}{tf}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TensorFlow devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{tf}\PY{o}{.}\PY{n}{config}\PY{o}{.}\PY{n}{list\PYZus{}physical\PYZus{}devices}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{elif} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{torch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{torch}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Torch version: }\PY{l+s+si}{\PYZob{}}\PY{n}{torch}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Torch devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{get\PYZus{}device\PYZus{}name}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{current\PYZus{}device}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} torch supports windows\PYZhy{}native cuda, but CPU was faster for this task}
+\PY{k}{elif} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{jax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{jax}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JAX version: }\PY{l+s+si}{\PYZob{}}\PY{n}{jax}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JAX devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{jax}\PY{o}{.}\PY{n}{devices}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unknown backend; Proceed with caution.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{o}{\PYZpc{}}\PY{n}{matplotlib} \PY{n}{inline}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mode.copy\PYZus{}on\PYZus{}write}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Keras version: 3.3.3
+Keras backend: tensorflow
+TensorFlow version: 2.16.1
+TensorFlow devices: [PhysicalDevice(name='/physical\_device:CPU:0',
+device\_type='CPU')]
+CPU times: total: 0 ns
+Wall time: 7.01 ms
+    \end{Verbatim}
+
+    \subsubsection{Load Data from Cache}\label{load-data-from-cache}
+
+In the \href{../0-eda/eda.ipynb}{exploratory data analysis section}, we
+saved the cleaned and split data to a cache file. Let's load it back.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}feather}\PY{p}{(}\PY{n}{CACHE\PYZus{}FILE}\PY{p}{)}
+\PY{n}{crabs\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}feather}\PY{p}{(}\PY{n}{CACHE\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}test.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} leak ALL the data!}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{crabs}\PY{p}{,} \PY{n}{crabs\PYZus{}test}\PY{p}{]}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{display\PYZus{}df}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{show\PYZus{}distinct}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{crabs}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{crabs}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X\PYZus{}train: }\PY{l+s+si}{\PYZob{}}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+DataFrame shape: (3790, 11)
+First 5 rows:
+     Length  Diameter    Height    Weight  Shucked Weight  Viscera Weight  \textbackslash{}
+0  1.724609  1.312500  0.500000  50.53125       25.984375        9.429688
+1  1.612305  1.312500  0.500000  41.09375       17.031250        7.273438
+2  1.650391  1.262695  0.475098  40.78125       19.203125        8.078125
+3  1.362305  1.150391  0.399902  25.43750        9.664062        4.691406
+4  1.250000  0.924805  0.375000  30.09375       14.007812        6.320312
+
+   Shell Weight  Sex\_F  Sex\_I  Sex\_M  Age
+0     13.070312  False  False   True   12
+1     14.320312   True  False  False   13
+2      5.046875  False  False   True   11
+3      9.781250  False  False   True   10
+4      8.390625  False  False   True    9
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3790 entries, 0 to 3789
+Data columns (total 11 columns):
+ \#   Column          Non-Null Count  Dtype
+---  ------          --------------  -----
+ 0   Length          3790 non-null   float16
+ 1   Diameter        3790 non-null   float16
+ 2   Height          3790 non-null   float16
+ 3   Weight          3790 non-null   float16
+ 4   Shucked Weight  3790 non-null   float16
+ 5   Viscera Weight  3790 non-null   float16
+ 6   Shell Weight    3790 non-null   float16
+ 7   Sex\_F           3790 non-null   bool
+ 8   Sex\_I           3790 non-null   bool
+ 9   Sex\_M           3790 non-null   bool
+ 10  Age             3790 non-null   int8
+dtypes: bool(3), float16(7), int8(1)
+memory usage: 66.8 KB
+Info:
+None
+Length distinct values:
+[1.725  1.612  1.65   1.362  1.25   1.6875 1.487  1.5625 1.4375 1.45  ]
+Diameter distinct values:
+[1.3125 1.263  1.15   0.925  1.2    1.162  0.8877 0.8374 1.388  1.0625]
+Height distinct values:
+[0.5    0.475  0.4    0.375  0.4624 0.425  0.4126 0.4375 0.2876 0.2625]
+Weight distinct values:
+[50.53 41.1  40.78 25.44 30.1  45.   32.03 32.38 30.19 29.34]
+Shucked Weight distinct values:
+[25.98  17.03  19.2    9.664 14.01  19.66  16.16  16.42  14.13  11.37 ]
+Viscera Weight distinct values:
+[9.43  7.273 8.08  4.69  6.32  9.52  7.242 6.082 5.29  2.623]
+Shell Weight distinct values:
+[13.07  14.32   5.047  9.78   8.39  11.195  7.51   8.22   7.98  10.914]
+Sex\_F distinct values:
+[False  True]
+Sex\_I distinct values:
+[False  True]
+Sex\_M distinct values:
+[ True False]
+Age distinct values:
+[12 13 11 10  9  8 17  6 19  7]
+X\_train: (3790, 10)
+CPU times: total: 0 ns
+Wall time: 20.3 ms
+    \end{Verbatim}
+
+    \subsection{Overfitting Crab Age}\label{overfitting-crab-age}
+
+\begin{figure}
+\centering
+\includegraphics{https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/CSIRO_ScienceImage_10696_Mud_crabs_are_caught_measured_tagged_and_released_as_part_of_the_research_into_the_effectiveness_of_green_zones_in_Moreton_Bay.jpg/1920px-CSIRO_ScienceImage_10696_Mud_crabs_are_caught_measured_tagged_and_released_as_part_of_the_research_into_the_effectiveness_of_green_zones_in_Moreton_Bay.jpg}
+\caption{Large mud crab measure}
+\end{figure}
+
+    \subsubsection{Overfitting Goals and
+Methods}\label{overfitting-goals-and-methods}
+
+The goal here is to show how complex of a model it will take to overfit
+the data.
+
+We will use the following methods to overfit the data:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Linear Regression}: Gradually increase the complexity of a
+  linear regression model.
+\item
+  \textbf{Deep Learning}: Use deep learning to overfit the model.
+\end{enumerate}
+
+I am following the TensorFlow tutorial on
+\href{https://www.tensorflow.org/tutorials/keras/regression\#linear_regression_with_one_variable}{Linear
+Regression} to build the linear regression model.
+
+\begin{quote}
+There are two steps in your single-variable linear regression model:\\
+1. Normalize the `Horsepower' input features using the
+tf.keras.layers.Normalization preprocessing layer. 2. Apply a linear
+transformation (\(y = mx + b\)) to produce 1 output using a linear layer
+(tf.keras.layers.Dense).
+\end{quote}
+
+Instead of `Horsepower', we'll use `Shell Weight' as our regression
+variable.
+
+    \subsection{Metrics Used}\label{metrics-used}
+
+Throughout this notebook, we will use the following metrics to evaluate
+the regression model:
+
+\paragraph{Mean Squared Error}\label{mean-squared-error}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 0.0
+\item
+  Lower is better.
+\end{itemize}
+
+\paragraph{Mean Absolute Error}\label{mean-absolute-error}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 0.0
+\item
+  Lower is better.
+\item
+  Less sensitive to outliers.
+\end{itemize}
+
+\paragraph{Explained Variance Score}\label{explained-variance-score}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 1.0
+\item
+  Lower is worse.
+\end{itemize}
+
+\paragraph{R2 Score}\label{r2-score}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 1.0
+\item
+  Lower is worse.
+\end{itemize}
+
+    \subsection{Build the Shell Weight
+Model}\label{build-the-shell-weight-model}
+
+This is a simple linear regression model that predicts the age of a crab
+based on its shell weight. It remains untrained.
+
+    \paragraph{Layer: Input Layer}\label{layer-input-layer}
+
+This defines the shape of our input to the model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight\PYZus{}input} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Input}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 7.51 ms
+    \end{Verbatim}
+
+    \paragraph{Layer: Shell Weight Normalizer
+Layer}\label{layer-shell-weight-normalizer-layer}
+
+This is a quick and easy way to normalize our input data.
+
+\emph{\textbf{Note}: In later steps, we will use a custom normalizer to
+show how it's done.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{shell\PYZus{}weight\PYZus{}normalizer} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Normalization}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}
+\PY{n}{shell\PYZus{}weight\PYZus{}normalizer}\PY{o}{.}\PY{n}{adapt}\PY{p}{(}\PY{n}{shell\PYZus{}weight}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 28.6 ms
+    \end{Verbatim}
+
+    \paragraph{Layer: Dense Layer}\label{layer-dense-layer}
+
+This is the layer that will perform the linear regression.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight\PYZus{}dense} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Architecture: Shell Weight
+Model}\label{architecture-shell-weight-model}
+
+Now we'll put all the layers together to create the model. It is still
+going to be untrained.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight\PYZus{}model} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{shell\PYZus{}weight\PYZus{}input}\PY{p}{,}
+    \PY{n}{shell\PYZus{}weight\PYZus{}normalizer}\PY{p}{,}
+    \PY{n}{shell\PYZus{}weight\PYZus{}dense}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_4"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_2 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │             \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{3} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_10 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │             \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{2} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{5} (24.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{2} (8.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{3} (16.00 B)
+
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 25.6 ms
+    \end{Verbatim}
+
+    \subsubsection{Predictions: Pre-Training (For
+Science)}\label{predictions-pre-training-for-science}
+
+We don't expect good results here. This is just to get a baseline.
+
+\emph{\textbf{Note}: We are not going to split the data into training
+and testing sets. We are trying to overfit the data on purpose.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} define the prediction target as a numpy array}
+\PY{n}{prediction\PYZus{}target} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{shell\PYZus{}weight\PYZus{}preds} \PY{o}{=} \PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{shell\PYZus{}weight}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{shell\PYZus{}weight\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 607us/step
+[12 13 11 {\ldots}  8  7  9]
+[-2.901632   -3.4636915   0.7060872  {\ldots}  0.74472874  1.382315
+ -0.1475406 ]
+CPU times: total: 46.9 ms
+Wall time: 205 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Naive Model}\label{scores-naive-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{naive\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{shell\PYZus{}weight\PYZus{}preds}\PY{p}{,} \PY{n}{prediction\PYZus{}target}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{naive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{naive\PYZus{}scores\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 3.01 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+       mean\_squared\_error  mean\_absolute\_error  explained\_variance\_score  \textbackslash{}
+naive          112.182655             9.742885                 -5.014374
+
+        r2\_score
+naive -38.026771
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Observations: Naive Model}\label{observations-naive-model}
+
+As expected, the untrained scores are terrible.
+
+    \subsubsection{Prepare the Shell Weight
+Model}\label{prepare-the-shell-weight-model}
+
+Now it's finally time to get learning!
+
+\paragraph{Compile}\label{compile}
+
+We will use the mean squared error as the loss function and the Adam
+optimizer.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{66}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 3.01 ms
+    \end{Verbatim}
+
+    \paragraph{Checkpoint the Shell Weight
+Model}\label{checkpoint-the-shell-weight-model}
+
+We want to save the model for later reference.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{67}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} declare the checkpoint filename}
+\PY{n}{checkpoint\PYZus{}file} \PY{o}{=} \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shell\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{shell\PYZus{}weight\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{checkpoint\PYZus{}file}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Train the Shell Weight
+Model}\label{train-the-shell-weight-model}
+
+Let's train for 100 epochs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{68}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{history} \PY{o}{=} \PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{shell\PYZus{}weight\PYZus{}checkpoint}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shell\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 953 ms
+Wall time: 8.33 s
+    \end{Verbatim}
+
+    \paragraph{Show Shell Weight Training
+History}\label{show-shell-weight-training-history}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{history\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{history}\PY{o}{.}\PY{n}{history}\PY{p}{)}
+\PY{n}{history\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{epoch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{history}\PY{o}{.}\PY{n}{epoch}
+\PY{n}{history\PYZus{}df}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 1 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{69}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+        loss  val\_loss  epoch
+95  5.152110  5.075391     95
+96  5.146948  5.146131     96
+97  5.154149  5.100273     97
+98  5.130592  5.142453     98
+99  5.163085  5.117193     99
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Plot Loss History}\label{plot-loss-history}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{70}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{history}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 15.6 ms
+Wall time: 16.5 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_34_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{View the Line of Best Fit}\label{view-the-line-of-best-fit}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Best Fit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{4/4} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 5ms/step
+CPU times: total: 15.6 ms
+Wall time: 73.6 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{71}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.legend.Legend at 0x23069a02000>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_36_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Predictions: Shell Weight
+Model}\label{predictions-shell-weight-model}
+
+Now that we've trained the model, let's see how it performs.
+
+We have only trained the model on one feature, `Shell Weight'. It is
+unlikely that just one feature (\emph{except maybe the target itself})
+will be able to overfit the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{72}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{shell\PYZus{}weight\PYZus{}preds} \PY{o}{=} \PY{n}{shell\PYZus{}weight\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{shell\PYZus{}weight}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{shell\PYZus{}weight\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 410us/step
+[12 13 11 {\ldots}  8  7  9]
+[12.676685 13.238742  9.068986 {\ldots}  9.030344  8.392761  9.922609]
+CPU times: total: 62.5 ms
+Wall time: 109 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Shell Weight Model}\label{scores-shell-weight-model}
+
+Reminder of our metrics:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mean Squared Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better.
+  \end{itemize}
+\item
+  \textbf{Mean Absolute Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better. Less
+    sensitive to outliers.
+  \end{itemize}
+\item
+  \textbf{Explained Variance Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\item
+  \textbf{R2 Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{shell\PYZus{}weight\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{shell\PYZus{}weight\PYZus{}preds}\PY{p}{,} \PY{n}{shell\PYZus{}weight}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shell\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}combine}\PY{p}{(}\PY{n}{naive\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{shell\PYZus{}weight\PYZus{}scores\PYZus{}df}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{73}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mean\_squared\_error  mean\_absolute\_error  \textbackslash{}
+naive                 112.182655             9.742885
+shell\_weight           14.283014             3.323817
+
+              explained\_variance\_score   r2\_score
+naive                        -5.014374 -38.026771
+shell\_weight                 -0.498117  -3.968913
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Comparison: Naive vs Shell
+Weight}\label{comparison-naive-vs-shell-weight}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{naive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shell\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Naive vs Trained Model Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 20 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{74}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Naive vs Trained Model Scores'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_42_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Score-by-Score Comparison: Naive vs Shell
+Weight}\label{score-by-score-comparison-naive-vs-shell-weight}
+
+Break down the bar charts into one for each metric.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{75}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{score\PYZus{}comparator}\PY{p}{(}\PY{n}{naive\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{shell\PYZus{}weight\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{train\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Naive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{test\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Trained}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 15.6 ms
+Wall time: 33.5 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_44_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Observations: Shell Weight
+Model}\label{observations-shell-weight-model}
+
+The scores are much better after training! But not even close to
+overfitting the data.
+
+Shell Weight alone must not be a good predictor of crab age.
+
+    \subsection{Build the Feature-Rich
+Model}\label{build-the-feature-rich-model}
+
+Moving onto
+\href{https://www.tensorflow.org/tutorials/keras/regression\#linear_regression_with_multiple_inputs}{linear
+regression with multiple variables} in the TensorFlow tutorial.
+
+In order to overfit, we're going to need to give the model more features
+from the dataset.
+
+Shell Weight alone is not going to cut it. We need to increase the
+complexity to a point where the model is just memorizing the training
+data.
+
+We'll increase the input dimensions to the number of crab features. We
+exclude the target column from this count.
+
+\subsubsection{Architecture: Feature-Rich
+Model}\label{architecture-feature-rich-model}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Input Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Shape of the input data.
+  \end{itemize}
+\item
+  \textbf{Normalizer Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This time adapt to the entire dataset.
+  \end{itemize}
+\item
+  \textbf{Dense Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Linear regression layer.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{76}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} layer: input \PYZhy{} all features except the target}
+\PY{n}{feature\PYZus{}rich\PYZus{}input} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Input}\PY{p}{(}\PY{n}{shape}\PY{o}{=}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{crabs}\PY{o}{.}\PY{n}{columns}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} layer: normalizer \PYZhy{} all features except the target}
+\PY{n}{feature\PYZus{}rich\PYZus{}normalizer} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Normalization}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{feature\PYZus{}rich\PYZus{}normalizer}\PY{o}{.}\PY{n}{adapt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} layer: dense (linear regression) \PYZhy{} one output}
+\PY{n}{feature\PYZus{}rich\PYZus{}output} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} architecture:}
+\PY{c+c1}{\PYZsh{}   input \PYZhy{}\PYZgt{} normalizer \PYZhy{}\PYZgt{} dense}
+\PY{n}{feature\PYZus{}rich\PYZus{}model} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{feature\PYZus{}rich\PYZus{}input}\PY{p}{,}
+    \PY{n}{feature\PYZus{}rich\PYZus{}normalizer}\PY{p}{,}
+    \PY{n}{feature\PYZus{}rich\PYZus{}output}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{feature\PYZus{}rich\PYZus{}model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_5"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_3 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{10})             │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_11 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{11} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{32} (132.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{11} (44.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} (88.00 B)
+
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 141 ms
+Wall time: 309 ms
+    \end{Verbatim}
+
+    \subsubsection{Prepare the Feature-Rich
+Model}\label{prepare-the-feature-rich-model}
+
+\paragraph{Compile}\label{compile}
+
+We will use the mean squared error as the loss function and the Adam
+optimizer.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{77}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{feature\PYZus{}rich\PYZus{}model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2.51 ms
+    \end{Verbatim}
+
+    \paragraph{Checkpoint the Feature-Rich
+Model}\label{checkpoint-the-feature-rich-model}
+
+We want to save the model for later reference.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{78}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{checkpoint\PYZus{}file} \PY{o}{=} \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature\PYZus{}rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{feature\PYZus{}rich\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{checkpoint\PYZus{}file}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Train the Feature-Rich
+Model}\label{train-the-feature-rich-model}
+
+Let's train for 100 epochs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{feature\PYZus{}rich\PYZus{}history} \PY{o}{=} \PY{n}{feature\PYZus{}rich\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{feature\PYZus{}rich\PYZus{}checkpoint}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{feature\PYZus{}rich\PYZus{}model}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature\PYZus{}rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 1.03 s
+Wall time: 8.09 s
+    \end{Verbatim}
+
+    \paragraph{Plot Feature-Rich Loss
+History}\label{plot-feature-rich-loss-history}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{80}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{feature\PYZus{}rich\PYZus{}history}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 7.52 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_55_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Predictions: Feature-Rich
+Model}\label{predictions-feature-rich-model}
+
+We are hoping it did \emph{too} well.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{81}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{prediction\PYZus{}target} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{feature\PYZus{}rich\PYZus{}preds} \PY{o}{=} \PY{n}{feature\PYZus{}rich\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}rich\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 513us/step
+[12 13 11 {\ldots}  8  7  9]
+[ 9.84505  14.018257  9.381389 {\ldots}  9.668458  8.057648  9.98749 ]
+CPU times: total: 15.6 ms
+Wall time: 131 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Feature-Rich Model}\label{scores-feature-rich-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{feature\PYZus{}rich\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{feature\PYZus{}rich\PYZus{}preds}\PY{p}{,} \PY{n}{prediction\PYZus{}target}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature\PYZus{}rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}combine}\PY{p}{(}\PY{n}{leaderboard\PYZus{}df}\PY{p}{,} \PY{n}{feature\PYZus{}rich\PYZus{}scores\PYZus{}df}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2.06 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{82}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mean\_squared\_error  mean\_absolute\_error  \textbackslash{}
+naive                 112.182655             9.742885
+shell\_weight           14.283014             3.323817
+feature\_rich            3.920494             1.483319
+
+              explained\_variance\_score   r2\_score
+naive                        -5.014374 -38.026771
+shell\_weight                 -0.498117  -3.968913
+feature\_rich                  0.078807   0.078231
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Comparison: Shell Weight vs
+Feature-Rich}\label{comparison-shell-weight-vs-feature-rich}
+
+We'll see if this feature-rich model is any better than the Shell Weight
+model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{shell\PYZus{}weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature\PYZus{}rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight vs Feature\PYZhy{}Rich Model Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 19 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{83}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Shell Weight vs Feature-Rich Model Scores'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_61_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Score-by-Score Comparison: Shell Weight vs
+Feature-Rich}\label{score-by-score-comparison-shell-weight-vs-feature-rich}
+
+Break down the bar charts into one for each metric.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{score\PYZus{}comparator}\PY{p}{(}\PY{n}{shell\PYZus{}weight\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{feature\PYZus{}rich\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{train\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{test\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature\PYZhy{}Rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 29.1 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_63_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Observations: Feature-Rich
+Model}\label{observations-feature-rich-model}
+
+The scores are better than the Shell Weight model, but not by much. We
+must go deeper!
+
+    \subsection{Build the Deep Learning
+Model}\label{build-the-deep-learning-model}
+
+Since using all features didn't help, we'll start adding layers.
+
+Getting to the
+\href{https://www.tensorflow.org/tutorials/keras/regression\#regression_with_a_deep_neural_network_dnn}{deep
+learning part} of the TensorFlow tutorial.
+
+\subsubsection{Architecture: Deep Learning
+Model}\label{architecture-deep-learning-model}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Input Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Shape of the input data.
+  \end{itemize}
+\item
+  \textbf{Normalizer Layer}
+\item
+  \textbf{Hidden Layers}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Two dense layers with 64 units and ReLU activation.
+  \end{itemize}
+\item
+  \textbf{Output Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Linear regression layer with one output.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{85}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} layer: input \PYZhy{} reusing the feature\PYZhy{}rich input}
+\PY{c+c1}{\PYZsh{} layer: normalizer \PYZhy{} reusing the feature\PYZhy{}rich normalizer}
+
+\PY{c+c1}{\PYZsh{} layer: hidden x2}
+\PY{n}{num\PYZus{}hidden\PYZus{}layers} \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{layer\PYZus{}deep\PYZus{}hidden\PYZus{}relu\PYZus{}list} \PY{o}{=} \PYZbs{}
+    \PY{p}{[}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}hidden\PYZus{}layers}\PY{p}{)}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} layer: output (linear regression)}
+\PY{n}{layer\PYZus{}deep\PYZus{}output} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} architecture:}
+\PY{c+c1}{\PYZsh{}   input \PYZhy{}\PYZgt{} normalizer \PYZhy{}\PYZgt{} hidden x2 \PYZhy{}\PYZgt{} dense}
+\PY{n}{deep\PYZus{}model} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{feature\PYZus{}rich\PYZus{}input}\PY{p}{,}
+    \PY{n}{feature\PYZus{}rich\PYZus{}normalizer}\PY{p}{,}
+    \PY{o}{*}\PY{n}{layer\PYZus{}deep\PYZus{}hidden\PYZus{}relu\PYZus{}list}\PY{p}{,}
+    \PY{n}{layer\PYZus{}deep\PYZus{}output}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{deep\PYZus{}model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_6"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_3 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{10})             │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_12 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{704} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_13 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,160} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_14 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{65} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,950} (19.34 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,929} (19.25 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} (88.00 B)
+
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 17 ms
+    \end{Verbatim}
+
+    \subsubsection{Prepare the Deep Learning
+Model}\label{prepare-the-deep-learning-model}
+
+\paragraph{Compile}\label{compile}
+
+We will use the mean absolute error as the loss function and the Adam
+optimizer.
+
+\emph{\textbf{Note}: We are now using the Adam optimizer with a learning
+rate of 0.001.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{86}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.001}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 997 µs
+    \end{Verbatim}
+
+    \paragraph{Checkpoint the Deep Learning
+Model}\label{checkpoint-the-deep-learning-model}
+
+We want to save the model for later reference.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{87}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{checkpoint\PYZus{}file} \PY{o}{=} \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{deep\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{checkpoint\PYZus{}file}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Train the Deep Learning
+Model}\label{train-the-deep-learning-model}
+
+Let's train for 100 epochs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}history} \PY{o}{=} \PY{n}{deep\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{deep\PYZus{}checkpoint}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{deep\PYZus{}model}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 1.98 s
+Wall time: 9.02 s
+    \end{Verbatim}
+
+    \paragraph{Plot Deep Learning Loss
+History}\label{plot-deep-learning-loss-history}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{89}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{deep\PYZus{}history}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 6.52 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_74_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Predictions: Deep Learning
+Model}\label{predictions-deep-learning-model}
+
+We are hoping it did \emph{too} well, but based on that loss history,
+we're not expecting much.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{90}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}preds} \PY{o}{=} \PY{n}{deep\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{deep\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 600us/step
+[12 13 11 {\ldots}  8  7  9]
+[10.967645  12.599814   9.50336   {\ldots}  9.7015505  7.866982   9.918635 ]
+CPU times: total: 78.1 ms
+Wall time: 149 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Deep Learning
+Model}\label{scores-deep-learning-model}
+
+Reminder of our metrics:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mean Squared Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better.
+  \end{itemize}
+\item
+  \textbf{Mean Absolute Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better. Less
+    sensitive to outliers.
+  \end{itemize}
+\item
+  \textbf{Explained Variance Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\item
+  \textbf{R2 Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{deep\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{deep\PYZus{}preds}\PY{p}{,} \PY{n}{prediction\PYZus{}target}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}combine}\PY{p}{(}\PY{n}{leaderboard\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}scores\PYZus{}df}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{91}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mean\_squared\_error  mean\_absolute\_error  \textbackslash{}
+naive                 112.182655             9.742885
+shell\_weight           14.283014             3.323817
+feature\_rich            3.920494             1.483319
+deep                    3.355128             1.337543
+
+              explained\_variance\_score   r2\_score
+naive                        -5.014374 -38.026771
+shell\_weight                 -0.498117  -3.968913
+feature\_rich                  0.078807   0.078231
+deep                          0.293283   0.293281
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Comparison: Feature-Rich vs Deep
+Learning}\label{comparison-feature-rich-vs-deep-learning}
+
+We'll see if this deep learning model is any better than the
+feature-rich model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature\PYZus{}rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature\PYZhy{}Rich vs Deep Learning Model Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 19 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{92}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Feature-Rich vs Deep Learning Model Scores'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_80_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Score-by-Score Comparison: Feature-Rich vs Deep
+Learning}\label{score-by-score-comparison-feature-rich-vs-deep-learning}
+
+Break down the bar charts into one for each metric.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{93}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{score\PYZus{}comparator}\PY{p}{(}\PY{n}{feature\PYZus{}rich\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{train\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature\PYZhy{}Rich}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{test\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 28.5 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_82_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Observations: Deep Learning
+Model}\label{observations-deep-learning-model}
+
+The scores are better than the Feature-Rich model! It even flipped the
+script on \emph{Explained Variance} and \emph{R2} scores.
+
+We're trending in the right direction, but we're not overfitting yet.
+
+    \subsection{Build the Deep Learning Model with MAE
+Loss}\label{build-the-deep-learning-model-with-mae-loss}
+
+Maybe we can try Mean Absolute Error as the loss function. The mean
+squared error is more sensitive to outliers.
+
+\subsubsection{Architecture: Deep Learning Model with MAE
+Loss}\label{architecture-deep-learning-model-with-mae-loss}
+
+Same as before, but with a different loss function.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{94}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} layer: input \PYZhy{} reusing the feature\PYZhy{}rich input}
+\PY{c+c1}{\PYZsh{} layer: normalizer \PYZhy{} reusing the feature\PYZhy{}rich normalizer}
+\PY{c+c1}{\PYZsh{} layer: hidden x2 \PYZhy{} reusing the deep hidden layers}
+\PY{c+c1}{\PYZsh{} layer: output (linear regression) \PYZhy{} reusing the deep output}
+
+\PY{c+c1}{\PYZsh{} architecture:}
+\PY{c+c1}{\PYZsh{}   input \PYZhy{}\PYZgt{} normalizer \PYZhy{}\PYZgt{} hidden x2 \PYZhy{}\PYZgt{} dense}
+\PY{n}{deep\PYZus{}abs\PYZus{}model} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{models}\PY{o}{.}\PY{n}{clone\PYZus{}model}\PY{p}{(}\PY{n}{deep\PYZus{}model}\PY{p}{)}
+
+\PY{n}{deep\PYZus{}abs\PYZus{}model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_6"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_3 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{10})             │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_12 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{704} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_13 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,160} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_14 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{65} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,950} (19.34 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,929} (19.25 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} (88.00 B)
+
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 19 ms
+    \end{Verbatim}
+
+    \subsubsection{Prepare the Deep Learning Model with MAE
+Loss}\label{prepare-the-deep-learning-model-with-mae-loss}
+
+\paragraph{Compile}\label{compile}
+
+We will use the mean absolute error as the loss function this time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{95}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}abs\PYZus{}model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.001}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}absolute\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 1.51 ms
+    \end{Verbatim}
+
+    \paragraph{Checkpoint the Deep Learning Model with MAE
+Loss}\label{checkpoint-the-deep-learning-model-with-mae-loss}
+
+We want to save the model for later reference.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{96}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{checkpoint\PYZus{}file} \PY{o}{=} \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}abs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{deep\PYZus{}abs\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{checkpoint\PYZus{}file}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Train the Deep Learning Model with MAE
+Loss}\label{train-the-deep-learning-model-with-mae-loss}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{97}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}abs\PYZus{}history} \PY{o}{=} \PY{n}{deep\PYZus{}abs\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{deep\PYZus{}abs\PYZus{}checkpoint}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{deep\PYZus{}abs\PYZus{}model}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}abs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 1.95 s
+Wall time: 9.05 s
+    \end{Verbatim}
+
+    \paragraph{Plot Loss History}\label{plot-loss-history}
+
+\emph{\textbf{Note}: The loss function is different this time, so the
+scale will be different.}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{98}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{deep\PYZus{}abs\PYZus{}history}\PY{p}{,} \PY{n}{y\PYZus{}lim}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 7.52 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_93_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Predictions: Deep Learning Model with MAE
+Loss}\label{predictions-deep-learning-model-with-mae-loss}
+
+It looks better. It seems to have started out pretty good. Or maybe it's
+just a different scale we need to get used to.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{99}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}abs\PYZus{}preds} \PY{o}{=} \PY{n}{deep\PYZus{}abs\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{deep\PYZus{}abs\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 625us/step
+[12 13 11 {\ldots}  8  7  9]
+[11.0144205 11.948946  10.024699  {\ldots}  8.656077   7.472299   8.812581 ]
+CPU times: total: 62.5 ms
+Wall time: 154 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Deep Learning Model with MAE
+Loss}\label{scores-deep-learning-model-with-mae-loss}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{deep\PYZus{}abs\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{deep\PYZus{}abs\PYZus{}preds}\PY{p}{,} \PY{n}{prediction\PYZus{}target}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}abs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}combine}\PY{p}{(}\PY{n}{leaderboard\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}abs\PYZus{}scores\PYZus{}df}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{100}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mean\_squared\_error  mean\_absolute\_error  \textbackslash{}
+naive                 112.182655             9.742885
+shell\_weight           14.283014             3.323817
+feature\_rich            3.920494             1.483319
+deep                    3.355128             1.337543
+deep\_abs                3.553741             1.327282
+
+              explained\_variance\_score   r2\_score
+naive                        -5.014374 -38.026771
+shell\_weight                 -0.498117  -3.968913
+feature\_rich                  0.078807   0.078231
+deep                          0.293283   0.293281
+deep\_abs                      0.183345   0.165763
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Comparison: Deep Learning vs Deep Learning with MAE
+Loss}\label{comparison-deep-learning-vs-deep-learning-with-mae-loss}
+
+This is a good experiment to see if the loss function makes a
+difference. We \emph{did} have some outliers in the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}abs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning vs Deep Learning with MAE Loss Model Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 18.7 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{101}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Deep Learning vs Deep Learning with MAE Loss Model
+Scores'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_99_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Score-by-Score Comparison: Deep Learning vs Deep Learning
+with MAE
+Loss}\label{score-by-score-comparison-deep-learning-vs-deep-learning-with-mae-loss}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{102}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{score\PYZus{}comparator}\PY{p}{(}\PY{n}{deep\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}abs\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{train\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{test\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning with MAE Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 28.3 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_101_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Observations: Deep Learning Model with MAE
+Loss}\label{observations-deep-learning-model-with-mae-loss}
+
+Well, that didn't help. It's better than the Feature-Rich model, but the
+Deep Learning model with Mean Squared Error loss is still the best.
+
+Guess we won't have to get used to that new scale after all.
+
+    \subsection{Build the Deep Learning Model with Many
+Layers}\label{build-the-deep-learning-model-with-many-layers}
+
+We'll add more layers to the model to see if we can overfit the data.
+
+\subsubsection{Architecture: Deep Learning Model with Many
+Layers}\label{architecture-deep-learning-model-with-many-layers}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Input Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    We'll take all of the features, please.
+  \end{itemize}
+\item
+  \textbf{Normalizer Layer}
+\item
+  \textbf{Hidden Layers}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Four dense layers with 64 units and ReLU activation.
+  \end{itemize}
+\item
+  \textbf{Output Layer}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Layer with one output.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{103}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} layer: input  \PYZhy{} reusing the feature\PYZhy{}rich input}
+\PY{c+c1}{\PYZsh{} layer: normalizer \PYZhy{} reusing the feature\PYZhy{}rich normalizer}
+
+\PY{c+c1}{\PYZsh{} layer(s): hidden }
+\PY{n}{num\PYZus{}hidden\PYZus{}layers} \PY{o}{=} \PY{l+m+mi}{4}
+\PY{n}{layer\PYZus{}deeper\PYZus{}hidden\PYZus{}relu} \PY{o}{=} \PYZbs{}
+    \PY{p}{[}\PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,} \PY{n}{activation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{relu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{for} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}hidden\PYZus{}layers}\PY{p}{)}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} layer: output (linear regression)}
+\PY{n}{layer\PYZus{}deeper\PYZus{}output} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{layers}\PY{o}{.}\PY{n}{Dense}\PY{p}{(}\PY{n}{units}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} architecture:}
+\PY{c+c1}{\PYZsh{}   input \PYZhy{}\PYZgt{} normalizer \PYZhy{}\PYZgt{} hidden(s) \PYZhy{}\PYZgt{} dense}
+\PY{n}{deeper\PYZus{}model} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}\PY{p}{[}
+    \PY{n}{feature\PYZus{}rich\PYZus{}input}\PY{p}{,}
+    \PY{n}{feature\PYZus{}rich\PYZus{}normalizer}\PY{p}{,}
+    \PY{o}{*}\PY{n}{layer\PYZus{}deeper\PYZus{}hidden\PYZus{}relu}\PY{p}{,}
+    \PY{n}{layer\PYZus{}deeper\PYZus{}output}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{deeper\PYZus{}model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_7"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_3 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{10})             │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_15 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{704} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_16 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,160} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_17 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,160} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_18 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64})             │         \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{4,160} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_19 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{65} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{13,270} (51.84 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{13,249} (51.75 KB)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{21} (88.00 B)
+
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 25 ms
+    \end{Verbatim}
+
+    \subsubsection{Prepare the Deep Learning Model with Many
+Layers}\label{prepare-the-deep-learning-model-with-many-layers}
+
+Same as before, but with more layers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{104}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{checkpoint\PYZus{}file} \PY{o}{=} \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{deeper\PYZus{}model}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.001}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+
+\PY{n}{deep\PYZus{}deep\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{checkpoint\PYZus{}file}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 1.51 ms
+    \end{Verbatim}
+
+    \subsubsection{Train the Deep Learning Model with Many
+Layers}\label{train-the-deep-learning-model-with-many-layers}
+
+Let's train for 250 epochs to give it a chance to overfit.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{105}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}deep\PYZus{}history} \PY{o}{=} \PY{n}{deeper\PYZus{}model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{x}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{,}
+    \PY{n}{y}\PY{o}{=}\PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{250}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{deep\PYZus{}deep\PYZus{}checkpoint}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{deeper\PYZus{}model}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{overfit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 4.91 s
+Wall time: 23.1 s
+    \end{Verbatim}
+
+    \paragraph{Plot Loss History}\label{plot-loss-history}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{106}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{deep\PYZus{}deep\PYZus{}history}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 7.51 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_110_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Predictions: Deep Learning Model with Many
+Layers}\label{predictions-deep-learning-model-with-many-layers}
+
+From the TensorFlow tutorial on
+\href{https://www.tensorflow.org/tutorials/keras/overfit_and_underfit\#plot_the_training_and_validation_losses}{overfitting}:
+
+\begin{quote}
+Overfitting is apparent if you plot and compare the validation metrics
+to the training metrics.
+
+\begin{itemize}
+\tightlist
+\item
+  It's normal for there to be a small difference.
+\item
+  If both metrics are moving in the same direction, everything is fine.
+\item
+  If the validation metric begins to stagnate while the training metric
+  continues to improve, you are probably close to overfitting.
+\item
+  If the validation metric is going in the wrong direction, the model is
+  clearly overfitting.
+\end{itemize}
+\end{quote}
+
+Based on the plot, we're clearly overfitting!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{107}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{deep\PYZus{}deep\PYZus{}preds} \PY{o}{=} \PY{n}{deeper\PYZus{}model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{prediction\PYZus{}target}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{deep\PYZus{}deep\PYZus{}preds}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{119/119} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 695us/step
+[12 13 11 {\ldots}  8  7  9]
+[11.108287  12.69025   10.782602  {\ldots}  9.381638   7.7073827 10.1390505]
+CPU times: total: 46.9 ms
+Wall time: 167 ms
+    \end{Verbatim}
+
+    \paragraph{Scores: Deep Learning Model with Many
+Layers}\label{scores-deep-learning-model-with-many-layers}
+
+Reminder of our metrics:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mean Squared Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better.
+  \end{itemize}
+\item
+  \textbf{Mean Absolute Error}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 0.0, lower values are better. Less
+    sensitive to outliers.
+  \end{itemize}
+\item
+  \textbf{Explained Variance Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\item
+  \textbf{R2 Score}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The best possible score is 1.0, lower values are worse.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{deep\PYZus{}deep\PYZus{}scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{deep\PYZus{}deep\PYZus{}preds}\PY{p}{,} \PY{n}{prediction\PYZus{}target}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}combine}\PY{p}{(}\PY{n}{leaderboard\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}deep\PYZus{}scores\PYZus{}df}\PY{p}{)}
+\PY{n}{leaderboard\PYZus{}df}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 3 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{108}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              mean\_squared\_error  mean\_absolute\_error  \textbackslash{}
+naive                 112.182655             9.742885
+shell\_weight           14.283014             3.323817
+feature\_rich            3.920494             1.483319
+deep                    3.355128             1.337543
+deep\_abs                3.553741             1.327282
+deep\_deep               3.137197             1.302868
+
+              explained\_variance\_score   r2\_score
+naive                        -5.014374 -38.026771
+shell\_weight                 -0.498117  -3.968913
+feature\_rich                  0.078807   0.078231
+deep                          0.293283   0.293281
+deep\_abs                      0.183345   0.165763
+deep\_deep                     0.389911   0.389658
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Comparison: Deep Learning vs Deep Learning with Many
+Layers}\label{comparison-deep-learning-vs-deep-learning-with-many-layers}
+
+We know this model is overfitting, but let's see how it compares to the
+previous models.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{leaderboard\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep\PYZus{}deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning vs Deep Learning with Many Layers Model Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 17.5 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{109}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Deep Learning vs Deep Learning with Many Layers Model
+Scores'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_116_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Score-by-Score Comparison: Deep Learning vs Deep Learning
+with Many
+Layers}\label{score-by-score-comparison-deep-learning-vs-deep-learning-with-many-layers}
+
+Break down the bar charts into one for each metric.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{110}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Utility functions imported from mlutils.py}
+\PY{n}{score\PYZus{}comparator}\PY{p}{(}\PY{n}{deep\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{deep\PYZus{}deep\PYZus{}scores\PYZus{}df}\PY{p}{,} \PY{n}{train\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{test\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Deep Learning with Many Layers}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 28.6 ms
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{overfit_files/overfit_118_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Observations: Deep Learning Model with Many
+Layers}\label{observations-deep-learning-model-with-many-layers}
+
+The scores are much better than the (shallow) Deep Learning model! We
+have successfully overfit the data.
+
+    \subsection{Overfitting Q\&A}\label{overfitting-qa}
+
+\subsubsection{Questions}\label{questions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Does your model perform better (in terms of accuracy) on the training
+  set or validation set? Is this a problem? How to avoid this problem?
+\item
+  Why can over training be a problem?
+\item
+  What is the difference between generalization, overfitting, and
+  underfitting?
+\item
+  Why should you not normalize XVALID separately, i.e.~why should we use
+  the parameters from XTRAIN to normalize XVALID?
+\end{enumerate}
+
+\subsubsection{Answers}\label{answers}
+
+\subparagraph{1. Does your model perform better (in terms of accuracy)
+on the training set or validation set? Is this a problem? How to avoid
+this
+problem?}\label{does-your-model-perform-better-in-terms-of-accuracy-on-the-training-set-or-validation-set-is-this-a-problem-how-to-avoid-this-problem}
+
+The model performs better on the training set, as designed. Here? Not a
+problem! That was our goal, after all.
+
+In practice, yes, overfitting is a problem. It can be tough to avoid. It
+is one of the common problems in machine learning.
+
+To avoid overfitting, you can:
+
+\begin{itemize}
+\tightlist
+\item
+  More data.
+\item
+  Simpler models.
+\item
+  Regularization.
+\item
+  Dropout.
+\item
+  Cross-validation.
+\item
+  Early stopping.
+\end{itemize}
+
+\subparagraph{2. Why can over training be a
+problem?}\label{why-can-over-training-be-a-problem}
+
+Over-training can be problematic because the model will not generalize
+well to new data. It will be too specific to the idiosyncrasies of the
+training data.
+
+\subparagraph{3. What is the difference between generalization,
+overfitting, and
+underfitting?}\label{what-is-the-difference-between-generalization-overfitting-and-underfitting}
+
+Generalization is the ability of a model to perform well on new, unseen
+data. It is the goal of machine learning.
+
+Overfitting is when a model performs well on the training data but
+poorly on new data. It is too complex and captures the noise in the
+training data.
+
+Underfitting is when a model performs poorly on both the training and
+new data. It is too simple to capture the underlying structure of the
+data.
+
+\subparagraph{4. Why should you not normalize XVALID separately,
+i.e.~why should we use the parameters from XTRAIN to normalize
+XVALID?}\label{why-should-you-not-normalize-xvalid-separately-i.e.-why-should-we-use-the-parameters-from-xtrain-to-normalize-xvalid}
+
+If you normalize XVALID separately, you are introducing data leakage.
+This is like poison to machine learning models.
+
+You are using information from the validation set to train the model.
+It's like seeing the answer key before the test.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{110}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Don't Save this Data}\label{dont-save-this-data}
+
+We don't want our over-trained model to leak into the
+\href{../1-models/models.ipynb}{next step}.
+
+    \subsection{Onwards to Model
+Selection}\label{onwards-to-model-selection}
+
+See the \href{../1-models/models.ipynb}{next section} for model
+selection.
+
+\href{https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/1-models/models.ipynb}{\texttt{\textless{}html\ link\textgreater{}}}
+for model selection.
+\href{../1-models/models.html}{\texttt{\textless{}localhost\ html\ link\textgreater{}}}
+for model selection.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

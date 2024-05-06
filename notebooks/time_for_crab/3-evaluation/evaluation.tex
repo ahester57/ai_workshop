@@ -1,0 +1,1415 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{evaluation}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Model Evaluation}\label{model-evaluation}
+
+\subparagraph{\texorpdfstring{\emph{In which we hope all the work we put
+into our model pays
+off.}}{In which we hope all the work we put into our model pays off.}}\label{in-which-we-hope-all-the-work-we-put-into-our-model-pays-off.}
+
+\href{https://github.com/ahester57/ai_workshop/tree/master/notebooks/time_for_crab/3-evaluation}{GitHub
+Repository}
+
+\href{https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/3-evaluation/evaluation.ipynb}{Notebook
+Viewer}
+
+\href{https://www.kaggle.com/sidhus/crab-age-prediction}{Kaggle Dataset}
+
+    \subsection{Abstract}\label{abstract}
+
+\emph{This project focused on the development of a regression model to
+predict the age of crabs based on a reduced set of features. Despite
+concerted efforts in feature engineering, prevention of data leakage,
+and hyperparameter tuning, the model's performance did not meet
+expectations. The primary issues identified were overfitting and
+potential multicollinearity among weight measurements.}\\
+\emph{The model's complexity was selected prior to feature reduction,
+which may have contributed to the overfitting. This experience
+underscored the importance of reducing the number of features before
+deciding on the model architecture. It also highlighted the potential
+impact of multicollinearity on model performance.}\\
+\emph{The project also involved tuning the hyperparameters of the model
+to improve its performance. However, this area seemed to suffer from the
+curse of dimensionality. The possibility of using machine learning
+algorithms to tune the hyperparameters was considered for future work.}
+\emph{Despite the model's performance not meeting expectations, the
+project was a great learning experience. It provided a deeper
+understanding of feature engineering, data leakage, regression metrics,
+and the challenges of model selection. The knowledge gained from this
+project will be invaluable for future machine learning projects.}
+
+    \subsection{Table of Contents}\label{table-of-contents}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \hyperref[introduction]{Introduction}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[reasons-for-choosing-this-dataset]{Reasons for Choosing This Dataset}
+  \item
+    \hyperref[evaluation-strategy]{Evaluation Strategy}
+  \end{enumerate}
+\item
+  \hyperref[time-for-crab]{Time for Crab!}
+\item
+  \hyperref[model-selection]{Model Selection}
+\item
+  \hyperref[hyperparameter-tuning]{Hyperparameter Tuning}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[optimizers]{Optimizers}
+  \item
+    \hyperref[learning-rate]{Learning Rate}
+  \end{enumerate}
+\item
+  \hyperref[rebuild-our-model]{Rebuild our Model}
+\item
+  \hyperref[regression-model-evaluation]{Regression Model Evaluation}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[score-our-model-with-reduced-features-on-test-data]{Score our Model with Reduced Features on Test Data}
+  \item
+    \hyperref[compute-the-roc-curve]{Compute the ROC Curve}
+  \end{enumerate}
+\item
+  \hyperref[important-findings]{Important Findings}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[avoid-data-leakage]{Avoid Data Leakage!}
+  \item
+    \hyperref[importance-of-data-shuffling]{Importance of Data Shuffling}
+  \item
+    \hyperref[observations-histogram]{Observations: Histogram}
+  \item
+    \hyperref[observations-pair-plot]{Observations: Pair Plot}
+  \item
+    \hyperref[observations-heatmap-correlation-matrix]{Observations: Heatmap Correlation Matrix}
+  \end{enumerate}
+\item
+  \hyperref[conclusion]{Conclusion}
+\end{enumerate}
+
+    \subsection{Introduction}\label{introduction}
+
+Crabs are here, and they're mighty tasty.
+
+Knowing how old they are helps identify full-sized crabs that are ready
+for the pot.
+
+\begin{figure}
+\centering
+\includegraphics{https://upload.wikimedia.org/wikipedia/commons/b/b1/Mud_crab\%2C_Scylla_serrate.jpg?20220920192756}
+\caption{Crab}
+\end{figure}
+
+Prediction (regression) of mud crab age based on physical features.
+
+\subsubsection{Reasons for Choosing This
+Dataset}\label{reasons-for-choosing-this-dataset}
+
+A good dataset is the foundation of a good model.
+
+\subparagraph{My reasons}\label{my-reasons}
+
+\begin{itemize}
+\tightlist
+\item
+  Highly-rated tabular data with a natural prediction target (Age).
+\item
+  Regression task since I like a challenge.
+\item
+  Features easy to conceptualize for feature engineering.
+\item
+  On the smaller side to quickly iterate on.
+\item
+  Crabs are cool.
+\end{itemize}
+
+\subsubsection{Evaluation Strategy}\label{evaluation-strategy}
+
+Throughout this notebook, we will use the following metrics to evaluate
+the regression model:
+
+\paragraph{Mean Squared Error}\label{mean-squared-error}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 0.0
+\item
+  Lower is better.
+\item
+  Larger errors are penalized more than smaller errors.
+\end{itemize}
+
+\paragraph{Mean Absolute Error}\label{mean-absolute-error}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 0.0
+\item
+  Lower is better.
+\item
+  Less sensitive to outliers.
+\end{itemize}
+
+\paragraph{Explained Variance Score}\label{explained-variance-score}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 1.0
+\item
+  Lower is worse.
+\end{itemize}
+
+\paragraph{R2 Score}\label{r2-score}
+
+\begin{itemize}
+\tightlist
+\item
+  The best score is 1.0
+\item
+  Lower is worse.
+\end{itemize}
+
+From the
+\href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.explained_variance_score.html}{scikit-learn
+documentation}:
+
+\begin{quote}
+\textbf{Note}: The Explained Variance score is similar to the
+\texttt{R\^{}2\ score}, with the notable difference that it does not
+account for systematic offsets in the prediction. Most often the
+\texttt{R\^{}2\ score} should be preferred.
+\end{quote}
+
+    \subsubsection{Define Constants}\label{define-constants}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{CACHE\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache/designrcrabs.feather}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{NEXT\PYZus{}NOTEBOOK} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Hester\PYZhy{}CS5300\PYZhy{}Time\PYZhy{}for\PYZhy{}Crab.ipynb}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache/designr\PYZus{}eval.weights.h5}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{PREDICTION\PYZus{}TARGET} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}    \PY{c+c1}{\PYZsh{} \PYZsq{}Age\PYZsq{} is predicted}
+\PY{n}{DATASET\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex\PYZus{}I}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Length}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Diameter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Height}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shucked Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Viscera Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+\PY{n}{REQUIRED\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{n}{NUM\PYZus{}EPOCHS} \PY{o}{=} \PY{l+m+mi}{1000}
+\PY{n}{VALIDATION\PYZus{}SPLIT} \PY{o}{=} \PY{l+m+mf}{0.2}
+\PY{n}{NUM\PYZus{}HIDDEN\PYZus{}LAYERS} \PY{o}{=} \PY{l+m+mi}{1}
+\PY{n}{NUM\PYZus{}UNITS} \PY{o}{=} \PY{l+m+mi}{8}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Import Libraries}\label{import-libraries}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{notebooks}\PY{n+nn}{.}\PY{n+nn}{time\PYZus{}for\PYZus{}crab}\PY{n+nn}{.}\PY{n+nn}{mlutils} \PY{k+kn}{import} \PY{n}{display\PYZus{}df}\PY{p}{,} \PY{n}{generate\PYZus{}neural\PYZus{}network}\PY{p}{,} \PY{n}{generate\PYZus{}neural\PYZus{}pyramid}
+\PY{k+kn}{from} \PY{n+nn}{notebooks}\PY{n+nn}{.}\PY{n+nn}{time\PYZus{}for\PYZus{}crab}\PY{n+nn}{.}\PY{n+nn}{mlutils} \PY{k+kn}{import} \PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{,} \PY{n}{plot\PYZus{}training\PYZus{}loss\PYZus{}from\PYZus{}dict}\PY{p}{,} \PY{n}{plot\PYZus{}true\PYZus{}vs\PYZus{}pred\PYZus{}from\PYZus{}dict}
+\PY{k+kn}{from} \PY{n+nn}{notebooks}\PY{n+nn}{.}\PY{n+nn}{time\PYZus{}for\PYZus{}crab}\PY{n+nn}{.}\PY{n+nn}{mlutils} \PY{k+kn}{import} \PY{n}{score\PYZus{}combine}\PY{p}{,} \PY{n}{score\PYZus{}comparator}\PY{p}{,} \PY{n}{score\PYZus{}model}
+
+\PY{k+kn}{import} \PY{n+nn}{keras}
+
+\PY{n}{keras\PYZus{}backend} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{backend}\PY{o}{.}\PY{n}{backend}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Keras version: }\PY{l+s+si}{\PYZob{}}\PY{n}{keras}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Keras backend: }\PY{l+s+si}{\PYZob{}}\PY{n}{keras\PYZus{}backend}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tensorflow}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{tensorflow} \PY{k}{as} \PY{n+nn}{tf}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TensorFlow version: }\PY{l+s+si}{\PYZob{}}\PY{n}{tf}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TensorFlow devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{tf}\PY{o}{.}\PY{n}{config}\PY{o}{.}\PY{n}{list\PYZus{}physical\PYZus{}devices}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{elif} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{torch}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{torch}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Torch version: }\PY{l+s+si}{\PYZob{}}\PY{n}{torch}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Torch devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{get\PYZus{}device\PYZus{}name}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{current\PYZus{}device}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} torch supports windows\PYZhy{}native cuda, but CPU was faster for this task}
+\PY{k}{elif} \PY{n}{keras\PYZus{}backend} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{jax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+    \PY{k+kn}{import} \PY{n+nn}{jax}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JAX version: }\PY{l+s+si}{\PYZob{}}\PY{n}{jax}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{JAX devices: }\PY{l+s+si}{\PYZob{}}\PY{n}{jax}\PY{o}{.}\PY{n}{devices}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unknown backend; Proceed with caution.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{o}{\PYZpc{}}\PY{n}{matplotlib} \PY{n}{inline}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mode.copy\PYZus{}on\PYZus{}write}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Keras version: 3.3.3
+Keras backend: tensorflow
+TensorFlow version: 2.16.1
+TensorFlow devices: [PhysicalDevice(name='/physical\_device:CPU:0',
+device\_type='CPU')]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Load Data from Cache}\label{load-data-from-cache}
+
+In the \href{../2-features/features.ipynb}{feature importance section},
+we saved the life of the crabs by removing the features which killed the
+crab.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}feather}\PY{p}{(}\PY{n}{CACHE\PYZus{}FILE}\PY{p}{)}
+\PY{n}{crabs\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}feather}\PY{p}{(}\PY{n}{CACHE\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}test.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{display\PYZus{}df}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{show\PYZus{}distinct}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} split features from target}
+\PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{crabs}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{crabs}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{crabs\PYZus{}test}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{crabs\PYZus{}test}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X\PYZus{}train: }\PY{l+s+si}{\PYZob{}}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X\PYZus{}test: }\PY{l+s+si}{\PYZob{}}\PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+DataFrame shape: (3031, 8)
+First 5 rows:
+        Length  Diameter    Height    Weight  Sex\_F  Sex\_I  Sex\_M  Age
+3483  1.724609  1.312500  0.500000  50.53125  False  False   True   12
+993   1.612305  1.312500  0.500000  41.09375   True  False  False   13
+1427  1.650391  1.262695  0.475098  40.78125  False  False   True   11
+3829  1.362305  1.150391  0.399902  25.43750  False  False   True   10
+1468  1.250000  0.924805  0.375000  30.09375  False  False   True    9
+<class 'pandas.core.frame.DataFrame'>
+Index: 3031 entries, 3483 to 658
+Data columns (total 8 columns):
+ \#   Column    Non-Null Count  Dtype
+---  ------    --------------  -----
+ 0   Length    3031 non-null   float16
+ 1   Diameter  3031 non-null   float16
+ 2   Height    3031 non-null   float16
+ 3   Weight    3031 non-null   float16
+ 4   Sex\_F     3031 non-null   bool
+ 5   Sex\_I     3031 non-null   bool
+ 6   Sex\_M     3031 non-null   bool
+ 7   Age       3031 non-null   int8
+dtypes: bool(3), float16(4), int8(1)
+memory usage: 59.2 KB
+Info:
+None
+Length distinct values:
+[1.725  1.612  1.65   1.362  1.25   1.6875 1.487  1.5625 1.4375 1.45  ]
+Diameter distinct values:
+[1.3125 1.263  1.15   0.925  1.2    1.162  0.8877 0.8374 1.388  1.0625]
+Height distinct values:
+[0.5    0.475  0.4    0.375  0.4624 0.425  0.4126 0.4375 0.2876 0.2625]
+Weight distinct values:
+[50.53 41.1  40.78 25.44 30.1  45.   32.03 32.38 30.19 29.34]
+Sex\_F distinct values:
+[False  True]
+Sex\_I distinct values:
+[False  True]
+Sex\_M distinct values:
+[ True False]
+Age distinct values:
+[12 13 11 10  9  8 17  6 19  7]
+X\_train: (3031, 7)
+X\_test: (759, 7)
+CPU times: total: 0 ns
+Wall time: 7.51 ms
+    \end{Verbatim}
+
+    \subsection{Time for Crab!}\label{time-for-crab}
+
+Get that pot of water ready. It's crab cookin' time.
+
+\begin{figure}
+\centering
+\includegraphics{https://chefscornerstore.com/product_images/uploaded_images/steaming-crabs.jpg}
+\caption{Crab pot}
+\end{figure}
+
+    \subsection{Model Selection}\label{model-selection}
+
+In the \href{../1-model/model.ipynb}{model selection section}, we
+trained several models to predict the age of the crabs.
+
+We trained the following models:
+
+\begin{itemize}
+\tightlist
+\item
+  Naive Random Baseline
+\item
+  Linear Regression
+\item
+  Neural Networks
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (64-32-16-8-1)
+  \item
+    (32-16-8-1)
+  \item
+    (16-8-1)
+  \item
+    (8-1)
+  \item
+    (4-1)
+  \item
+    (2-1)
+  \end{itemize}
+\end{itemize}
+
+We evaluated the models on the entire dataset. Now, we will evaluate the
+models on the reduced dataset.
+
+It may be important to do feature reduction \emph{BEFORE} training the
+model. This is because the model may overfit the data after reducing
+input dimensions.
+
+We will evaluate the models on the reduced dataset to see if the feature
+reduction helped the models perform better.
+
+\emph{\textbf{Note}: Implementing Early Stopping on these models
+resulted in early terminations in most cases.}
+
+\subsubsection{My Criteria}\label{my-criteria}
+
+\begin{itemize}
+\tightlist
+\item
+  Mean Absolute Error within 2 years.
+\item
+  Reasonable Explained Variance Score
+\item
+  Reasonable R2 Score
+\item
+  Avoid Overfitting
+\item
+  Reasonable Learning Rate
+\end{itemize}
+
+Based on low MSE, high R2, and high Explained Variance, my choice is the
+(8-1) neural network architecture.
+
+\subsubsection{Pursue the (8-1) Neural Network
+Architecture}\label{pursue-the-8-1-neural-network-architecture}
+
+Let's try some hyperparameter tuning on the (8-1) neural network model.
+
+\paragraph{Why Not the (4-1) Neural Network
+Architecture?}\label{why-not-the-4-1-neural-network-architecture}
+
+Despite the (4-1) neural network model performing better over 500
+epochs, it has some strange predictions in only 100 epochs.
+
+In the interest of time and hyperparameter tuning, we'll stick with the
+(8-1) neural network model since it is good and faster to train to an
+acceptable level.
+
+\subsection{Hyperparameter Tuning}\label{hyperparameter-tuning}
+
+Next, we will tune the hyperparameters of the (8-1) neural network
+model.
+
+\subsubsection{Optimizers}\label{optimizers}
+
+\subparagraph{Nadam!}\label{nadam}
+
+\href{https://keras.io/api/optimizers/Nadam/}{Nadam} has the best mean
+and squared errors. Its variance is not as good as Adam, but a crab's
+age has some wiggle room of a year or two because of how data is
+collected.
+
+Let's tune the learning rate for Nadam next. We'll create a function
+with new compile options going forward.
+
+\subsubsection{Learning Rate}\label{learning-rate}
+
+\subparagraph{Scheduled Learning Rate!}\label{scheduled-learning-rate}
+
+Let's use what we learned from
+\href{https://github.com/ahester57/ai_workshop/blob/master/docs/ANNEAL.md}{simulated
+annealing} to schedule the learning rate.
+
+Learning rate (0.01) has the best scores so far.
+
+Our scheduled learning rate can start here and decrease by \(X\)\% every
+\(Y\) epochs of no improvement.
+
+We learned from an earlier experiment that these networks commonly
+plateau but continue to learn after a while, so we want to give it a
+chance to learn.
+
+We'll use a
+\href{https://keras.io/api/callbacks/reduce_lr_on_plateau/}{ReduceLROnPlateau}
+callback to adjust the learning rate based on the validation loss.
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Factor = 0.75}: The factor by which the learning rate will be
+  reduced. new\_lr = lr * factor.
+\item
+  \emph{Patience = 9}: Number of epochs with no improvement after which
+  learning rate will be reduced.
+\end{itemize}
+
+    \subsection{Rebuild our Model}\label{rebuild-our-model}
+
+\subsubsection{Our Best Model So Far}\label{our-best-model-so-far}
+
+\begin{itemize}
+\tightlist
+\item
+  Architecture: (8-1) Neural Network
+\item
+  Optimizer: Nadam
+\item
+  Learning Rate: Scheduled
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Start = 0.01
+  \item
+    Factor = 0.75
+  \item
+    Patience = 9 epochs
+  \end{itemize}
+\item
+  Loss Function: Mean Squared Error
+\end{itemize}
+
+This model should be quick to train to an acceptable level.
+
+We will rebuild our model using the same parameters as before.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{all\PYZus{}models} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{generate\PYZus{}neural\PYZus{}network}\PY{p}{(}
+            \PY{n}{X\PYZus{}train}\PY{p}{,}
+            \PY{n}{num\PYZus{}hidden\PYZus{}layers}\PY{o}{=}\PY{n}{NUM\PYZus{}HIDDEN\PYZus{}LAYERS}\PY{p}{,}
+            \PY{n}{num\PYZus{}units}\PY{o}{=}\PY{n}{NUM\PYZus{}UNITS}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+\PY{n}{all\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{compile}\PY{p}{(}
+    \PY{n}{optimizer}\PY{o}{=}\PY{n}{keras}\PY{o}{.}\PY{n}{optimizers}\PY{o}{.}\PY{n}{Nadam}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}\PY{p}{,}
+    \PY{n}{loss}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean\PYZus{}squared\PYZus{}error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{designr\PYZus{}checkpoint} \PY{o}{=} \PY{n}{keras}\PY{o}{.}\PY{n}{callbacks}\PY{o}{.}\PY{n}{ModelCheckpoint}\PY{p}{(}
+    \PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{p}{,}
+    \PY{n}{save\PYZus{}best\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{save\PYZus{}weights\PYZus{}only}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{monitor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{val\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{mode}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{all\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{Model: "sequential\_3"}
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃\textbf{ }\textbf{Layer (type)                   }\textbf{ }┃\textbf{ }\textbf{Output Shape          }\textbf{ }┃\textbf{ }\textbf{      Param \#}\textbf{ }┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ normalization\_3 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Normalization}) │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{7})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{15} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_6 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                 │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{8})              │            \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{64} │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense\_7 (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,255}}{Dense})                 │ (\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,215,255}}{None}, \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{1})              │             \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{9} │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Total params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{88} (356.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{73} (292.00 B)
+
+    \end{Verbatim}
+
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{ Non-trainable params: }\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,175,0}}{15} (64.00 B)
+
+    \end{Verbatim}
+
+    
+    \subsubsection{Train for 1000 Epochs}\label{train-for-1000-epochs}
+
+brb\ldots{}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{designr\PYZus{}history} \PY{o}{=} \PY{n}{all\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{fit}\PY{p}{(}
+    \PY{n}{X\PYZus{}train}\PY{p}{,}
+    \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{epochs}\PY{o}{=}\PY{n}{NUM\PYZus{}EPOCHS}\PY{p}{,}
+    \PY{n}{validation\PYZus{}split}\PY{o}{=}\PY{n}{VALIDATION\PYZus{}SPLIT}\PY{p}{,}
+    \PY{n}{callbacks}\PY{o}{=}\PY{p}{[}\PY{n}{designr\PYZus{}checkpoint}\PY{p}{]}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+
+\PY{n}{all\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{load\PYZus{}weights}\PY{p}{(}\PY{n}{MODEL\PYZus{}CHECKPOINT\PYZus{}FILE}\PY{p}{)}
+
+\PY{n}{plot\PYZus{}training\PYZus{}loss}\PY{p}{(}\PY{n}{designr\PYZus{}history}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 10.6 s
+Wall time: 1min 11s
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{evaluation_files/evaluation_15_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Regression Model
+Evaluation}\label{regression-model-evaluation}
+
+It looks like it's overfitting\ldots{} but let's keep going\ldots{} for
+science.
+
+Recall our scores from the \href{../1-model/model.ipynb}{model selection
+section}:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1856}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2062}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2165}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2680}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1237}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mean Squared Error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mean Absolute Error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Explained Variance Score
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2 Score
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+untrained\_linear & 101.943787 & 9.748023 & 0.049686 & -13.000124 \\
+linear & 3.997827 & 1.473956 & 0.011232 & 0.010781 \\
+64\_32\_16\_8\_1 & 3.630893 & 1.404292 & 0.302562 & 0.302399 \\
+32\_16\_8\_1 & 3.602257 & 1.385743 & 0.338213 & 0.337592 \\
+16\_8\_1 & 3.807182 & 1.415440 & 0.280600 & 0.279393 \\
+8\_1 & 3.794136 & 1.432214 & 0.228980 & 0.228786 \\
+4\_1 & 3.901053 & 1.461622 & 0.178054 & 0.177953 \\
+2\_1 & 3.946111 & 1.468480 & 0.044709 & 0.044348 \\
+\end{longtable}
+
+\emph{\textbf{Note}: Above scores by models trained on all features, not
+the reduced feature set. Let's see if our feature engineering paid off!}
+
+    \subsubsection{Score our Model with Reduced Features on Test
+Data}\label{score-our-model-with-reduced-features-on-test-data}
+
+Drumroll please\ldots{}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{preds} \PY{o}{=} \PY{n}{all\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+\PY{n}{scores\PYZus{}df} \PY{o}{=} \PY{n}{score\PYZus{}model}\PY{p}{(}\PY{n}{preds}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{designr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{leaderboard} \PY{o}{=} \PY{n}{scores\PYZus{}df}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{leaderboard}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textbf{24/24} \textcolor{ansi-green}{━━━━━━━━━━━━━━━━━━━━} \textbf{0s} 1ms/step
+CPU times: total: 46.9 ms
+Wall time: 99.7 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+         mean\_squared\_error  mean\_absolute\_error  explained\_variance\_score  \textbackslash{}
+designr            5.020689             1.643271                 -0.168649
+
+         r2\_score
+designr -0.169089
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subparagraph{Mean Squared Error}\label{mean-squared-error}
+
+All around worse than the linear model. We overfit the data.
+
+\subparagraph{Mean Absolute Error}\label{mean-absolute-error}
+
+The worst of the bunch. Pathetic!
+
+\subparagraph{Explained Variance Score}\label{explained-variance-score}
+
+Into the negatives! We've done it!
+
+\subparagraph{R2 Score}\label{r2-score}
+
+Truly a disaster. We've overfit and underperformed.
+
+\subsubsection{Compute the ROC Curve}\label{compute-the-roc-curve}
+
+This is a regression problem, so the ROC curve is more of a challenge.
+
+First, we need to convert our predictions into True/False. Since we are
+trying to predict a crab's age, a threshold of 2 years is a good
+starting point. If the prediction is within 2 years of the actual, we'll
+consider it a success.
+
+\paragraph{Convert Predictions to
+True/False}\label{convert-predictions-to-truefalse}
+
+\textbf{Threshold:} 2 years
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{}\PYZsh{} Convert Predictions to True/False based on threshold of 2 years}
+\PY{c+c1}{\PYZsh{} get absolute difference between prediction and actual}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsection{Important Findings}\label{important-findings}
+
+\paragraph{Avoid Data Leakage!}\label{avoid-data-leakage}
+
+While cleaning the data during EDA, we avoided data leakage.
+
+\begin{itemize}
+\tightlist
+\item
+  Didn't use test data to normalize values.
+\item
+  Avoided filling missing values with the mean or median of the
+  \emph{entire} dataset.
+\item
+  Checked for duplicate rows, columns before and after splitting the
+  data.
+\end{itemize}
+
+In more general terms, \emph{data leakage} is the phenomenon when the
+form of a label ``leaks'' into the training feature set. An example this
+of occurred in 2021 for diagnosing Covid patients. Patients lying down
+on a bed were more likely to be ``diagnosed'' with Covid. This is
+because patients confirmed to have Covid were more inclined to bed rest
+(Huyen, 2022).
+
+\paragraph{Importance of Data
+Shuffling}\label{importance-of-data-shuffling}
+
+Shuffling the data is important to avoid any biases in the data. The
+order of data shouldn't matter, so shuffling helps mitigate any biases.
+
+Shuffling should occur before the test-train split to be most effective.
+
+We don't have to worry about time-series data right now (although we
+could reverse order by `Age' and call it time-series by new feature
+`Crab Birthdate'), but shuffling can have a big impact on the model's
+performance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the distribution of the features}
+\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 62.5 ms
+Wall time: 101 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[<Axes: title=\{'center': 'Length'\}>,
+        <Axes: title=\{'center': 'Diameter'\}>],
+       [<Axes: title=\{'center': 'Height'\}>,
+        <Axes: title=\{'center': 'Weight'\}>]], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{evaluation_files/evaluation_22_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the distribution of the target}
+\PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 24 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: >
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{evaluation_files/evaluation_23_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observations: Histogram}\label{observations-histogram}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Length} and \texttt{Diameter} features have a similar
+  distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Makes me wonder if they are correlated as well.
+  \end{itemize}
+\item
+  \texttt{Height} has a very skewed distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Log transformation may help here.
+  \end{itemize}
+\item
+  All \texttt{*Weight} features have distribution skewed low.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Normalization might help here as well.
+  \end{itemize}
+\item
+  \texttt{Age} seems to have a normal distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This is good for regression tasks.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      We won't have to worry about oversampling or undersampling.
+    \end{itemize}
+  \item
+    They must estimate the age of the crab with mainly even numbers.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the pair plot to check the correlation between the Target Label and other features}
+\PY{n}{sns}\PY{o}{.}\PY{n}{pairplot}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pair Plot Graphs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 7 s
+Wall time: 8.4 s
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 1.0, 'Pair Plot Graphs')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{evaluation_files/evaluation_25_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observations: Pair Plot}\label{observations-pair-plot}
+
+We are missing some of the features in the pair plot. This is because we
+removed them during the feature selection process.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Length} and \texttt{Diameter} are highly correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This makes sense since they are both measurements of the same thing.
+  \end{itemize}
+\item
+  Many of the different weight measurements were correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Multicollinearity might've been an issue here.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Or it helped us overfit\ldots{}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Observations: Heatmap Correlation
+Matrix}\label{observations-heatmap-correlation-matrix}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Sex\_I} is negatively correlated with \texttt{Age}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This makes sense since it's more difficult to determine the sex of
+    younger crabs.
+  \end{itemize}
+\item
+  \texttt{Length} and \texttt{Diameter} are highly correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This makes sense since they are both measurements of the same thing.
+  \end{itemize}
+\item
+  Many of the different weight measurements are correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Multicollinearity might be an issue here.
+  \end{itemize}
+\item
+  Most size features excluding \texttt{Shucked\ Weight} have similar
+  correlations with \texttt{Age}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{Shucked\ Weight} might not be a good feature, since this
+    kills the crab.
+  \end{itemize}
+\end{itemize}
+
+    \subsection{Conclusion}\label{conclusion}
+
+We have evaluated our crab age regression model on the reduced feature
+set, and it did not perform as well as we had hoped. Unfortunately, we
+overfit the data by selecting the complexity of our model before feature
+reduction. In practice, we should reduce the number of features before
+selecting the model architecture.
+
+Working on this project has been a great learning experience. I learned
+a lot about feature engineering, data leakage, and regression metrics. I
+also happened to learn a lot about crabs. Do not eat the part under the
+shell! It contains a toxin that can cause paralytic shellfish poisoning.
+For this reason, it is not recommended to eat the ``butter'' or
+``mustard'' of the crab. Those legs are mighty tasty though!
+
+Upon learning about multicollinearity, I realized that the different
+weight measurements were likely correlated. This could have been a
+factor in our model's poor performance. Maybe those correlations were
+necessary for the model to perform well. Or maybe we just overfit the
+data by using too complex of a model. We could find out with a few more
+tests, but time is running dry.
+
+We tuned the hyperparameters of our model to try to improve its
+performance, but that area seems to suffer from the curse of
+dimensionality. Perhaps we could use some ML algorithms to tune the
+hyperparameters for us, but that is a project for another day.
+
+Overall, I am happy with the knowledge I have gained from working on
+this project, and I look forward to many future machine learning
+projects.
+
+\href{../refs.bib}{References}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

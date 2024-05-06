@@ -23,6 +23,11 @@ If you're having trouble viewing the notebooks in GitHub, try using [nbviewer](h
 
 https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb
 
+### Also on Overleaf :leaves:
+
+The project is also [available on Overleaf](https://www.overleaf.com/project/6638542e044376c414b65725), a LaTeX editor.
+This is useful for writing reports and papers, but this repository remains the source of truth for this project.
+
 ## Export a Notebook
 
 To export the notebooks to HTML, use the following commands:

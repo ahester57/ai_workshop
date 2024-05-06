@@ -1,0 +1,1707 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{eda}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Exploratory Data Analysis}\label{exploratory-data-analysis}
+
+\subparagraph{\texorpdfstring{\emph{In which we learn more about crabs
+and clean up the
+dataset.}}{In which we learn more about crabs and clean up the dataset.}}\label{in-which-we-learn-more-about-crabs-and-clean-up-the-dataset.}
+
+\href{https://github.com/ahester57/ai_workshop/tree/master/notebooks/time_for_crab/0-eda}{GitHub
+Repository}
+
+\href{https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb}{Notebook
+Viewer}
+
+\href{https://www.kaggle.com/sidhus/crab-age-prediction}{Kaggle Dataset}
+
+    \subsection{Table of Contents}\label{table-of-contents}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \hyperref[introduction]{Introduction}
+\item
+  \hyperref[reasons-for-choosing-this-dataset]{Reasons for Choosing This Dataset}
+\item
+  \hyperref[dataset-details]{Dataset Details}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[columns]{Columns}
+  \end{enumerate}
+\item
+  \hyperref[exploratory-data-analysis]{Exploratory Data Analysis}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[load-the-data-from-csv]{Load the Data from CSV}
+  \item
+    \hyperref[reduce-memory-usage]{Reduce Memory Usage}
+  \item
+    \hyperref[examine-the-data]{Examine the Data}
+  \item
+    \hyperref[cleanup-the-crabs]{Cleanup the Crabs}
+  \end{enumerate}
+\item
+  \hyperref[data-visualization]{Data Visualization}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[data-distribution]{Data Distribution}
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \hyperref[show-the-histograms]{Show the Histograms}
+    \item
+      \hyperref[show-the-box-plots]{Show the Box Plots}
+    \end{enumerate}
+  \item
+    \hyperref[more-data-cleanup-from-observations]{Data Cleanup from Observations}
+  \item
+    \hyperref[data-correlation]{Data Correlation}
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \hyperref[show-the-heatmap]{Show the Heatmap}
+    \item
+      \hyperref[show-the-pair-plot]{Show the Pair Plot}
+    \end{enumerate}
+  \end{enumerate}
+\item
+  \hyperref[data-normalization]{Data Normalization}
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \hyperref[split-the-data]{Split the Data}
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \hyperref[importance-of-data-shuffling]{Importance of Data Shuffling}
+    \end{enumerate}
+  \item
+    \hyperref[normalize-the-data]{Normalize the Data}
+  \end{enumerate}
+\item
+  \hyperref[save-the-data]{Save the Data}
+\item
+  \hyperref[onwards-to-overfitting]{Onwards to Overfitting}
+\end{enumerate}
+
+    \subsection{Introduction}\label{introduction}
+
+Crabs are here, and they're mighty tasty.
+
+Knowing how old they are helps identify full-sized crabs that are ready
+for the pot.
+
+\begin{figure}
+\centering
+\includegraphics{https://upload.wikimedia.org/wikipedia/commons/b/b1/Mud_crab\%2C_Scylla_serrate.jpg?20220920192756}
+\caption{Crab}
+\end{figure}
+
+Prediction (regression) of mud crab age based on physical features.
+
+\subsection{Reasons for Choosing This
+Dataset}\label{reasons-for-choosing-this-dataset}
+
+A good dataset is the foundation of a good model.
+
+\subparagraph{My reasons}\label{my-reasons}
+
+\begin{itemize}
+\tightlist
+\item
+  Highly-rated tabular data with a natural prediction target (Age).
+\item
+  Regression task since I like a challenge.
+\item
+  Features easy to conceptualize for feature engineering.
+\item
+  On the smaller side to quickly iterate on.
+\item
+  Crabs are cool.
+\end{itemize}
+
+\subparagraph{\texorpdfstring{Reasons given by the
+\href{https://www.kaggle.com/datasets/sidhus/crab-age-prediction}{dataset
+on
+Kaggle}}{Reasons given by the dataset on Kaggle}}\label{reasons-given-by-the-dataset-on-kaggle}
+
+\begin{quote}
+Its a great starting point for classical regression analysis and feature
+engineering and understand the impact of feature engineering in Data
+Science domain. For a commercial crab farmer knowing the right age of
+the crab helps them decide if and when to harvest the crabs. Beyond a
+certain age, there is negligible growth in crab's physical
+characteristics and hence, it is important to time the harvesting to
+reduce cost and increase profit.
+\end{quote}
+
+\subsection{Dataset Details}\label{dataset-details}
+
+\subsubsection{Columns}\label{columns}
+
+The dataset contains the following columns:
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1368}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8632}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Column Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Sex & Gender of the Crab - Male, Female and Indeterminate. \\
+Length & Length of the Crab (in Feet; 1 foot = 30.48 cms) \\
+Diameter & Diameter of the Crab (in Feet; 1 foot = 30.48 cms) \\
+Height & Height of the Crab (in Feet; 1 foot = 30.48 cms) \\
+Weight & Weight of the Crab (in ounces; 1 Pound = 16 ounces) \\
+Shucked Weight & Weight without the shell (in ounces; 1 Pound = 16
+ounces) \\
+Viscera Weight & is weight that wraps around your abdominal organs deep
+inside body (in ounces; 1 Pound = 16 ounces) \\
+Shell Weight & Weight of the Shell (in ounces; 1 Pound = 16 ounces) \\
+Age & Age of the Crab (in months) \\
+\end{longtable}
+
+    \subsubsection{Define Constants}\label{define-constants}
+
+The PREDICTION\_TARGET constant defines the column from the dataset
+which we will predict. `Age' is the target column in this case.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{DATASET\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../datasets/CrabAgePrediction.csv}\PY{l+s+s1}{\PYZsq{}} \PY{c+c1}{\PYZsh{} \PYZsq{}https://www.kaggle.com/sidhus/crab\PYZhy{}age\PYZhy{}prediction/download\PYZsq{} or \PYZsq{}./data/CrabAgePrediction.csv\PYZsq{}}
+\PY{n}{NEXT\PYZus{}CACHE\PYZus{}FILE} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache/splitcrabs.feather}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{NEXT\PYZus{}NOTEBOOK} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../0\PYZhy{}eda/overfit.ipynb}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{n}{PREDICTION\PYZus{}TARGET} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}               \PY{c+c1}{\PYZsh{} \PYZsq{}Age\PYZsq{} is predicted}
+\PY{n}{DATASET\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Length}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Diameter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Height}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shucked Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Viscera Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shell Weight}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+\PY{n}{REQUIRED\PYZus{}COLUMNS} \PY{o}{=} \PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}  \PY{c+c1}{\PYZsh{} \PYZsq{}Age\PYZsq{} is required}
+
+\PY{n}{VALIDATION\PYZus{}SPLIT} \PY{o}{=} \PY{l+m+mf}{0.2}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Import Libraries}\label{import-libraries}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{notebooks}\PY{n+nn}{.}\PY{n+nn}{time\PYZus{}for\PYZus{}crab}\PY{n+nn}{.}\PY{n+nn}{mlutils} \PY{k+kn}{import} \PY{n}{data\PYZus{}downcasting}\PY{p}{,} \PY{n}{display\PYZus{}df}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{pathlib}
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{o}{\PYZpc{}}\PY{n}{matplotlib} \PY{n}{inline}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+
+\PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mode.copy\PYZus{}on\PYZus{}write}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 281 ms
+Wall time: 2.25 s
+    \end{Verbatim}
+
+    \subsection{Exploratory Data Analysis}\label{exploratory-data-analysis}
+
+Let's dive into the data and see what we can find.
+
+\subsubsection{Load the Data from CSV}\label{load-the-data-from-csv}
+
+Analyzing the output here will help us revise our data cleanup and
+augmentation functions.
+
+The initial data is in CSV format. We will load it into a pandas
+DataFrame.\\
+We will ultimately save it to a \texttt{feather} file for easier loading
+in the next steps.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{DATASET\PYZus{}FILE}\PY{p}{)}  \PY{c+c1}{\PYZsh{} load the data}
+\PY{n}{display\PYZus{}df}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{show\PYZus{}info}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{show\PYZus{}missing}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{show\PYZus{}distinct}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+DataFrame shape: (3893, 9)
+First 5 rows:
+  Sex  Length  Diameter  Height     Weight  Shucked Weight  Viscera Weight  \textbackslash{}
+0   F  1.4375    1.1750  0.4125  24.635715       12.332033        5.584852
+1   M  0.8875    0.6500  0.2125   5.400580        2.296310        1.374951
+2   I  1.0375    0.7750  0.2500   7.952035        3.231843        1.601747
+3   F  1.1750    0.8875  0.2500  13.480187        4.748541        2.282135
+4   I  0.8875    0.6625  0.2125   6.903103        3.458639        1.488349
+
+   Shell Weight  Age
+0      6.747181    9
+1      1.559222    6
+2      2.764076    6
+3      5.244657   10
+4      1.700970    6
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3893 entries, 0 to 3892
+Data columns (total 9 columns):
+ \#   Column          Non-Null Count  Dtype
+---  ------          --------------  -----
+ 0   Sex             3893 non-null   object
+ 1   Length          3893 non-null   float64
+ 2   Diameter        3893 non-null   float64
+ 3   Height          3893 non-null   float64
+ 4   Weight          3893 non-null   float64
+ 5   Shucked Weight  3893 non-null   float64
+ 6   Viscera Weight  3893 non-null   float64
+ 7   Shell Weight    3893 non-null   float64
+ 8   Age             3893 non-null   int64
+dtypes: float64(7), int64(1), object(1)
+memory usage: 273.9+ KB
+Info:
+None
+Missing values:
+Sex               0
+Length            0
+Diameter          0
+Height            0
+Weight            0
+Shucked Weight    0
+Viscera Weight    0
+Shell Weight      0
+Age               0
+dtype: int64
+Sex distinct values:
+['F' 'M' 'I']
+Length distinct values:
+[1.4375 0.8875 1.0375 1.175  1.55   1.3    1.325  1.5875 0.9125 0.825 ]
+Diameter distinct values:
+[1.175  0.65   0.775  0.8875 0.6625 1.1625 1.     1.0125 1.25   0.6875]
+Height distinct values:
+[0.4125 0.2125 0.25   0.35   0.325  0.375  0.3375 0.1875 0.4375 0.225 ]
+Weight distinct values:
+[24.6357155   5.40057975  7.95203475 13.48018725  6.90310325 28.6613445
+ 17.70426275 23.57260925 42.2124055   6.80388   ]
+Shucked Weight distinct values:
+[12.3320325   2.2963095   3.231843    4.74854125  3.458639   13.5794105
+  6.0951425   9.979024   20.2698925   3.061746  ]
+Viscera Weight distinct values:
+[5.5848515  1.37495075 1.60174675 2.28213475 1.48834875 6.76135575
+ 5.85417175 5.3013565  9.76640275 1.26155275]
+Shell Weight distinct values:
+[ 6.747181    1.5592225   2.76407625  5.2446575   1.70097     7.2291225
+  4.819415    7.15824875 10.24834425  2.08368825]
+Age distinct values:
+[ 9  6 10  8 15 13  7 11 12  5]
+CPU times: total: 0 ns
+Wall time: 14.9 ms
+    \end{Verbatim}
+
+    \subsubsection{Reduce Memory Usage}\label{reduce-memory-usage}
+
+Crabs were never known for their memory. Let's minimize the memory of
+our DataFrame using the smallest data types to fit the data.
+
+The reason for this is to save computational resources and time. The
+smaller the data container, the faster the processing.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{data\PYZus{}downcasting}\PY{p}{(}\PY{n}{crabs}\PY{p}{)}
+\PY{n}{display\PYZus{}df}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{show\PYZus{}info}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{show\PYZus{}missing}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{show\PYZus{}distinct}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Memory usage of dataframe is 0.2674 MB (before)
+Memory usage of dataframe is 0.0855 MB (after)
+Reduced 68.0\%
+DataFrame shape: (3893, 9)
+First 5 rows:
+  Sex    Length  Diameter    Height     Weight  Shucked Weight  \textbackslash{}
+0   F  1.437500  1.174805  0.412598  24.640625       12.335938
+1   M  0.887695  0.649902  0.212524   5.402344        2.296875
+2   I  1.037109  0.774902  0.250000   7.953125        3.232422
+3   F  1.174805  0.887695  0.250000  13.476562        4.750000
+4   I  0.887695  0.662598  0.212524   6.902344        3.458984
+
+   Viscera Weight  Shell Weight  Age
+0        5.585938      6.746094    9
+1        1.375000      1.559570    6
+2        1.601562      2.763672    6
+3        2.281250      5.246094   10
+4        1.488281      1.701172    6
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3893 entries, 0 to 3892
+Data columns (total 9 columns):
+ \#   Column          Non-Null Count  Dtype
+---  ------          --------------  -----
+ 0   Sex             3893 non-null   object
+ 1   Length          3893 non-null   float16
+ 2   Diameter        3893 non-null   float16
+ 3   Height          3893 non-null   float16
+ 4   Weight          3893 non-null   float16
+ 5   Shucked Weight  3893 non-null   float16
+ 6   Viscera Weight  3893 non-null   float16
+ 7   Shell Weight    3893 non-null   float16
+ 8   Age             3893 non-null   int8
+dtypes: float16(7), int8(1), object(1)
+memory usage: 87.6+ KB
+Info:
+None
+Missing values:
+Sex               0
+Length            0
+Diameter          0
+Height            0
+Weight            0
+Shucked Weight    0
+Viscera Weight    0
+Shell Weight      0
+Age               0
+dtype: int64
+Sex distinct values:
+['F' 'M' 'I']
+Length distinct values:
+[1.4375 0.8877 1.037  1.175  1.55   1.3    1.325  1.588  0.9126 0.825 ]
+Diameter distinct values:
+[1.175  0.65   0.775  0.8877 0.6626 1.162  1.     1.013  1.25   0.6875]
+Height distinct values:
+[0.4126 0.2125 0.25   0.35   0.325  0.375  0.3374 0.1875 0.4375 0.225 ]
+Weight distinct values:
+[24.64   5.402  7.953 13.48   6.902 28.66  17.7   23.58  42.22   6.805]
+Shucked Weight distinct values:
+[12.336  2.297  3.232  4.75   3.459 13.58   6.094  9.98  20.27   3.062]
+Viscera Weight distinct values:
+[5.586 1.375 1.602 2.281 1.488 6.76  5.855 5.3   9.766 1.262]
+Shell Weight distinct values:
+[ 6.746  1.56   2.764  5.246  1.701  7.23   4.82   7.16  10.25   2.084]
+Age distinct values:
+[ 9  6 10  8 15 13  7 11 12  5]
+CPU times: total: 0 ns
+Wall time: 10.6 ms
+    \end{Verbatim}
+
+    \subsubsection{Examine the Data}\label{examine-the-data}
+
+Now we make sure the crabs will easily digest in our model.
+
+\paragraph{Missing Values}\label{missing-values}
+
+No missing values! We're off to a good start with this dataset.
+\emph{Will crab be on the menu tonight?}
+
+\paragraph{Non-numeric Data}\label{non-numeric-data}
+
+It looks like `Sex' is a categorical variable. We'll need to convert
+this to a numeric value. Let's use \textbf{one-hot encoding}.
+
+    \subsubsection{Cleanup the Crabs}\label{cleanup-the-crabs}
+
+Dirty data is no good for crabs. Let's clean it up.
+
+\begin{figure}
+\centering
+\includegraphics{https://www.recipetineats.com/wp-content/uploads/2021/07/Cleaning-and-preparing-crab-template-2.jpg}
+\caption{How to clean a crab}
+\end{figure}
+
+\paragraph{Crab Cleaning Steps}\label{crab-cleaning-steps}
+
+\begin{itemize}
+\tightlist
+\item
+  \st{Drop rows missing required columns}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., `Age'.
+  \end{itemize}
+\item
+  \st{Drop rows missing too many values}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., more than 3 missing values.
+  \end{itemize}
+\item
+  \st{Convert natural booleans to 0/1}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., Y/N to 0/1.
+  \end{itemize}
+\item
+  \st{Fill nulls for typically-binary variables with the median}.
+\item
+  \st{Fill nulls for typically-continuous variables with the median}.
+\item
+  \st{Fill nulls for typically-text variables with empty strings}.
+\item
+  One-hot encode categorical variables.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This should handle nulls for categorical variables.
+  \end{itemize}
+\end{itemize}
+
+\st{Strike-throughs} ended up not being needed for this dataset.
+
+\paragraph{Avoid Data Leakage!}\label{avoid-data-leakage}
+
+While cleaning the data during EDA, we should avoid data leakage.
+
+\begin{itemize}
+\tightlist
+\item
+  Do not use test data to normalize values.
+\item
+  Avoid filling missing values with the mean or median of the entire
+  dataset.
+\item
+  Always check for duplicate rows before and after splitting the data.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k}{def} \PY{n+nf}{data\PYZus{}cleanup}\PY{p}{(}\PY{n}{df}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Clean\PYZhy{}up the DataFrame for crabs.}
+
+\PY{l+s+sd}{    Update values:}
+\PY{l+s+sd}{        \PYZhy{} Drop rows missing required columns.}
+\PY{l+s+sd}{        \PYZhy{} Drop rows missing too many values.}
+\PY{l+s+sd}{        \PYZhy{} Convert natural booleans}
+\PY{l+s+sd}{            \PYZhy{} E.g., `Y/N` or `Positive/Negative` to `0/1`.}
+\PY{l+s+sd}{        \PYZhy{} Fill nulls for typically\PYZhy{}binary variables with `0.5`.}
+\PY{l+s+sd}{        \PYZhy{} Fill nulls for typically\PYZhy{}continuous variables with the median.}
+\PY{l+s+sd}{        \PYZhy{} Fill nulls for typically\PYZhy{}categorical variables with default values.}
+\PY{l+s+sd}{            \PYZhy{} E.g., `Unknown`}
+\PY{l+s+sd}{        \PYZhy{} Fill nulls for typically\PYZhy{}text variables with empty strings.}
+\PY{l+s+sd}{        \PYZhy{} One\PYZhy{}hot encode categorical variables.}
+
+\PY{l+s+sd}{    :param df: The data.}
+\PY{l+s+sd}{    :return: The data without disposals.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} remove rows missing too many values}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{thresh}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} remove rows missing required columns}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{n}{REQUIRED\PYZus{}COLUMNS}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} convert natural booleans}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{n}{to\PYZus{}replace}\PY{o}{=}\PY{p}{\PYZob{}}
+        \PY{k+kc}{False}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{k+kc}{True}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Yes}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} fill nulls for typically\PYZhy{}binary variables with the median}
+    \PY{c+c1}{\PYZsh{} df[\PYZsq{}  \PYZsq{}] = df[\PYZsq{}  \PYZsq{}].fillna(df[\PYZsq{}  \PYZsq{}].median())}
+
+    \PY{c+c1}{\PYZsh{} fill nulls for typically\PYZhy{}continuous variables with the median}
+    \PY{c+c1}{\PYZsh{} df[\PYZsq{}  \PYZsq{}] = df[\PYZsq{}  \PYZsq{}].fillna(df[\PYZsq{}  \PYZsq{}].median())}
+
+    \PY{c+c1}{\PYZsh{} fill nulls for typically\PYZhy{}categorical variables with default values}
+    \PY{c+c1}{\PYZsh{} df[\PYZsq{}  \PYZsq{}] = df[\PYZsq{}  \PYZsq{}].fillna(\PYZsq{}Unknown\PYZsq{})}
+
+    \PY{c+c1}{\PYZsh{} fill nulls for typically\PYZhy{}text variables with empty strings}
+    \PY{c+c1}{\PYZsh{} df[\PYZsq{}  \PYZsq{}] = df[\PYZsq{}  \PYZsq{}].fillna(\PYZsq{}\PYZsq{})}
+
+    \PY{c+c1}{\PYZsh{} one\PYZhy{}hot encode categorical variables}
+    \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} determine which features are most important}
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{data\PYZus{}cleanup}\PY{p}{(}\PY{n}{crabs}\PY{p}{)}
+\PY{n}{display\PYZus{}df}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{show\PYZus{}info}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{show\PYZus{}missing}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{show\PYZus{}distinct}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+DataFrame shape: (3893, 11)
+First 5 rows:
+     Length  Diameter    Height     Weight  Shucked Weight  Viscera Weight  \textbackslash{}
+0  1.437500  1.174805  0.412598  24.640625       12.335938        5.585938
+1  0.887695  0.649902  0.212524   5.402344        2.296875        1.375000
+2  1.037109  0.774902  0.250000   7.953125        3.232422        1.601562
+3  1.174805  0.887695  0.250000  13.476562        4.750000        2.281250
+4  0.887695  0.662598  0.212524   6.902344        3.458984        1.488281
+
+   Shell Weight  Age  Sex\_F  Sex\_I  Sex\_M
+0      6.746094    9   True  False  False
+1      1.559570    6  False  False   True
+2      2.763672    6  False   True  False
+3      5.246094   10   True  False  False
+4      1.701172    6  False   True  False
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3893 entries, 0 to 3892
+Data columns (total 11 columns):
+ \#   Column          Non-Null Count  Dtype
+---  ------          --------------  -----
+ 0   Length          3893 non-null   float16
+ 1   Diameter        3893 non-null   float16
+ 2   Height          3893 non-null   float16
+ 3   Weight          3893 non-null   float16
+ 4   Shucked Weight  3893 non-null   float16
+ 5   Viscera Weight  3893 non-null   float16
+ 6   Shell Weight    3893 non-null   float16
+ 7   Age             3893 non-null   int8
+ 8   Sex\_F           3893 non-null   bool
+ 9   Sex\_I           3893 non-null   bool
+ 10  Sex\_M           3893 non-null   bool
+dtypes: bool(3), float16(7), int8(1)
+memory usage: 68.6 KB
+Info:
+None
+Length distinct values:
+[1.4375 0.8877 1.037  1.175  1.55   1.3    1.325  1.588  0.9126 0.825 ]
+Diameter distinct values:
+[1.175  0.65   0.775  0.8877 0.6626 1.162  1.     1.013  1.25   0.6875]
+Height distinct values:
+[0.4126 0.2125 0.25   0.35   0.325  0.375  0.3374 0.1875 0.4375 0.225 ]
+Weight distinct values:
+[24.64   5.402  7.953 13.48   6.902 28.66  17.7   23.58  42.22   6.805]
+Shucked Weight distinct values:
+[12.336  2.297  3.232  4.75   3.459 13.58   6.094  9.98  20.27   3.062]
+Viscera Weight distinct values:
+[5.586 1.375 1.602 2.281 1.488 6.76  5.855 5.3   9.766 1.262]
+Shell Weight distinct values:
+[ 6.746  1.56   2.764  5.246  1.701  7.23   4.82   7.16  10.25   2.084]
+Age distinct values:
+[ 9  6 10  8 15 13  7 11 12  5]
+Sex\_F distinct values:
+[ True False]
+Sex\_I distinct values:
+[False  True]
+Sex\_M distinct values:
+[False  True]
+CPU times: total: 0 ns
+Wall time: 10.5 ms
+    \end{Verbatim}
+
+    \subsection{Data Visualization}\label{data-visualization}
+
+To analyze the data we must construct a visual mental representation.
+
+\subsubsection{Data Distribution}\label{data-distribution}
+
+\paragraph{Show the Histograms}\label{show-the-histograms}
+
+Bar charts showing the distribution of each feature.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the distribution of the features}
+\PY{n}{crabs}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 109 ms
+Wall time: 208 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[<Axes: title=\{'center': 'Length'\}>,
+        <Axes: title=\{'center': 'Diameter'\}>,
+        <Axes: title=\{'center': 'Height'\}>],
+       [<Axes: title=\{'center': 'Weight'\}>,
+        <Axes: title=\{'center': 'Shucked Weight'\}>,
+        <Axes: title=\{'center': 'Viscera Weight'\}>],
+       [<Axes: title=\{'center': 'Shell Weight'\}>,
+        <Axes: title=\{'center': 'Age'\}>, <Axes: >]], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_16_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observations: Histogram}\label{observations-histogram}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Length} and \texttt{Diameter} features have a similar
+  distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Makes me wonder if they are correlated as well.
+  \end{itemize}
+\item
+  \texttt{Height} has a very skewed distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Log transformation may help here.
+  \end{itemize}
+\item
+  All \texttt{*Weight} features have distribution skewed low.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Normalization might help here as well.
+  \end{itemize}
+\item
+  \texttt{Age} seems to have a normal distribution.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This is good for regression tasks.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      We won't have to worry about oversampling or undersampling.
+    \end{itemize}
+  \item
+    They must estimate the age of the crab with mainly even numbers.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Show the Box Plots}\label{show-the-box-plots}
+
+Another type of distribution visualization, box plots give us more
+insight on the outliers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the box plot of the features}
+\PY{n}{crabs}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{box}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{subplots}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{layout}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n}{sharex}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 125 ms
+Wall time: 174 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Length               Axes(0.125,0.653529;0.227941x0.226471)
+Diameter          Axes(0.398529,0.653529;0.227941x0.226471)
+Height            Axes(0.672059,0.653529;0.227941x0.226471)
+Weight               Axes(0.125,0.381765;0.227941x0.226471)
+Shucked Weight    Axes(0.398529,0.381765;0.227941x0.226471)
+Viscera Weight    Axes(0.672059,0.381765;0.227941x0.226471)
+Shell Weight             Axes(0.125,0.11;0.227941x0.226471)
+Age                   Axes(0.398529,0.11;0.227941x0.226471)
+dtype: object
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_19_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Box Plot Observations}\label{box-plot-observations}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Height} has a relatively huge difference in the largest
+  outliers.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Perhaps outlier removal is needed for this feature.
+  \end{itemize}
+\item
+  \texttt{Length} and \texttt{Diameter} features have outliers trending
+  downwards.
+\item
+  All \texttt{*Weight} features have outliers trending upwards.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This suggests there are some mega-crabs to catch out there!
+  \end{itemize}
+\item
+  \texttt{Age} has a few outliers trending upwards.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Perhaps we should remove much older crabs, since they grow slowly if
+    at all after a certain age.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Data Cleanup from
+Observations}\label{data-cleanup-from-observations}
+
+\begin{itemize}
+\tightlist
+\item
+  Remove outliers from Height.
+\item
+  Remove outliers from Age.
+\end{itemize}
+
+\emph{Why not ignore our problems?}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k}{def} \PY{n+nf}{remove\PYZus{}outliers}\PY{p}{(}\PY{n}{df}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{col}\PY{p}{:}\PY{n+nb}{str}\PY{p}{,} \PY{n}{keep\PYZus{}quantile}\PY{p}{:}\PY{n+nb}{float}\PY{o}{=}\PY{l+m+mf}{0.99}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Remove outliers from the DataFrame.}
+
+\PY{l+s+sd}{    :param df: The data.}
+\PY{l+s+sd}{    :param col: The column to remove outliers from.}
+\PY{l+s+sd}{    :param keep\PYZus{}quantile: The quantile to keep.}
+\PY{l+s+sd}{    :return: The data without outliers.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{assert} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Column }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ not found in DataFrame.}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{assert} \PY{l+m+mi}{0} \PY{o}{\PYZlt{}} \PY{n}{keep\PYZus{}quantile} \PY{o}{\PYZlt{}} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Quantile }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{keep\PYZus{}quantile}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ must be between 0 and 1.}\PY{l+s+s1}{\PYZsq{}}
+    \PY{c+c1}{\PYZsh{} remove outliers above the given quantile}
+    \PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{n}{keep\PYZus{}quantile}\PY{p}{)}\PY{p}{]}
+    \PY{k}{return} \PY{n}{df}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Original shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{crabs}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{remove\PYZus{}outliers}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Height}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.99}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shape after removing outliers from }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Height}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{crabs}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{crabs} \PY{o}{=} \PY{n}{remove\PYZus{}outliers}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mf}{0.99}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Shape after removing outliers from }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{Age}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{crabs}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Original shape: (3893, 11)
+Shape after removing outliers from "Height": (3844, 11)
+Shape after removing outliers from "Age": (3790, 11)
+CPU times: total: 0 ns
+Wall time: 2 ms
+    \end{Verbatim}
+
+    \paragraph{Show the Distribution Plots
+Again}\label{show-the-distribution-plots-again}
+
+Let's see how the data looks after removing the outliers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the distribution of the features}
+\PY{n}{crabs}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 125 ms
+Wall time: 189 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([[<Axes: title=\{'center': 'Length'\}>,
+        <Axes: title=\{'center': 'Diameter'\}>,
+        <Axes: title=\{'center': 'Height'\}>],
+       [<Axes: title=\{'center': 'Weight'\}>,
+        <Axes: title=\{'center': 'Shucked Weight'\}>,
+        <Axes: title=\{'center': 'Viscera Weight'\}>],
+       [<Axes: title=\{'center': 'Shell Weight'\}>,
+        <Axes: title=\{'center': 'Age'\}>, <Axes: >]], dtype=object)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_23_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{crabs}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{box}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{subplots}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{layout}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{,} \PY{n}{sharex}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 46.9 ms
+Wall time: 82.1 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Length               Axes(0.125,0.653529;0.227941x0.226471)
+Diameter          Axes(0.398529,0.653529;0.227941x0.226471)
+Height            Axes(0.672059,0.653529;0.227941x0.226471)
+Weight               Axes(0.125,0.381765;0.227941x0.226471)
+Shucked Weight    Axes(0.398529,0.381765;0.227941x0.226471)
+Viscera Weight    Axes(0.672059,0.381765;0.227941x0.226471)
+Shell Weight             Axes(0.125,0.11;0.227941x0.226471)
+Age                   Axes(0.398529,0.11;0.227941x0.226471)
+dtype: object
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_24_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subparagraph{That's better!}\label{thats-better}
+
+Height and Age have more normal distributions now.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k}{def} \PY{n+nf}{data\PYZus{}normalization}\PY{p}{(}\PY{n}{df}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{a}\PY{p}{:}\PY{n+nb}{float}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.}\PY{p}{,} \PY{n}{b}\PY{p}{:}\PY{n+nb}{float}\PY{o}{=}\PY{l+m+mf}{1.}\PY{p}{,} \PY{n}{df\PYZus{}min}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}  \PY{n}{df\PYZus{}max}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Normalize the DataFrame from a to b.}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    :param df: The data.}
+\PY{l+s+sd}{    :param a: The minimum value.}
+\PY{l+s+sd}{    :param b: The maximum value.}
+\PY{l+s+sd}{    :param df\PYZus{}min: The minimum value of the data.}
+\PY{l+s+sd}{    :param df\PYZus{}max: The maximum value of the data.}
+\PY{l+s+sd}{    :return: The normalized data.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} scale the data to a range of [a, b]}
+    \PY{n}{df\PYZus{}min} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{df\PYZus{}min} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{df\PYZus{}min}
+    \PY{n}{df\PYZus{}max} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{df\PYZus{}max} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{df\PYZus{}max}
+    \PY{n}{df} \PY{o}{=} \PY{n}{a} \PY{o}{+} \PY{p}{(}\PY{p}{(}\PY{n}{df} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}min}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{b} \PY{o}{\PYZhy{}} \PY{n}{a}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{df\PYZus{}max} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}min}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Data Correlation}\label{data-correlation}
+
+\paragraph{Show the Heatmap}\label{show-the-heatmap}
+
+To see a likelihood of each feature correlating with our prediction
+target.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{n}{sns}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{11}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation Graph}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Plotting the heatmap to check the correlation between the Target Label and other features}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{crabs}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{,} \PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{vmax}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GnBu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 31.2 ms
+Wall time: 61.6 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: title=\{'center': 'Correlation Graph'\}>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_28_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observations: Heatmap}\label{observations-heatmap}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Shell\ Weight} has the highest correlation with \texttt{Age}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Crabs must grow thicker shells as they get older.
+  \end{itemize}
+\end{itemize}
+
+    \paragraph{Show the Pair Plot}\label{show-the-pair-plot}
+
+Another way to see how the data correlates with our prediction target.
+This will show us how the features correlate with each other as well.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the pair plot to check the correlation between the Target Label and other features}
+\PY{n}{sns}\PY{o}{.}\PY{n}{pairplot}\PY{p}{(}\PY{n}{crabs}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pair Plot Graphs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 15 s
+Wall time: 20 s
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 1.0, 'Pair Plot Graphs')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_31_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Observations: Pair Plot}\label{observations-pair-plot}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Length} and \texttt{Diameter} are highly correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This makes sense since they are both measurements of the same thing.
+  \end{itemize}
+\item
+  Many of the different weight measurements are correlated.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Multicollinearity might be an issue here.
+  \end{itemize}
+\end{itemize}
+
+A great explanation of the pair plot can be found at
+\href{https://stats.stackexchange.com/a/636122}{the stats
+stackexchange}.
+
+We'll use this information in the feature engineering step.
+
+    \subsection{Data Normalization}\label{data-normalization}
+
+Crabs come in all shapes and sizes. Let's normalize the data to help our
+model make better sense of it.
+
+\begin{figure}
+\centering
+\includegraphics{https://www.popsci.com/uploads/2022/02/09/fiddler-crab.jpg?auto=webp&optimize=high&width=1440}
+\caption{Tiny crab}
+\end{figure}
+
+The book \emph{Designing Machine Learning Systems} (Huyen, 2022)
+suggests normalizing to a range of {[}-1, 1{]} helps in practice.
+
+Data normalization can help avoid data leakage based on the ``form'' of
+the data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k}{def} \PY{n+nf}{data\PYZus{}normalization}\PY{p}{(}\PY{n}{df}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{,} \PY{n}{a}\PY{p}{:}\PY{n+nb}{float}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.}\PY{p}{,} \PY{n}{b}\PY{p}{:}\PY{n+nb}{float}\PY{o}{=}\PY{l+m+mf}{1.}\PY{p}{,} \PY{n}{df\PYZus{}min}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,}  \PY{n}{df\PYZus{}max}\PY{p}{:}\PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)} \PY{o}{\PYZhy{}}\PY{o}{\PYZgt{}} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Normalize the DataFrame from a to b.}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    :param df: The data.}
+\PY{l+s+sd}{    :param a: The minimum value.}
+\PY{l+s+sd}{    :param b: The maximum value.}
+\PY{l+s+sd}{    :param df\PYZus{}min: The minimum value of the data.}
+\PY{l+s+sd}{    :param df\PYZus{}max: The maximum value of the data.}
+\PY{l+s+sd}{    :return: The normalized data.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} scale the data to a range of [a, b]}
+    \PY{n}{df\PYZus{}min} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{df\PYZus{}min} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{df\PYZus{}min}
+    \PY{n}{df\PYZus{}max} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{df\PYZus{}max} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{df\PYZus{}max}
+    \PY{n}{df} \PY{o}{=} \PY{n}{a} \PY{o}{+} \PY{p}{(}\PY{p}{(}\PY{n}{df} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}min}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{b} \PY{o}{\PYZhy{}} \PY{n}{a}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{n}{df\PYZus{}max} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}min}\PY{p}{)}
+    \PY{k}{return} \PY{n}{df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 0 ns
+    \end{Verbatim}
+
+    \subsubsection{Split the Data}\label{split-the-data}
+
+Let's split the data into training and testing sets.
+
+It is important to split the data before any data augmentation or
+normalization to avoid data leakage.\\
+Data leakage lets the model learn from the testing data, which can lead
+to overfitting.
+
+\emph{Data leakage} is the phenomenon when the form of a label ``leaks''
+into the training feature set. An example this of occurred in 2021 for
+diagnosing Covid patients. Patients lying down on a bed were more likely
+to be ``diagnosed'' with Covid. This is because patients confirmed to
+have Covid were more inclined to bed rest (Huyen, 2022).
+
+\paragraph{Importance of Data
+Shuffling}\label{importance-of-data-shuffling}
+
+Shuffling the data is important to avoid any biases in the data. The
+order of data shouldn't matter, so shuffling helps mitigate any biases.
+
+Shuffling should occur before the test-train split to be most effective.
+
+We don't have to worry about time-series data right now (although we
+could reverse order by `Age' and call it time-series by new feature
+`Crab Birthdate'), but shuffling can have a big impact on the model's
+performance.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} split features from target}
+\PY{n}{X} \PY{o}{=} \PY{n}{crabs}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{crabs}\PY{p}{[}\PY{n}{PREDICTION\PYZus{}TARGET}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} 80\PYZpc{} training, 20\PYZpc{} testing}
+\PY{n}{train\PYZus{}size} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{n}{VALIDATION\PYZus{}SPLIT}\PY{p}{)} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} shuffle the data}
+\PY{n}{random\PYZus{}indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{default\PYZus{}rng}\PY{p}{(}\PY{l+m+mi}{42}\PY{p}{)}\PY{o}{.}\PY{n}{permutation}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{X}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} split into train/test sets}
+\PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{random\PYZus{}indices}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{n}{train\PYZus{}size}\PY{p}{]}\PY{p}{]}
+\PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{index}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{random\PYZus{}indices}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{n}{train\PYZus{}size}\PY{p}{]}\PY{p}{]}
+\PY{c+c1}{\PYZsh{} save the prediction target}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{index}\PY{p}{)}
+
+\PY{k}{assert} \PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{k}{assert} \PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 2 ms
+    \end{Verbatim}
+
+    \subsubsection{Normalize the Data}\label{normalize-the-data}
+
+Ensure we're only normalizing using parameters from the training data to
+prevent data leakage.
+
+We are not going to save this data, as we will include a normalizer in
+the model itself. This is purely for educational purposes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} normalize the data}
+\PY{n}{normalized\PYZus{}train} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{number}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n}{normalized\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}normalization}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+\PY{n}{normalized\PYZus{}train}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 13 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                    mean       std
+Length          0.265869  0.337646
+Diameter        0.217896  0.341553
+Height          0.281738  0.345459
+Weight         -0.390137  0.356934
+Shucked Weight -0.525879  0.289795
+Viscera Weight -0.372803  0.377197
+Shell Weight   -0.538086  0.264404
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} apply the same normalization to the test data}
+\PY{n}{normalized\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{X\PYZus{}test}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{number}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n}{normalized\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{data\PYZus{}normalization}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}min}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{df\PYZus{}max}\PY{o}{=}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{normalized\PYZus{}test}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{std}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 9.5 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                    mean       std
+Length          0.266846  0.344727
+Diameter        0.224976  0.347656
+Height          0.281006  0.351074
+Weight         -0.384766  0.364990
+Shucked Weight -0.522461  0.298096
+Viscera Weight -0.363525  0.389648
+Shell Weight   -0.535156  0.268311
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Show Distributions After
+Normalization}\label{show-distributions-after-normalization}
+
+Shape of the distribution should remain nearly the same, but the range
+should be {[}-1, 1{]}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} Plotting the distribution of the features}
+\PY{n}{normalized\PYZus{}train}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{After Normalization}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 141 ms
+Wall time: 175 ms
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 1.0, 'After Normalization')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{eda_files/eda_41_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Save the Data}\label{save-the-data}
+
+So we can pick this back up on the \href{../0-eda/overfit.ipynb}{next
+step}.
+
+I chose to save the data in the
+\href{https://github.com/apache/arrow}{Feather} format because it
+retains the data types.
+
+It's also faster to read and write than CSV. Check out this comparison
+of file formats for saving pandas data:
+https://towardsdatascience.com/the-best-format-to-save-pandas-data-414dca023e0d
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{c+c1}{\PYZsh{} create the cache directory if it doesn\PYZsq{}t exist}
+\PY{n}{pathlib}\PY{o}{.}\PY{n}{Path}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../cache}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{mkdir}\PY{p}{(}\PY{n}{parents}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{exist\PYZus{}ok}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} save the training and test data separately}
+\PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{outer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}feather}\PY{p}{(}\PY{n}{NEXT\PYZus{}CACHE\PYZus{}FILE}\PY{p}{)}
+\PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{outer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}feather}\PY{p}{(}\PY{n}{NEXT\PYZus{}CACHE\PYZus{}FILE}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZus{}test.feather}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+CPU times: total: 0 ns
+Wall time: 9.02 ms
+    \end{Verbatim}
+
+    \subsection{Onwards to Overfitting}\label{onwards-to-overfitting}
+
+See the \href{../0-eda/overfit.ipynb}{next section} to overfit on
+purpose.
+
+\href{https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/overfit.ipynb}{\texttt{\textless{}html\ link\textgreater{}}}
+for overfitting.
+\href{../0-eda/overfit.html}{\texttt{\textless{}localhost\ html\ link\textgreater{}}}
+for overfitting.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
