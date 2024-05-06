@@ -22,3 +22,15 @@ Prediction (regression) of mud crab age based on physical features.
 If you're having trouble viewing the notebooks in GitHub, try using [nbviewer](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb).
 
 https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb
+
+## Export a Notebook
+
+To export the notebooks to HTML, use the following commands:
+
+```bash
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/0-eda/eda.ipynb
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/0-eda/overfit.ipynb
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/1-models/models.ipynb
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/2-features/features.ipynb
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/3-evaluation/evaluation.ipynb
+```
