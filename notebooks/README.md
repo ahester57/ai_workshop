@@ -12,3 +12,11 @@ A collection of Jupyter notebooks for various ML tasks.
 ## Datasets
 
 Local copies of the following datasets have been saved in */datasets directories for reproducibility.
+
+## Export a Notebook
+
+To export a notebook to a markdown file, use the following command:
+
+```bash
+jupyter nbconvert --to html --embed-images notebooks/time_for_crab/2-features/features.ipynb
+```
