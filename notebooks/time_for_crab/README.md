@@ -15,6 +15,10 @@ Knowing how old they are helps identify full-sized crabs that are ready for the 
 
 Prediction (regression) of mud crab age based on physical features.
 
+## YouTube Playlist
+
+[![YouTube Playlist](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg?sqp=-oaymwExCNACELwBSFryq4qpAyMIARUAAIhCGAHwAQH4Af4JgAKyBYoCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLB3-S2YfHvOZCPvVY-68ZvMJgLh0A)](https://www.youtube.com/playlist?list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE)
+
 ## Notebook Viewer
 
 If you're having trouble viewing the notebooks in GitHub, try using [nbviewer](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb).
