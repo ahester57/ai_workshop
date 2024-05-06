@@ -8,6 +8,11 @@
 
 See the [notebook](https://nbviewer.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/3-evaluation/evaluation.ipynb) for more.
 
+
+## YouTube Video
+
+[![Model Evaluation](https://i.ytimg.com/vi/aUXuJyw0DHk/hqdefault.jpg)](https://www.youtube.com/watch?v=aUXuJyw0DHk&list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE&index=5)
+
 ## Evaluation Metrics
 
 We'll use some of the following metrics to evaluate our model:

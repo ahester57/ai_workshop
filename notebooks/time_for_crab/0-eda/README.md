@@ -9,6 +9,12 @@
 
 See the [notebooks](https://nbviewer.jupyter.org/github/ahester57/ai_workshop/blob/master/notebooks/time_for_crab/0-eda/eda.ipynb) for more.
 
+## YouTube Videos
+
+[![Exploratory Data Analysis](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg)](https://www.youtube.com/watch?v=2YvMW4UcBfA&list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE&index=1)
+
+[![Overfitting](https://i.ytimg.com/vi/SO_pDa8ByOo/hqdefault.jpg)](https://www.youtube.com/watch?v=SO_pDa8ByOo&list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE&index=2)
+
 ### Linear Regression Resource :straight_ruler:
 
 Linear regression is used to overfit our crab data.

@@ -17,7 +17,7 @@ Prediction (regression) of mud crab age based on physical features.
 
 ## YouTube Playlist
 
-[![YouTube Playlist](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg?sqp=-oaymwExCNACELwBSFryq4qpAyMIARUAAIhCGAHwAQH4Af4JgAKyBYoCDAgAEAEYZSBlKGUwDw==&rs=AOn4CLB3-S2YfHvOZCPvVY-68ZvMJgLh0A)](https://www.youtube.com/playlist?list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE)
+[![Time for Crab](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg)](https://www.youtube.com/playlist?list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE)
 
 ## Notebook Viewer
 
