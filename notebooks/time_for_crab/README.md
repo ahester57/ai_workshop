@@ -13,8 +13,6 @@ Knowing how old they are helps identify full-sized crabs that are ready for the 
 - [Feature Engineering](2-features/README.md) :paintbrush: :toolbox: 
 - [Evaluation](3-evaluation/README.md) :microscope: :chart_with_upwards_trend:
 
-![Crab](https://upload.wikimedia.org/wikipedia/commons/b/b1/Mud_crab%2C_Scylla_serrate.jpg?20220920192756)
-
 Prediction (regression) of mud crab age based on physical features.
 
 ## Notebook Viewer
