@@ -6,6 +6,10 @@ Knowing how old they are helps identify full-sized crabs that are ready for the 
  
 Prediction (regression) of mud crab age based on physical features.
 
+## YouTube Playlist
+
+[![Time for Crab](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg)](https://www.youtube.com/playlist?list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE)
+
 ## Table of Contents
 
 - [Datasets](datasets/README.md) :open_file_folder:
@@ -15,9 +19,6 @@ Prediction (regression) of mud crab age based on physical features.
 - [Feature Engineering](2-features/README.md) :paintbrush:
 - [Evaluation](3-evaluation/README.md) :chart_with_upwards_trend:
 
-## YouTube Playlist
-
-[![Time for Crab](https://i.ytimg.com/vi/2YvMW4UcBfA/hqdefault.jpg)](https://www.youtube.com/playlist?list=PL7gbeMmnbBH4yM3X_LzEfieB_VpacD9VE)
 
 ## Notebook Viewer
 

@@ -11,6 +11,11 @@ A [collection](notebooks) of Jupyter notebooks for various ML tasks.
 - [Support Vector Machines](notebooks/svm/README.md)
 - [Time for Crab](notebooks/time_for_crab/README.md) :crab:
 
+## Don't Know Where to Start?
+
+### Why Not Crab?
+
+#### [:crab:](notebooks/time_for_crab/README.md)
 
 ### Notebooks Viewer
 
