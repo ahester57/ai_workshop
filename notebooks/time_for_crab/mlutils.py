@@ -205,6 +205,8 @@ def plot_true_vs_pred_from_dict(
     """
     n_rows, n_cols = _decide_subplot_shape(len(pred_map), n_cols)
     fig, axs = plt.subplots(n_rows, n_cols, figsize=_decide_subplot_size((n_rows, n_cols)))
+    if n_rows == 1 and n_cols == 1:
+        axs = [[axs]]
     for i, items in enumerate(pred_map.items()):
         model_name, preds = items
         # if feature 'Show target line' is enabled
